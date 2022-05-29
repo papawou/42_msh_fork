@@ -1,0 +1,12 @@
+*.bak
+*.swp
+*.swo
+*.o
+*.out
+*.a
+compile_commands.json
+.cache
+.idea
+minishell
+out
+__MACOSX
