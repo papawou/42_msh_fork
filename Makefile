@@ -14,22 +14,28 @@
 ROOT_DIR			?= $(shell pwd)
 SRC_DIR				= ${ROOT_DIR}/srcs/
 HEADER_DIR			= ${ROOT_DIR}/includes/
+LIBFT_DIR			= ${ROOT_DIR}/libft/
+
 
 # COMPILER
-SRC			:= $(addprefix ${SRC_DIR}, main.c)
+SRC			:= $(addprefix ${SRC_DIR}, main.c parser/parse.c parser/execution-plan.c \
+				parser/command.c common/utils.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette
 NORM_FLAGS	= -RCheckForbiddenSourceHeader -RCheckDefine
 RM			= rm -f
 MACROFLAGS	= -D BIN_NAME=\"${NAME}\"
-CFLAGS		= -Wall -Wextra -Werror -I${HEADER_DIR} ${MACROFLAGS} -g -O0
-LIB_FLAGS	= -lreadline
+CFLAGS		= -Wall -Wextra -Werror -I${HEADER_DIR} -I${LIBFT_DIR}includes ${MACROFLAGS} -g -O0
+LIBFT_FLAGS	= -L${LIBFT_DIR} -lft
+LIB_FLAGS	= -lreadline ${LIBFT_FLAGS}
+BUFFER_SIZE	= 1024
 CC			= gcc
 
 .PHONY: 	all clean fclean re
 
 ${NAME}:	${OBJ}
+			@make -C ${LIBFT_DIR} BUFFER_SIZE=${BUFFER_SIZE} all || true
 			${CC} ${CFLAGS} ${OBJ} ${LIB_FLAGS} -o ${NAME}
 
 all: 		${NAME}
