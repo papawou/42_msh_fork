@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:14:09 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 16:16:19 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/29 17:01:05 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param {char *} source
  * @return {char *} dst
  */
-char *trim_space(char *source)
+char	*trim_space(char *source)
 {
 	char	*dst;
 

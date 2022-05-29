@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 16:44:36 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/29 16:50:50 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include "minishell.h"
 
-char *prompt(char *line_read)
+char	*prompt(char *line_read)
 {
 	if (line_read)
 	{

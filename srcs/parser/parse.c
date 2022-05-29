@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 15:32:30 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 16:37:19 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/29 16:55:39 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,17 @@ int	count_number_of_commands(char **commands_str)
 
 t_command	*parse_command(char *command_str)
 {
-	char		*command_str_trimmed;
 	char		**arguments;
-	int			i;
-	int			number_or_arguments;
 	t_command	*command;
 
 	command = init_command();
-	command_str_trimmed = trim_space(command_str);
-	arguments = ft_split(command_str_trimmed, ' ');
+	command_str = trim_space(command_str);
+	arguments = ft_split(command_str, ' ');
 	command->path = ft_strdup(arguments[0]);
 	command->return_value = 0;
-	i = 0;
-	number_or_arguments = 0;
-	while (arguments[i++])
-		number_or_arguments++;
-	command->argv = (char **)malloc(sizeof(char *) * (number_or_arguments + 1));
-	if (command->argv == NULL)
-		exit(ERR_ALLOCATING_MEMORY);
-	i = 0;
-	while (i < number_or_arguments)
-	{
-		command->argv[i] = ft_strdup(arguments[i]);
-		free(arguments[i]);
-		i++;
-	}
-	command->argv[i] = NULL;
+	command = init_command_argv(command, arguments);
 	free(arguments);
-	free(command_str_trimmed);
+	free(command_str);
 	return (command);
 }
 

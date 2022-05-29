@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 16:25:00 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/29 17:01:24 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ typedef struct s_execution_plan {
 char					*trim_space(char *source);
 
 /* Parser */
-t_execution_plan 		*init_execution_plan(int number_of_commands);
-t_execution_plan		*destroy_execution_plan(t_execution_plan *execution_plan);
+t_execution_plan		*init_execution_plan(int number_of_commands);
+t_execution_plan		*destroy_execution_plan(
+							t_execution_plan *execution_plan);
 
 t_command				*init_command(void);
+t_command				*init_command_argv(
+							t_command *command, char **arguments);
 t_command				*destroy_command(t_command *command);
 
 t_execution_plan		*parse_line(char *line);

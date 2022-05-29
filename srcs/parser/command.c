@@ -6,14 +6,37 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 16:49:16 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/29 17:00:49 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <malloc.h>
 #include <stdlib.h>
-
+#include "libft.h"
 #include "minishell.h"
+
+t_command	*init_command_argv(t_command *command, char **arguments)
+{
+	int		i;
+	int		number_or_arguments;
+
+	i = 0;
+	number_or_arguments = 0;
+	while (arguments[i++])
+		number_or_arguments++;
+	command->argv = (char **)malloc(sizeof(char *) * (number_or_arguments + 1));
+	if (command->argv == NULL)
+		exit(ERR_ALLOCATING_MEMORY);
+	i = 0;
+	while (i < number_or_arguments)
+	{
+		command->argv[i] = ft_strdup(arguments[i]);
+		free(arguments[i]);
+		i++;
+	}
+	command->argv[i] = NULL;
+	return (command);
+}
 
 t_command	*init_command(void)
 {
