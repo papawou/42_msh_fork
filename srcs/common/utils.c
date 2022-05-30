@@ -6,11 +6,13 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:14:09 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 17:01:05 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:42:47 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <malloc.h>
+#include <fcntl.h>
+#include <stdlib.h>
 #include "libft.h"
 #include "minishell.h"
 
@@ -28,4 +30,14 @@ char	*trim_space(char *source)
 	dst = ft_strtrim(source, "\t\n\v\f\r ");
 	free(source);
 	return (dst);
+}
+
+int	open_file(char *path, int flags)
+{
+	int		fd;
+
+	fd = open(path, flags, FILE_PERMISSION_IF_CREATED);
+	if (fd < 0)
+		exit(ERR_OPENING_FILE);
+	return (fd);
 }
