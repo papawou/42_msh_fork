@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 17:00:49 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:04:19 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_command	*init_command(void)
 	command = malloc(sizeof(t_command));
 	if (command == NULL)
 		exit(ERR_ALLOCATING_MEMORY);
+	command->in = NULL;
+	command->out = NULL;
 	return (command);
 }
 

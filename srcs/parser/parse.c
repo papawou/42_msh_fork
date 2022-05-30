@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 15:32:30 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 16:55:39 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:03:06 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_command	*parse_command(char *command_str)
 	command = init_command();
 	command_str = trim_space(command_str);
 	arguments = ft_split(command_str, ' ');
-	command->path = ft_strdup(arguments[0]);
+	arguments = get_io_for_command(arguments, command);
 	command->return_value = 0;
+	command->path = ft_strdup(arguments[0]);
 	command = init_command_argv(command, arguments);
-	free(arguments);
 	free(command_str);
 	return (command);
 }

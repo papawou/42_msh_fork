@@ -19,7 +19,7 @@ LIBFT_DIR			= ${ROOT_DIR}/libft/
 
 # COMPILER
 SRC			:= $(addprefix ${SRC_DIR}, main.c parser/parse.c parser/execution-plan.c \
-				parser/command.c common/utils.c)
+				parser/command.c parser/io.c common/utils.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette
