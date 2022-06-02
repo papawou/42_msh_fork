@@ -15,7 +15,16 @@
 #include "libft.h"
 #include "minishell.h"
 
-char	**get_io_from_begining(char **arguments, t_command *command)
+/**
+ * If there is an infile in the beginning of the command, set the in property
+ * and update arguments accordingly
+ *
+ * @param {char **} arguments
+ * @param {t_command *} command
+ *
+ * @return {char **} arguments
+ */
+char	**get_io_from_beginning(char **arguments, t_command *command)
 {
 	int		i;
 	int		args_begin;
@@ -33,6 +42,15 @@ char	**get_io_from_begining(char **arguments, t_command *command)
 	return (&arguments[args_begin]);
 }
 
+/**
+ * If there is an infile or and outfile in the end of the command
+ * set the in and / or out properties and update arguments accordingly
+ *
+ * @param {char **} arguments
+ * @param {t_command *} command
+ *
+ * @return {char **} arguments
+ */
 char	**get_io_from_end(char **arguments, t_command *command)
 {
 	int		i;
@@ -58,9 +76,18 @@ char	**get_io_from_end(char **arguments, t_command *command)
 	return (arguments);
 }
 
+/**
+ * If there is an infile or an outfile set the in and / or out
+ * properties and update arguments accordingly
+ *
+ * @param {char **} arguments
+ * @param {t_command *} command
+ *
+ * @return {char **} arguments
+ */
 char	**get_io_for_command(char **arguments, t_command *command)
 {
-	arguments = get_io_from_begining(arguments, command);
+	arguments = get_io_from_beginning(arguments, command);
 	arguments = get_io_from_end(arguments, command);
 	return (arguments);
 }

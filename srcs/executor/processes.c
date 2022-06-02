@@ -17,16 +17,28 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-int	count_child_process(int argc)
-{
-	return (argc - 3);
-}
-
+/**
+ * Utility to get the total number of process from the number of child process.
+ * The goal is to avoid the "1" magic number at several places
+ *
+ * @param {int} number_of_child_processes
+ *
+ * @return {int} total_number_of_processes
+ */
 int	count_total_process(int number_of_child_processes)
 {
 	return (number_of_child_processes + 1);
 }
 
+/**
+ * Allocate memory for the pids and fork for every processes
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @param {int *} pids
+ * @param {int **} pipes
+ *
+ * @return {int *} return a pointer to the pids
+ */
 int	*create_processes(t_execution_plan *execution_plan, int *pids, int **pipes)
 {
 	int		i;

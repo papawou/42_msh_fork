@@ -42,6 +42,15 @@ static int	**allocate_pipes(int number_of_child_processes)
 	return (pipes);
 }
 
+/**
+ *
+ * Allocate memory and creates the pipes.
+ *
+ * @param {int} number_of_child_processes
+ * @param {int **} pipes
+ *
+ * @return {int **} pipes
+ */
 int	**create_pipes(int number_of_child_processes, int **pipes)
 {
 	int		i;
@@ -53,15 +62,20 @@ int	**create_pipes(int number_of_child_processes, int **pipes)
 	while (i < total_number_of_processes)
 	{
 		if (pipe(pipes[i]) == -1)
-		{
-			perror("test");
 			exit(-2);
-		}
 		i++;
 	}
 	return (pipes);
 }
 
+/**
+ *
+ * Close all unnecessary pipes for a child process
+ *
+ * @param {int **} pipes
+ * @param {int} number_of_child_processes
+ * @param {int} index
+ */
 void	close_pipes_in_child_process(
 		int **pipes,
 		int number_of_child_processes,
@@ -83,6 +97,13 @@ void	close_pipes_in_child_process(
 	}
 }
 
+/**
+ *
+ * Close all unnecessary pipes for the main process
+ *
+ * @param {int} pipes
+ * @param {int} number_of_child_processes
+ */
 void	close_pipes_in_main_process(
 		int **pipes,
 		int number_of_child_processes
@@ -101,6 +122,12 @@ void	close_pipes_in_main_process(
 	}
 }
 
+/**
+ * Free all the allocated memory to store pipes fd
+ *
+ * @param {int} number_of_child_processes
+ * @param {int **} pipes
+ */
 void	destroy_pipes(int number_of_child_processes, int **pipes)
 {
 	int		i;

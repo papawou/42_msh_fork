@@ -42,14 +42,17 @@ typedef struct s_execution_plan {
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 
+/* Prompter */
+void				print_welcome_message(void);
+char				*prompt(char *line_read);
+
 /* Parser */
 t_execution_plan	*init_execution_plan(int number_of_commands);
-t_execution_plan	*destroy_execution_plan(
-						t_execution_plan *execution_plan);
+void				destroy_execution_plan(t_execution_plan *execution_plan);
 
 t_command			*init_command(void);
 t_command			*init_command_argv(t_command *command, char **arguments);
-t_command			*destroy_command(t_command *command);
+void				destroy_command(t_command *command);
 
 char				**get_io_for_command(char **arguments, t_command *command);
 

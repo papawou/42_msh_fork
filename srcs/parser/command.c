@@ -15,6 +15,14 @@
 #include "libft.h"
 #include "minishell.h"
 
+/**
+ * Allocate memory and copy the arguments in the command->argv array
+ *
+ * @param {t_command *} command
+ * @param {char **} arguments
+ *
+ * @return {t_command *} command
+ */
 t_command	*init_command_argv(t_command *command, char **arguments)
 {
 	int		i;
@@ -38,6 +46,11 @@ t_command	*init_command_argv(t_command *command, char **arguments)
 	return (command);
 }
 
+/**
+ * Allocate memory for a command
+ *
+ * @return {t_command *} command
+ */
 t_command	*init_command(void)
 {
 	t_command	*command;
@@ -50,7 +63,13 @@ t_command	*init_command(void)
 	return (command);
 }
 
-t_command	*destroy_command(t_command *command)
+/**
+ * Free all command memory
+ *
+ * @param {t_command *} command
+ * @return {t_command *}
+ */
+void	destroy_command(t_command *command)
 {
 	int		i;
 
@@ -62,5 +81,4 @@ t_command	*destroy_command(t_command *command)
 	free(command->in);
 	free(command->out);
 	free(command);
-	return (NULL);
 }

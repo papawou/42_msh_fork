@@ -23,7 +23,7 @@
  *
  * Get list of paths from environment
  *
- * @return {char **} Paths
+ * @return {char **} paths
  */
 static char	**get_env_paths(void)
 {
@@ -44,7 +44,8 @@ static char	**get_env_paths(void)
 
 /**
  *
- * Find the command full path with the PATH env variable
+ * Find the command full path with the PATH env variable.
+ * Return null if doesn't exist
  *
  * @param {t_program *} command
  *
@@ -55,27 +56,27 @@ static char	*get_program_path(t_command *command)
 	int		i;
 	char	**paths;
 	char	*bin;
-	char	*command_path;
+	char	*bin_path;
 
 	i = 0;
 	paths = get_env_paths();
 	while (paths[i])
 	{
 		bin = ft_strjoin("/", command->bin);
-		command_path = ft_strjoin(paths[i], bin);
+		bin_path = ft_strjoin(paths[i], bin);
 		free(bin);
 		free(paths[i]);
-		if (access(command_path, X_OK) == F_OK)
+		if (access(bin_path, X_OK) == F_OK)
 			break ;
 		else
 		{
-			free(command_path);
-			command_path = NULL;
+			free(bin_path);
+			bin_path = NULL;
 		}
 		i++;
 	}
 	free(paths);
-	return (command_path);
+	return (bin_path);
 }
 
 /**

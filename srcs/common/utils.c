@@ -32,6 +32,15 @@ char	*trim_space(char *source)
 	return (dst);
 }
 
+/**
+ *
+ * Open a file and return the file descriptor
+ *
+ * @param {char *} path
+ * @param {int} flags
+ *
+ * @return {int} fd
+ */
 int	open_file(char *path, int flags)
 {
 	int		fd;
