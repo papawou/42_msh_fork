@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 17:35:05 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:34:29 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ static void	route_command_io(
 	close(pipes[index][0]);
 	if (command->out != NULL)
 	{
-		outfile_fd = open_file(command->out, O_WRONLY | O_CREAT | O_TRUNC);
+		if (command->out_in_append_mode)
+			outfile_fd = open_file(command->out, O_WRONLY | O_CREAT | O_APPEND);
+		else
+			outfile_fd = open_file(command->out, O_WRONLY | O_CREAT | O_TRUNC);
 		dup2(outfile_fd, STDOUT_FILENO);
 	}
 	else if (index != number_of_commands - 1)

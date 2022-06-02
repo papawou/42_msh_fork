@@ -47,7 +47,8 @@ t_command	*parse_command(char *command_as_str)
 	command = init_command();
 	command_as_str = trim_space(command_as_str);
 	arguments = ft_split(command_as_str, ' ');
-	arguments = get_io_for_command(arguments, command);
+	arguments = get_io_from_beginning(arguments, command);
+	arguments = get_io_from_end(arguments, command);
 	command->return_value = 0;
 	command->bin = ft_strdup(arguments[0]);
 	command = init_command_argv(command, arguments);

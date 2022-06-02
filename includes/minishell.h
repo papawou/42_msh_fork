@@ -6,14 +6,12 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 17:36:46 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:48:50 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# define SHELL_PROMPT_NAME "minishell> "
 
 # define FILE_PERMISSION_IF_CREATED 0664
 
@@ -31,6 +29,7 @@ typedef struct s_command {
 	char	*bin;
 	char	**argv;
 	int		return_value;
+	_Bool	out_in_append_mode;
 }	t_command;
 
 typedef struct s_execution_plan {
@@ -54,7 +53,9 @@ t_command			*init_command(void);
 t_command			*init_command_argv(t_command *command, char **arguments);
 void				destroy_command(t_command *command);
 
-char				**get_io_for_command(char **arguments, t_command *command);
+char				**get_io_from_beginning(char **arguments,
+						t_command *command);
+char				**get_io_from_end(char **arguments, t_command *command);
 
 t_execution_plan	*parse_line(char *line);
 

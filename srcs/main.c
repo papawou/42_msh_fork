@@ -6,11 +6,12 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 17:29:50 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:23:30 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <printf.h>
+#include <stdio.h>
+
 #include "libft.h"
 #include "minishell.h"
 
