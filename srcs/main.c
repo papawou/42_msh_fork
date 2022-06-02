@@ -11,23 +11,40 @@
 /* ************************************************************************** */
 
 #include <readline/readline.h>
-#include <malloc.h>
 #include <readline/history.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <termios.h>
+
 #include "libft.h"
 #include "minishell.h"
+
+void	print_help(void)
+{
+	printf("\n***************************\n");
+	printf("Hi %s\n", getenv("USER"));
+	printf("This shell was made for educational purpose.\n");
+	printf("Be careful with it.\n");
+	printf("***************************\n\n");
+}
 
 char	*get_prompt_name(void)
 {
 	char	*path;
 	char	*prompt_name;
+	char	*user;
+	char	*user_and_path;
 	int		buf_size;
 
 	buf_size = 1024;
 	path = malloc(sizeof(char) * buf_size);
 	getcwd(path, buf_size);
-	prompt_name = ft_strjoin(path, "$ ");
+	user = ft_strjoin(getenv("USER"), "@");
+	user_and_path = ft_strjoin(user, path);
+	free(user);
 	free(path);
+	prompt_name = ft_strjoin(user_and_path, "$ ");
+	free(user_and_path);
 	return (prompt_name);
 }
 
@@ -54,6 +71,7 @@ int	main(void)
 	t_execution_plan	*execution_plan;
 
 	line_read = NULL;
+	print_help();
 	while (42)
 	{
 		line_read = prompt(line_read);
@@ -67,5 +85,4 @@ int	main(void)
 			destroy_execution_plan(execution_plan);
 		}
 	}
-	free(line_read);
 }

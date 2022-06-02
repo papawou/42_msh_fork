@@ -38,8 +38,8 @@ char	**get_io_from_end(char **arguments, t_command *command)
 	int		i;
 
 	i = 0;
-	while (arguments[i] &&
-		ft_strcmp(arguments[i], "<") != 0 && ft_strcmp(arguments[i], ">") != 0)
+	while (arguments[i] && ft_strcmp(arguments[i], "<") != 0
+		&& ft_strcmp(arguments[i], ">") != 0)
 		i++;
 	if (arguments[i] == NULL)
 		return (arguments);
@@ -57,7 +57,6 @@ char	**get_io_from_end(char **arguments, t_command *command)
 	}
 	return (arguments);
 }
-
 
 char	**get_io_for_command(char **arguments, t_command *command)
 {

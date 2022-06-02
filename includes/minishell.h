@@ -28,7 +28,7 @@ typedef enum e_error_codes {
 typedef struct s_command {
 	char	*in;
 	char	*out;
-	char	*path;
+	char	*bin;
 	char	**argv;
 	int		return_value;
 }	t_command;

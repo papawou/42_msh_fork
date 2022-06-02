@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <malloc.h>
 #include <stdlib.h>
+
 #include "libft.h"
 #include "minishell.h"
 
@@ -36,7 +35,7 @@ t_command	*parse_command(char *command_str)
 	arguments = ft_split(command_str, ' ');
 	arguments = get_io_for_command(arguments, command);
 	command->return_value = 0;
-	command->path = ft_strjoin("/", arguments[0]);
+	command->bin = ft_strdup(arguments[0]);
 	command = init_command_argv(command, arguments);
 	free(command_str);
 	return (command);
@@ -46,18 +45,18 @@ t_execution_plan	*parse_line(char *line)
 {
 	int					i;
 	t_execution_plan	*execution_plan;
-	char				**commands_str;
+	char				**commands_as_str;
 	int					number_of_commands;
 
-	commands_str = ft_split(line, '|');
-	number_of_commands = count_number_of_commands(commands_str);
+	commands_as_str = ft_split(line, '|');
+	number_of_commands = count_number_of_commands(commands_as_str);
 	execution_plan = init_execution_plan(number_of_commands);
 	i = 0;
 	while (i < number_of_commands)
 	{
-		execution_plan->commands[i] = parse_command(commands_str[i]);
+		execution_plan->commands[i] = parse_command(commands_as_str[i]);
 		i++;
 	}
-	free(commands_str);
+	free(commands_as_str);
 	return (execution_plan);
 }

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <malloc.h>
 #include <stdlib.h>
+
 #include "libft.h"
 #include "minishell.h"
 
@@ -58,7 +58,9 @@ t_command	*destroy_command(t_command *command)
 	while (command->argv[i])
 		free(command->argv[i++]);
 	free(command->argv);
-	free(command->path);
+	free(command->bin);
+	free(command->in);
+	free(command->out);
 	free(command);
 	return (NULL);
 }

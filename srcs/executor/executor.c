@@ -54,13 +54,16 @@ static char	*get_program_path(t_command *command)
 {
 	int		i;
 	char	**paths;
+	char	*bin;
 	char	*command_path;
 
 	i = 0;
 	paths = get_env_paths();
 	while (paths[i])
 	{
-		command_path = ft_strjoin(paths[i], command->path);
+		bin = ft_strjoin("/", command->bin);
+		command_path = ft_strjoin(paths[i], bin);
+		free(bin);
 		free(paths[i]);
 		if (access(command_path, X_OK) == F_OK)
 			break ;
