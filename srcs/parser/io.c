@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <printf.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -67,51 +68,64 @@ t_command	*handle_operator(t_command *command, char **argument)
  *
  * @return {char **} arguments
  */
-char	**get_io_from_beginning(char **arguments, t_command *command)
+t_list_el	*get_io_from_beginning(t_list_el *words, t_command *command)
 {
-	int		i;
-	int		args_begin;
-
-	if (ft_strcmp(arguments[0], "<") != 0)
-		return (arguments);
-	command->in = ft_strdup(arguments[1]);
-	i = 2;
-	args_begin = i;
-	while (--i >= 0)
-	{
-		free(arguments[i]);
-		arguments[i] = NULL;
-	}
-	return (&arguments[args_begin]);
+	if (((t_word *)words->content)->word_type != INPUT_SIMPLE_OPERATOR)
+		return (words);
+	command->in = ft_strdup(((t_word *)words->next->content)->content);
+	ft_lstremove_first(&words, delete_word);
+	ft_lstremove_first(&words, delete_word);
+	return (words);
 }
 
 /**
- * If there is an infile or and outfile in the end of the command
- * set the in and / or out properties and update arguments accordingly
+ * If there is an infile or and outfile in the command
+ * set the in and / or out properties and update words accordingly
  *
  * @param {char **} arguments
  * @param {t_command *} command
  *
  * @return {char **} arguments
  */
-char	**get_io_from_end(char **arguments, t_command *command)
+t_list_el 	*get_io_from_words(t_list_el *words, t_command *command)
 {
-	int		i;
+	t_list_el	*current_el;
+	t_list_el	*last_el;
+	t_word		*word;
 
-	i = 0;
-	while (arguments[i] && ft_strcmp(arguments[i], "<") != 0
-		&& ft_strcmp(arguments[i], ">") != 0
-		&& ft_strcmp(arguments[i], ">>") != 0)
-		i++;
-	if (arguments[i] == NULL)
-		return (arguments);
-	handle_operator(command, &arguments[i]);
-	while (arguments[i])
+	last_el = NULL;
+	current_el = words;
+	while (current_el)
 	{
-		handle_operator(command, &arguments[i]);
-		free(arguments[i]);
-		arguments[i] = NULL;
-		i++;
+		word = (t_word *)current_el->content;
+		if (word->word_type == WORLD_WITHOUT_ENV_EXPENSION
+			|| word->word_type == WORLD_WITH_ENV_EXPENSION)
+		{
+			last_el = current_el;
+			current_el = current_el->next;
+			continue ;
+		}
+		else if (word->word_type == INPUT_SIMPLE_OPERATOR)
+			command->in = ft_strdup(((t_word *)current_el->next->content)->content);
+		else if (word->word_type == OUTPUT_SIMPLE_OPERATOR)
+			command->out = ft_strdup(((t_word *)current_el->next->content)->content);
+		else if (word->word_type == OUTPUT_APPEND_OPERATOR)
+		{
+			command->out = ft_strdup(((t_word *)current_el->next->content)->content);
+			command->out_in_append_mode = true;
+		}
+		if (last_el)
+		{
+			ft_lstremove_next(last_el, delete_word);
+			ft_lstremove_next(last_el, delete_word);
+			current_el = last_el->next;
+		}
+		else
+		{
+			ft_lstremove_first(&words, delete_word);
+			ft_lstremove_first(&words, delete_word);
+			current_el = words;
+		}
 	}
-	return (arguments);
+	return (words);
 }

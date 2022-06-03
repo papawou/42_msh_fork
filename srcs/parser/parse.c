@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <printf.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -41,18 +42,18 @@ int	count_number_of_commands(char **commands_as_str)
  */
 t_command	*parse_command(char *command_as_str)
 {
-	char		**arguments;
+	t_list_el 	*words;
 	t_command	*command;
 
 	command = init_command();
+	words = command->words;
 	command_as_str = trim_space(command_as_str);
-	arguments = ft_split(command_as_str, ' ');
-	arguments = get_io_from_beginning(arguments, command);
-	arguments = get_io_from_end(arguments, command);
+	words = split_into_words(words, command_as_str);
+	words = get_io_from_words(words, command);
 	command->return_value = 0;
-	command->bin = ft_strdup(arguments[0]);
-	command = init_command_argv(command, arguments);
-	free(command_as_str);
+	command->bin = ft_strdup(((t_word *)words->content)->content);
+	command->words = words;
+	init_command_argv(command);
 	return (command);
 }
 

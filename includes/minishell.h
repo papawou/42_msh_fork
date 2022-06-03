@@ -15,6 +15,8 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 
+# include "libft.h"
+
 extern char	**environ;
 
 typedef enum e_error_codes {
@@ -23,14 +25,29 @@ typedef enum e_error_codes {
 	ERR_FORKING_PROCESS = 3,
 }	t_error_codes;
 
+typedef enum e_token_type {
+	WORLD_WITH_ENV_EXPENSION,
+	WORLD_WITHOUT_ENV_EXPENSION,
+	OUTPUT_SIMPLE_OPERATOR,
+	OUTPUT_APPEND_OPERATOR,
+	INPUT_SIMPLE_OPERATOR,
+	INPUT_HEREDOC_OPERATOR
+}	t_token_type;
+
 typedef struct s_command {
-	char	*in;
-	char	*out;
-	char	*bin;
-	char	**argv;
-	int		return_value;
-	_Bool	out_in_append_mode;
+	char		*in;
+	char		*out;
+	char		*bin;
+	char		**argv;
+	t_list_el	*words;
+	int			return_value;
+	_Bool		out_in_append_mode;
 }	t_command;
+
+typedef struct	s_word {
+	char			*content;
+	t_token_type	word_type;
+}	t_word;
 
 typedef struct s_execution_plan {
 	t_command	**commands;
@@ -50,14 +67,16 @@ t_execution_plan	*init_execution_plan(int number_of_commands);
 void				destroy_execution_plan(t_execution_plan *execution_plan);
 
 t_command			*init_command(void);
-t_command			*init_command_argv(t_command *command, char **arguments);
+t_command			*init_command_argv(t_command *command);
 void				destroy_command(t_command *command);
 
-char				**get_io_from_beginning(char **arguments,
-						t_command *command);
-char				**get_io_from_end(char **arguments, t_command *command);
+t_list_el			*get_io_from_beginning(t_list_el *words, t_command *command);
+t_list_el 			*get_io_from_words(t_list_el *words, t_command *command);
 
 t_execution_plan	*parse_line(char *line);
+
+void				delete_word(void *word);
+t_list_el			*split_into_words(t_list_el *words, char *command_as_str);
 
 /* Executor */
 int					execute_plan(t_execution_plan *execution_plan);

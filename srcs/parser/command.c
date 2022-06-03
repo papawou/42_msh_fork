@@ -17,33 +17,34 @@
 #include "minishell.h"
 
 /**
- * Allocate memory and copy the arguments in the command->argv array
+ * Allocate memory and copy the words in the command->argv array
  *
  * @param {t_command *} command
  * @param {char **} arguments
  *
  * @return {t_command *} command
  */
-t_command	*init_command_argv(t_command *command, char **arguments)
+t_command	*init_command_argv(t_command *command)
 {
-	int		i;
-	int		number_or_arguments;
+	int			i;
+	int			number_or_arguments;
+	t_list_el	*last_el;
+	t_list_el	*current_el;
 
-	i = 0;
-	number_or_arguments = 0;
-	while (arguments[i++])
-		number_or_arguments++;
+	number_or_arguments = ft_lstsize(command->words);
 	command->argv = (char **)malloc(sizeof(char *) * (number_or_arguments + 1));
 	if (command->argv == NULL)
 		exit(ERR_ALLOCATING_MEMORY);
 	i = 0;
-	while (i < number_or_arguments)
+	current_el = command->words;
+	while (current_el)
 	{
-		command->argv[i] = ft_strdup(arguments[i]);
-		free(arguments[i]);
+		command->argv[i] = ft_strdup(((t_word *)current_el->content)->content);
+		last_el = current_el;
+		current_el = current_el->next;
+		ft_lstdelone(last_el, delete_word);
 		i++;
 	}
-	command->argv[i] = NULL;
 	return (command);
 }
 
@@ -76,10 +77,9 @@ void	destroy_command(t_command *command)
 	int		i;
 
 	i = 0;
-	while (command->argv[i])
-		free(command->argv[i++]);
-	free(command->argv);
-	free(command->bin);
+//	while (command->argv[i])
+//		free(command->argv[i++]);
+//	free(command->bin);
 	free(command->in);
 	free(command->out);
 	free(command);
