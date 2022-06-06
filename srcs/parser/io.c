@@ -6,14 +6,12 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 12:52:27 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:41:40 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <printf.h>
 
 #include "libft.h"
 #include "minishell.h"

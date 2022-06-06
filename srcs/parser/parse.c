@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <printf.h>
 
 #include "libft.h"
 #include "minishell.h"

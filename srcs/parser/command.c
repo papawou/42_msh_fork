@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 13:48:28 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:50:05 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_command	*init_command_argv(t_command *command)
 		current_el = current_el->next;
 		i++;
 	}
+	command->argv[i] = NULL;
 	return (command);
 }
 
@@ -59,6 +60,7 @@ t_command	*init_command(void)
 		exit(ERR_ALLOCATING_MEMORY);
 	command->in = NULL;
 	command->out = NULL;
+	command->argv = NULL;
 	command->out_in_append_mode = false;
 	return (command);
 }
