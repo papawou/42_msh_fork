@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 15:32:30 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 12:52:27 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:41:40 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	count_number_of_commands(char **commands_as_str)
  */
 t_command	*parse_command(char *command_as_str)
 {
-	t_list_el 	*words;
+	t_list_el	*words;
 	t_command	*command;
 
 	command = init_command();

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:45:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 12:52:27 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:59:48 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 t_token	*create_word(char *str, int length, _Bool should_expend_variable)
 {
-	char 	*content;
+	char	*content;
 	t_token	*word;
 
 	word = (t_token *)malloc(sizeof(t_token));
@@ -62,7 +62,6 @@ t_list_el	*split_into_words(t_list_el *words, char *command_as_str)
 	{
 		while (command_as_str[i] && command_as_str[i] != ' ')
 			i++;
-
 		if ((command_as_str[i] == ' ' || !command_as_str[i]))
 		{
 			word = create_word(&command_as_str[start], i - start, true);
@@ -74,5 +73,5 @@ t_list_el	*split_into_words(t_list_el *words, char *command_as_str)
 		if (!command_as_str[start])
 			break ;
 	}
-	return words;
+	return (words);
 }
