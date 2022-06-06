@@ -15,7 +15,6 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
 
 /**
  * Utility to get the total number of process from the number of child process.

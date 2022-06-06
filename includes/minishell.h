@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 15:00:33 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 15:03:02 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_list_el			*get_io_from_words(t_list_el *words, t_command *command);
 
 t_execution_plan	*parse_line(char *line);
 
-void				delete_word(void *word);
+void				delete_word_token(void *word);
 t_list_el			*split_into_words(t_list_el *words, char *command_as_str);
 
 /* Executor */

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 14:59:02 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 15:07:49 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 #include "libft.h"
 #include "minishell.h"
 
+/**
+ *
+ * When an io token is found, it wil be removed from the list and the current_el
+ * is set accordingly
+ *
+ * @param {t_list_el **} last_el
+ * @param {t_list_el **} current_el
+ * @param {t_list_el **} words
+ */
 void	remove_io_words_from_list(
 			t_list_el **last_el,
 			t_list_el **current_el,
@@ -24,18 +33,26 @@ void	remove_io_words_from_list(
 {
 	if (*last_el)
 	{
-		ft_lstremove_next(*last_el, delete_word);
-		ft_lstremove_next(*last_el, delete_word);
+		ft_lstremove_next(*last_el, delete_word_token);
+		ft_lstremove_next(*last_el, delete_word_token);
 		*current_el = (*last_el)->next;
 	}
 	else
 	{
-		ft_lstremove_first(words, delete_word);
-		ft_lstremove_first(words, delete_word);
+		ft_lstremove_first(words, delete_word_token);
+		ft_lstremove_first(words, delete_word_token);
 		*current_el = *words;
 	}
 }
 
+/**
+ *
+ * Set the in and out for the command according to the token type
+ *
+ * @param {t_toke *} word
+ * @param {t_command *} command
+ * @param [t_list_el *} current_el
+ */
 void	handle_io_token(
 			t_token *word,
 			t_command *command,
