@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 14:50:05 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:51:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  *
  * @return {t_command *} command
  */
-t_command	*init_command_argv(t_command *command)
+t_command	*set_command_argv(t_command *command)
 {
 	int			i;
 	int			number_or_arguments;
