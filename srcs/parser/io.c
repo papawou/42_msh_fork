@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:48:33 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 12:52:27 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,6 @@ t_command	*handle_operator(t_command *command, char **argument)
 }
 
 /**
- * If there is an infile in the beginning of the command, set the in property
- * and update arguments accordingly
- *
- * @param {char **} arguments
- * @param {t_command *} command
- *
- * @return {char **} arguments
- */
-t_list_el	*get_io_from_beginning(t_list_el *words, t_command *command)
-{
-	if (((t_word *)words->content)->word_type != INPUT_SIMPLE_OPERATOR)
-		return (words);
-	command->in = ft_strdup(((t_word *)words->next->content)->content);
-	ft_lstremove_first(&words, delete_word);
-	ft_lstremove_first(&words, delete_word);
-	return (words);
-}
-
-/**
  * If there is an infile or and outfile in the command
  * set the in and / or out properties and update words accordingly
  *
@@ -91,27 +72,27 @@ t_list_el 	*get_io_from_words(t_list_el *words, t_command *command)
 {
 	t_list_el	*current_el;
 	t_list_el	*last_el;
-	t_word		*word;
+	t_token		*word;
 
 	last_el = NULL;
 	current_el = words;
 	while (current_el)
 	{
-		word = (t_word *)current_el->content;
-		if (word->word_type == WORLD_WITHOUT_ENV_EXPENSION
-			|| word->word_type == WORLD_WITH_ENV_EXPENSION)
+		word = (t_token *)current_el->content;
+		if (word->type == WORLD_WITHOUT_ENV_EXPENSION
+			|| word->type == WORLD_WITH_ENV_EXPENSION)
 		{
 			last_el = current_el;
 			current_el = current_el->next;
 			continue ;
 		}
-		else if (word->word_type == INPUT_SIMPLE_OPERATOR)
-			command->in = ft_strdup(((t_word *)current_el->next->content)->content);
-		else if (word->word_type == OUTPUT_SIMPLE_OPERATOR)
-			command->out = ft_strdup(((t_word *)current_el->next->content)->content);
-		else if (word->word_type == OUTPUT_APPEND_OPERATOR)
+		else if (word->type == INPUT_SIMPLE_OPERATOR)
+			command->in = ft_strdup(((t_token *)current_el->next->content)->word);
+		else if (word->type == OUTPUT_SIMPLE_OPERATOR)
+			command->out = ft_strdup(((t_token *)current_el->next->content)->word);
+		else if (word->type == OUTPUT_APPEND_OPERATOR)
 		{
-			command->out = ft_strdup(((t_word *)current_el->next->content)->content);
+			command->out = ft_strdup(((t_token *)current_el->next->content)->word);
 			command->out_in_append_mode = true;
 		}
 		if (last_el)

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:24:59 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 13:48:28 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_command	*init_command_argv(t_command *command)
 {
 	int			i;
 	int			number_or_arguments;
-	t_list_el	*last_el;
 	t_list_el	*current_el;
 
 	number_or_arguments = ft_lstsize(command->words);
@@ -39,10 +38,8 @@ t_command	*init_command_argv(t_command *command)
 	current_el = command->words;
 	while (current_el)
 	{
-		command->argv[i] = ft_strdup(((t_word *)current_el->content)->content);
-		last_el = current_el;
+		command->argv[i] = ((t_token *)current_el->content)->word;
 		current_el = current_el->next;
-		ft_lstdelone(last_el, delete_word);
 		i++;
 	}
 	return (command);
@@ -74,12 +71,9 @@ t_command	*init_command(void)
  */
 void	destroy_command(t_command *command)
 {
-	int		i;
-
-	i = 0;
-//	while (command->argv[i])
-//		free(command->argv[i++]);
-//	free(command->bin);
+	ft_lstclear(&command->words, delete_word);
+	free(command->argv);
+	free(command->bin);
 	free(command->in);
 	free(command->out);
 	free(command);

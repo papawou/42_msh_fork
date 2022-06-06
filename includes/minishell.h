@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:48:50 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 12:52:32 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef struct s_command {
 	_Bool		out_in_append_mode;
 }	t_command;
 
-typedef struct	s_word {
-	char			*content;
-	t_token_type	word_type;
-}	t_word;
+typedef struct	s_token {
+	char			*word;
+	t_token_type	type;
+}	t_token;
 
 typedef struct s_execution_plan {
 	t_command	**commands;
@@ -70,7 +70,6 @@ t_command			*init_command(void);
 t_command			*init_command_argv(t_command *command);
 void				destroy_command(t_command *command);
 
-t_list_el			*get_io_from_beginning(t_list_el *words, t_command *command);
 t_list_el 			*get_io_from_words(t_list_el *words, t_command *command);
 
 t_execution_plan	*parse_line(char *line);
