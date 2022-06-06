@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 15:03:02 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:20:24 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,12 @@ void				destroy_pipes(int number_of_child_processes, int **pipes);
 int					*create_processes(t_execution_plan *execution_plan,
 						int *pids, int **pipes);
 int					count_total_process(int number_of_child_processes);
+
+void				route_command_io(
+						t_command *command,
+						int **pipes,
+						int index,
+						int number_of_commands
+						);
 
 #endif
