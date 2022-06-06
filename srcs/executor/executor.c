@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:34:29 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 15:04:27 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,14 @@ static void	route_command_io(
 	close(pipes[index + 1][1]);
 }
 
+/**
+ *
+ * Take a command, set the io routing and execute it
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @param {int **} pipes
+ * @param {int} index
+ */
 void	execute_command(
 			t_execution_plan *execution_plan,
 			int **pipes,
@@ -142,6 +150,14 @@ void	execute_command(
 	}
 }
 
+/**
+ * Execute the all execution plan by creating, and opening the pipes,
+ * forking for each command and closing the unnecessary pipes and in each child
+ * process executing the command
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @return
+ */
 int	execute_plan(t_execution_plan *execution_plan)
 {
 	int			i;

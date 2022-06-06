@@ -19,8 +19,9 @@ LIBFT_DIR			= ${ROOT_DIR}/libft/
 
 # COMPILER
 SRC			:= $(addprefix ${SRC_DIR}, main.c parser/parse.c parser/execution-plan.c \
-				parser/command.c parser/io.c executor/executor.c executor/pipes.c \
-				executor/processes.c prompter/prompt.c common/utils.c)
+				parser/command.c parser/io.c parser/word.c executor/executor.c \
+				executor/pipes.c executor/processes.c prompter/prompt.c \
+				common/utils.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette
@@ -42,9 +43,11 @@ ${NAME}:	${OBJ}
 all: 		${NAME}
 
 clean:
+			@make -C ${LIBFT_DIR} clean
 			${RM} ${OBJ}
 
 fclean: 	clean
+			@make -C ${LIBFT_DIR} fclean
 			${RM} ${NAME}
 
 re:			fclean ${NAME}

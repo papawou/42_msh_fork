@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 15:32:30 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:05:32 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:54:13 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@ int	count_number_of_commands(char **commands_as_str)
  */
 t_command	*parse_command(char *command_as_str)
 {
-	char		**arguments;
+	t_list_el	*words;
 	t_command	*command;
 
 	command = init_command();
+	words = command->words;
 	command_as_str = trim_space(command_as_str);
-	arguments = ft_split(command_as_str, ' ');
-	arguments = get_io_from_beginning(arguments, command);
-	arguments = get_io_from_end(arguments, command);
+	words = split_into_words(words, command_as_str);
+	words = get_io_from_words(words, command);
 	command->return_value = 0;
-	command->bin = ft_strdup(arguments[0]);
-	command = init_command_argv(command, arguments);
+	command->bin = ft_strdup(((t_token *)words->content)->word);
+	command->words = words;
+	set_command_argv(command);
 	free(command_as_str);
 	return (command);
 }
