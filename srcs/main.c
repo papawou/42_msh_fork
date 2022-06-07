@@ -6,12 +6,14 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/07 06:16:38 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/06/07 14:27:39 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <signal.h>
+
+#include <termios.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -32,7 +34,10 @@ int	main(int argc, __attribute__((unused)) char **argv)
 		print_usage();
 		return (-3);
 	}
+
+	configure_termios();
 	set_parent_signals();
+
 	line_read = NULL;
 	print_welcome_message();
 	while (42)
@@ -43,9 +48,11 @@ int	main(int argc, __attribute__((unused)) char **argv)
 			break ;
 		if (*line_read)
 		{
+			unset_parent_signals();
 			execution_plan = parse_line(line_read);
 			execute_plan(execution_plan);
 			destroy_execution_plan(execution_plan);
+			set_parent_signals();
 		}
 	}
 }

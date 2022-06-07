@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/07 06:16:47 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/06/07 14:26:47 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int					*create_processes(t_execution_plan *execution_plan,
 int					count_total_process(int number_of_child_processes);
 
 /* Signals */
+void				configure_termios(void);
 void				set_parent_signals(void);
 void				set_child_signals(void);
+void				unset_parent_signals(void);
 
 #endif
