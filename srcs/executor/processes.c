@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:50:47 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/07 06:17:11 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <signal.h>
 
 /**
  * Utility to get the total number of process from the number of child process.
@@ -54,6 +55,7 @@ int	*create_processes(t_execution_plan *execution_plan, int *pids, int **pipes)
 			exit(ERR_FORKING_PROCESS);
 		if (pids[i] == 0)
 		{
+			set_child_signals();
 			close_pipes_in_child_process(pipes, number_of_child_processes, i);
 			execute_command(execution_plan, pipes, i);
 		}

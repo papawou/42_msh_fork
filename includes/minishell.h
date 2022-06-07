@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:48:50 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/07 06:16:47 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,9 @@ void				destroy_pipes(int number_of_child_processes, int **pipes);
 int					*create_processes(t_execution_plan *execution_plan,
 						int *pids, int **pipes);
 int					count_total_process(int number_of_child_processes);
+
+/* Signals */
+void				set_parent_signals(void);
+void				set_child_signals(void);
 
 #endif

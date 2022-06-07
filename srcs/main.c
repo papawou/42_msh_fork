@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:23:30 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/07 06:16:38 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <signal.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -25,11 +26,13 @@ int	main(int argc, __attribute__((unused)) char **argv)
 	char				*line_read;
 	t_execution_plan	*execution_plan;
 
+
 	if (argc != 1)
 	{
 		print_usage();
 		return (-3);
 	}
+	set_parent_signals();
 	line_read = NULL;
 	print_welcome_message();
 	while (42)
