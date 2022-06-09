@@ -28,16 +28,13 @@ int	main(int argc, __attribute__((unused)) char **argv)
 	char				*line_read;
 	t_execution_plan	*execution_plan;
 
-
 	if (argc != 1)
 	{
 		print_usage();
 		return (-3);
 	}
-
 	configure_termios();
 	set_parent_signals();
-
 	line_read = NULL;
 	print_welcome_message();
 	while (42)

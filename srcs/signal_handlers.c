@@ -17,7 +17,7 @@
 #include <unistd.h>
 
 /*
-	disable print of control characters
+ * disable print of control characters
 */
 void	configure_termios(void)
 {
@@ -29,10 +29,8 @@ void	configure_termios(void)
 }
 
 /*
-	signal are sent to process groups
-	
-	signals set to SIG_IGN (ignored) in parent process stay ignored in childs
-	signals not SIG_IGN in parent are set to SIG_DFL (default) in childs
+ * SIGINT parent handler
+ * can lead to race conditions, see set_parent_signals
 */
 static void	sigint_handler(int status)
 {
@@ -44,7 +42,11 @@ static void	sigint_handler(int status)
 }
 
 /*
-
+ * SIGQUIT ignored 
+ * SIGINT signaction, block all signals for prevent race conditions
+ *  see sigint_handler
+ * redudant function, SIGINT is the only who need to be restored
+ * call it at parent's start and after execute_plan
 */
 void	set_parent_signals(void)
 {
@@ -56,8 +58,9 @@ void	set_parent_signals(void)
 }
 
 /*
-	Ignore SIGINT for parent, use it before fork
-	This prevent SIGINT being catch by parent when sent during child's executions
+ * SIGINT ignored, use it before fork
+ * This prevent SIGINT being catch by parent during child's execution
+ * call it before execute_plan
 */
 void	unset_parent_signals(void)
 {
@@ -65,7 +68,8 @@ void	unset_parent_signals(void)
 }
 
 /*
-	restore default signals handlers for childrens
+ * Restore default state SIGQUIT, SIGINT for child's execution
+ * call it after fork in child's process
 */
 void	set_child_signals(void)
 {
