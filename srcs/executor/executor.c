@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:34:29 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:17:06 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,13 @@ static char	**get_env_paths(void)
 	return (paths);
 }
 
-/**
- *
- * Find the command full path with the PATH env variable.
- * Return null if doesn't exist
- *
- * @param {t_program *} command
- *
- * @return {char *} Program path
- */
-static char	*get_program_path(t_command *command)
+static char	*get_path_if_exist(t_command *command)
 {
 	int		i;
 	char	**paths;
 	char	*bin;
 	char	*bin_path;
 
-	i = 0;
 	paths = get_env_paths();
 	while (paths[i])
 	{
@@ -81,43 +71,33 @@ static char	*get_program_path(t_command *command)
 
 /**
  *
- * Redirect stdin and stdout to either pipe or file.
+ * Find the command full path with the PATH env variable.
+ * Return null if doesn't exist
  *
- * @param {t_programs *} execution_plan
+ * @param {t_program *} command
+ *
+ * @return {char *} Program path
+ */
+static char	*get_program_path(t_command *command)
+{
+	if (command->bin[0] == '/' || command->bin[0] == '.')
+	{
+		if (access(command->bin, X_OK) == F_OK)
+			return (command->bin);
+		else
+			return (NULL);
+	}
+	return (get_path_if_exist(command));
+}
+
+/**
+ *
+ * Take a command, set the io routing and execute it
+ *
+ * @param {t_execution_plan *} execution_plan
  * @param {int **} pipes
  * @param {int} index
  */
-static void	route_command_io(
-		t_command *command,
-		int **pipes,
-		int index,
-		int number_of_commands
-		)
-{
-	int			infile_fd;
-	int			outfile_fd;
-
-	if (command->in != NULL)
-	{
-		infile_fd = open_file(command->in, O_RDONLY);
-		dup2(infile_fd, STDIN_FILENO);
-	}
-	else if (index != 0)
-		dup2(pipes[index][0], STDIN_FILENO);
-	close(pipes[index][0]);
-	if (command->out != NULL)
-	{
-		if (command->out_in_append_mode)
-			outfile_fd = open_file(command->out, O_WRONLY | O_CREAT | O_APPEND);
-		else
-			outfile_fd = open_file(command->out, O_WRONLY | O_CREAT | O_TRUNC);
-		dup2(outfile_fd, STDOUT_FILENO);
-	}
-	else if (index != number_of_commands - 1)
-		dup2(pipes[index + 1][1], STDOUT_FILENO);
-	close(pipes[index + 1][1]);
-}
-
 void	execute_command(
 			t_execution_plan *execution_plan,
 			int **pipes,
@@ -142,6 +122,14 @@ void	execute_command(
 	}
 }
 
+/**
+ * Execute the all execution plan by creating, and opening the pipes,
+ * forking for each command and closing the unnecessary pipes and in each child
+ * process executing the command
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @return
+ */
 int	execute_plan(t_execution_plan *execution_plan)
 {
 	int			i;
