@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   processes.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/11 14:34:32 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/06/11 14:34:35 by fvarrin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <signal.h>
 
 /**
  * Utility to get the total number of process from the number of child process.

@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
 #include <signal.h>
-#include <stdio.h>
 #include <termios.h>
 #include <readline/readline.h>
 #include <unistd.h>
@@ -32,9 +33,8 @@ void	configure_termios(void)
  * SIGINT parent handler
  * can lead to race conditions, see set_parent_signals
 */
-static void	sigint_handler(int status)
+static void	sigint_handler(int status __attribute__((unused)))
 {
-	(void) status;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/07 14:27:39 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/06/11 14:38:39 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,12 @@ void	print_usage(void)
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
 }
 
-int	main(int argc, __attribute__((unused)) char **argv)
+void	run_prompt(void)
 {
-	char				*line_read;
 	t_execution_plan	*execution_plan;
+	char				*line_read;
 
-	if (argc != 1)
-	{
-		print_usage();
-		return (-3);
-	}
-	configure_termios();
-	set_parent_signals();
 	line_read = NULL;
-	print_welcome_message();
 	while (42)
 	{
 		line_read = prompt(line_read);
@@ -52,4 +44,18 @@ int	main(int argc, __attribute__((unused)) char **argv)
 			set_parent_signals();
 		}
 	}
+}
+
+int	main(int argc, __attribute__((unused)) char **argv)
+{
+
+	if (argc != 1)
+	{
+		print_usage();
+		return (-3);
+	}
+	configure_termios();
+	set_parent_signals();
+	print_welcome_message();
+	run_prompt();
 }
