@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 17:20:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/06/11 14:35:03 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,11 @@ void				route_command_io(
 						int index,
 						int number_of_commands
 						);
+
+/* Signals */
+void				configure_termios(void);
+void				set_parent_signals(void);
+void				set_child_signals(void);
+void				unset_parent_signals(void);
 
 #endif

@@ -10,3 +10,4 @@ compile_commands.json
 minishell
 out
 __MACOSX
+.vscode
