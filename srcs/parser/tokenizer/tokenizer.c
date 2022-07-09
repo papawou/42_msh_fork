@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:23:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 17:33:40 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 18:10:50 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,14 @@ t_token	*get_next_token(char **str)
 	if (!has_more_tokens(*str))
 		return (NULL);
 	token = init_token();
-	if (**str == ' ')
+	if (is_an_operator(*str))
+		set_operator(str, token);
+	else if (**str == ' ')
 		set_space_delimiter(str, token);
+	else if (**str == '"')
+		set_double_quote_word(str, token);
+	else if (**str == '\'')
+		set_single_quote_word(str, token);
 	else
 		set_simple_word(str, token);
 	return (token);

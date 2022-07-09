@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 17:35:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 18:25:02 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,18 @@ t_token				*init_token(void);
 
 /* Tokenizer */
 t_list_el			*tokenize_line(char *line);
+_Bool				check_quote_closed(char *str);
 void				set_simple_word(char **str, t_token *token);
+void				set_double_quote_word(char **str, t_token *token);
+void				set_single_quote_word(char **str, t_token *token);
 void				set_space_delimiter(char **str, t_token *token);
+_Bool				is_a_simple_output(char *str);
+_Bool				is_a_append_output(char *str);
+_Bool				is_a_simple_input(char *str);
+_Bool				is_a_heredoc_input(char *str);
+_Bool				is_a_pipe(char *str);
+_Bool				is_an_operator(char *str);
+void				set_operator(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
 

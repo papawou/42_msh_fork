@@ -41,6 +41,8 @@ int	main(int argc, __attribute__((unused)) char **argv)
 		if (*line_read)
 		{
 			execution_plan = parse_line(line_read);
+			if (execution_plan == NULL)
+				continue ;
 			execute_plan(execution_plan);
 			destroy_execution_plan(execution_plan);
 		}

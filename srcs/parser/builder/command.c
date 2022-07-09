@@ -59,7 +59,6 @@ t_command	*init_command(void)
  */
 void	destroy_command(t_command *command)
 {
-//	ft_lstclear(&command->words, delete_word_token);
 	free(command->argv);
 	free(command->bin);
 	free(command->in);
