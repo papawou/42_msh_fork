@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 15:42:11 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:18:11 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,52 +18,23 @@
 
 /**
  *
- * When an io token is found, it wil be removed from the list and the current_el
- * is set accordingly
- *
- * @param {t_list_el **} last_el
- * @param {t_list_el **} current_el
- * @param {t_list_el **} words
- */
-void	remove_io_words_from_list(
-			t_list_el **last_el,
-			t_list_el **current_el,
-			t_list_el **words
-			)
-{
-	if (*last_el)
-	{
-		ft_lstremove_next(*last_el, delete_word_token);
-		ft_lstremove_next(*last_el, delete_word_token);
-		*current_el = (*last_el)->next;
-	}
-	else
-	{
-		ft_lstremove_first(words, delete_word_token);
-		ft_lstremove_first(words, delete_word_token);
-		*current_el = *words;
-	}
-}
-
-/**
- *
  * Set the in and out for the command according to the token type
  *
- * @param {t_toke *} word
+ * @param {t_toke *} token
  * @param {t_command *} command
  * @param [t_list_el *} current_el
  */
 void	handle_io_token(
-			t_token *word,
+			t_token *token,
 			t_command *command,
 			t_list_el *current_el
 			)
 {
-	if (word->type == INPUT_SIMPLE_OPERATOR)
+	if (token->type == INPUT_SIMPLE_OPERATOR)
 		command->in = ft_strdup(((t_token *)current_el->next->content)->value);
-	else if (word->type == OUTPUT_SIMPLE_OPERATOR)
+	else if (token->type == OUTPUT_SIMPLE_OPERATOR)
 		command->out = ft_strdup(((t_token *)current_el->next->content)->value);
-	else if (word->type == OUTPUT_APPEND_OPERATOR)
+	else if (token->type == OUTPUT_APPEND_OPERATOR)
 	{
 		command->out = ft_strdup(((t_token *)current_el->next->content)->value);
 		command->out_in_append_mode = true;
@@ -72,33 +43,30 @@ void	handle_io_token(
 
 /**
  * If there is an infile or and outfile in the command
- * set the in and / or out properties and update words accordingly
+ * set the in and / or out properties and update tokens accordingly
  *
  * @param {char **} arguments
  * @param {t_command *} command
  *
  * @return {char **} arguments
  */
-t_list_el	*get_io_from_words(t_list_el *words, t_command *command)
+void	set_io_from_tokens(t_command *command)
 {
 	t_list_el	*current_el;
-	t_list_el	*last_el;
-	t_token		*word;
+	t_token		*token;
 
-	last_el = NULL;
-	current_el = words;
+	current_el = command->tokens;
 	while (current_el)
 	{
-		word = (t_token *)current_el->content;
-		if (word->type == WORLD_WITHOUT_ENV_EXPENSION
-			|| word->type == WORLD_WITH_ENV_EXPENSION)
+		token = (t_token *)current_el->content;
+		if (token->type == WORD_WITHOUT_ENV_EXPANSION
+			|| token->type == WORD_WITH_ENV_EXPANSION
+			|| token->type == SPACE_DELIMITER)
 		{
-			last_el = current_el;
 			current_el = current_el->next;
 			continue ;
 		}
-		handle_io_token(word, command, current_el);
-		remove_io_words_from_list(&last_el, &current_el, &words);
+		handle_io_token(token, command, current_el);
+		current_el = current_el->next;
 	}
-	return (words);
 }

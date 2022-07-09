@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 15:59:41 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 18:31:32 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,6 @@
 
 #include "libft.h"
 #include "minishell.h"
-
-t_execution_plan	*init_execution_plan_command(
-		t_execution_plan *execution_plan,
-		int number_of_commands
-)
-{
-	execution_plan->commands = (t_command **)malloc(
-			sizeof(t_command *) * number_of_commands);
-	if (execution_plan->commands == NULL)
-	{
-		free(execution_plan);
-		exit(ERR_ALLOCATING_MEMORY);
-	}
-	execution_plan->number_of_commands = number_of_commands;
-	return (execution_plan);
-}
 
 /**
  * Allocate memory for a command

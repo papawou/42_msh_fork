@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 18:25:02 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:29:09 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef enum e_error_codes {
 }	t_error_codes;
 
 typedef enum e_token_type {
-	WORLD_WITH_ENV_EXPANSION,
-	WORLD_WITHOUT_ENV_EXPANSION,
+	WORD_WITH_ENV_EXPANSION,
+	WORD_WITHOUT_ENV_EXPANSION,
 	OUTPUT_SIMPLE_OPERATOR,
 	OUTPUT_APPEND_OPERATOR,
 	INPUT_SIMPLE_OPERATOR,
@@ -41,7 +41,7 @@ typedef struct s_command {
 	char		*out;
 	char		*bin;
 	char		**argv;
-	t_list_el	*words;
+	t_list_el	*tokens;
 	int			return_value;
 	_Bool		out_in_append_mode;
 }	t_command;
@@ -68,12 +68,14 @@ char				*prompt(char *line_read);
 t_execution_plan	*parse_line(char *line);
 
 /* Builder */
-t_execution_plan	*init_execution_plan(void);
+t_execution_plan	*init_execution_plan(int number_of_commands);
 void				destroy_execution_plan(t_execution_plan *execution_plan);
 t_token				*init_token(void);
+t_command			*init_command(void);
 
 /* Tokenizer */
 t_list_el			*tokenize_line(char *line);
+
 _Bool				check_quote_closed(char *str);
 void				set_simple_word(char **str, t_token *token);
 void				set_double_quote_word(char **str, t_token *token);
@@ -89,7 +91,14 @@ void				set_operator(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
 
-/* Executor */
+/* Parser */
+t_execution_plan	*parse_tokens(t_list_el *tokens);
+
+int					count_number_of_commands(t_list_el *tokens);
+void				set_io_from_tokens(t_command *command);
+void 				set_argv_from_tokens(t_command *command);
+
+/** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);
 void				execute_command(t_execution_plan *execution_plan,
 						int **pipes, int index);

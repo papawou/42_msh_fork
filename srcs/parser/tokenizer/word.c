@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 16:15:21 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 18:17:49 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:16:02 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	_set_quoted_word(char **str, t_token *token, char quote)
 	int		i;
 
 	i = 1;
-	token->type = WORLD_WITH_ENV_EXPANSION;
+	token->type = WORD_WITH_ENV_EXPANSION;
 	while ((*str)[i] != quote)
 		i++;
 	token->value = ft_strndup(*str + 1, i - 1);
@@ -65,7 +65,7 @@ void	set_simple_word(char **str, t_token *token)
 	int		i;
 
 	i = 0;
-	token->type = WORLD_WITH_ENV_EXPANSION;
+	token->type = WORD_WITH_ENV_EXPANSION;
 	while ((*str)[i] && (*str)[i] != ' ')
 		i++;
 	token->value = ft_strndup(*str, i);
