@@ -6,13 +6,13 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:31:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 18:34:00 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:04:22 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		count_number_of_commands(t_list_el *tokens)
+int	count_number_of_commands(t_list_el *tokens)
 {
 	int			number_of_commands;
 	t_list_el	*current_el;

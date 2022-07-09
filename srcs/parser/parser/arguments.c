@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:20:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 19:46:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:52:44 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdlib.h>
 
-char *create_base_str(void)
+char	*create_base_str(void)
 {
 	char	*str;
 
@@ -23,7 +23,7 @@ char *create_base_str(void)
 	return (str);
 }
 
-int count_argv_from_tokens(t_command *command)
+int	count_argv_from_tokens(t_command *command)
 {
 	int			i;
 	t_list_el	*current_el;
@@ -40,7 +40,7 @@ int count_argv_from_tokens(t_command *command)
 			continue ;
 		}
 		if (token->type == OUTPUT_SIMPLE_OPERATOR
-			||  token->type == OUTPUT_APPEND_OPERATOR)
+			|| token->type == OUTPUT_APPEND_OPERATOR)
 			break ;
 		if (token->type == SPACE_DELIMITER)
 			i++;
@@ -49,17 +49,16 @@ int count_argv_from_tokens(t_command *command)
 	return (++i);
 }
 
-void set_argv_from_tokens(t_command *command)
+void	set_argv_from_tokens(t_command *command)
 {
 	int			i;
-	int			number_of_arguments;
 	t_list_el	*current_el;
 	t_token		*token;
 	char		*str;
 
 	i = 0;
-	number_of_arguments = count_argv_from_tokens(command);
-	command->argv = malloc(sizeof(char *) * (number_of_arguments + 1));
+	command->argv = malloc(sizeof(char *)
+			* (count_argv_from_tokens(command) + 1));
 	current_el = command->tokens;
 	str = create_base_str();
 	while (current_el)
@@ -71,7 +70,7 @@ void set_argv_from_tokens(t_command *command)
 			continue ;
 		}
 		if (token->type == OUTPUT_SIMPLE_OPERATOR
-		||  token->type == OUTPUT_APPEND_OPERATOR)
+			|| token->type == OUTPUT_APPEND_OPERATOR)
 		{
 			command->argv[i++] = str;
 			str = create_base_str();

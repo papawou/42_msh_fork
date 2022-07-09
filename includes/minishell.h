@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 19:29:09 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:29:18 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_execution_plan	*parse_tokens(t_list_el *tokens);
 
 int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
-void 				set_argv_from_tokens(t_command *command);
+void				set_argv_from_tokens(t_command *command);
 
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);

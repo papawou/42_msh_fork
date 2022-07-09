@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 19:31:08 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 19:50:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_command	*set_tokens_for_command(t_list_el **tokens)
 		{
 			last_el->next = NULL;
 			*tokens = current_el->next;
-			break;
+			break ;
 		}
 		last_el = current_el;
 		current_el = current_el->next;
