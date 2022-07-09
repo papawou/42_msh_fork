@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   delimiter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 17:31:58 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/07/09 17:10:49 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/07/09 17:23:58 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdlib.h>
-
-t_execution_plan	*parse_line(char *line)
+void	set_space_delimiter(char **str, t_token *token)
 {
-	t_execution_plan	*execution_plan;
-	t_list_el			**tokens;
-	char				*tmp;
-
-	execution_plan = init_execution_plan();
-	tmp = trim_space(line);
-	line = tmp;
-	tokens = tokenize_line(line);
-	(void) tokens;
-	return (execution_plan);
+	token->type = SPACE_DELIMITER;
+	*str = &((*str)[1]);
 }

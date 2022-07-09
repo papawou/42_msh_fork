@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   word.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 17:31:58 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/07/09 16:15:21 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/07/09 17:26:47 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdlib.h>
-
-t_execution_plan	*parse_line(char *line)
+void	set_simple_word(char **str, t_token *token)
 {
-	t_execution_plan	*execution_plan;
-	t_list_el			**tokens;
-	char				*tmp;
+	int		i;
 
-	execution_plan = init_execution_plan();
-	tmp = trim_space(line);
-	line = tmp;
-	tokens = tokenize_line(line);
-	(void) tokens;
-	return (execution_plan);
+	i = 0;
+	token->type = WORLD_WITH_ENV_EXPANSION;
+	while ((*str)[i] && (*str)[i] != ' ')
+		i++;
+	token->value = ft_strndup(*str, i);
+	*str = &((*str)[i]);
 }

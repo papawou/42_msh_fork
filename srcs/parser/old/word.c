@@ -2,11 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   word.c                                             :+:      :+:    :+:   */
+
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 12:45:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 15:08:35 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/06/03 12:45:18 by fvarrin           #+#    #+#             *//*   Updated: 2022/07/09 15:42:11 by fvarrin          ###   ########.fr       */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +34,14 @@ t_token	*create_word_token(char *str, int length, _Bool should_expend_variable)
 
 	word = (t_token *)malloc(sizeof(t_token));
 	content = ft_strndup(str, length);
-	word->word = trim_space(content);
-	if (ft_strcmp(word->word, "<") == 0)
+	word->value = trim_space(content);
+	if (ft_strcmp(word->value, "<") == 0)
 		word->type = INPUT_SIMPLE_OPERATOR;
-	else if (ft_strcmp(word->word, "<<") == 0)
+	else if (ft_strcmp(word->value, "<<") == 0)
 		word->type = INPUT_HEREDOC_OPERATOR;
-	else if (ft_strcmp(word->word, ">") == 0)
+	else if (ft_strcmp(word->value, ">") == 0)
 		word->type = OUTPUT_SIMPLE_OPERATOR;
-	else if (ft_strcmp(word->word, ">>") == 0)
+	else if (ft_strcmp(word->value, ">>") == 0)
 		word->type = OUTPUT_APPEND_OPERATOR;
 	else
 	{
@@ -59,7 +60,7 @@ t_token	*create_word_token(char *str, int length, _Bool should_expend_variable)
  */
 void	delete_word_token(void *word)
 {
-	free(((t_token *)word)->word);
+	free(((t_token *)word)->value);
 	free(word);
 }
 

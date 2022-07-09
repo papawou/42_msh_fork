@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/06 17:20:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:35:22 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ typedef enum e_error_codes {
 }	t_error_codes;
 
 typedef enum e_token_type {
-	WORLD_WITH_ENV_EXPENSION,
-	WORLD_WITHOUT_ENV_EXPENSION,
+	WORLD_WITH_ENV_EXPANSION,
+	WORLD_WITHOUT_ENV_EXPANSION,
 	OUTPUT_SIMPLE_OPERATOR,
 	OUTPUT_APPEND_OPERATOR,
 	INPUT_SIMPLE_OPERATOR,
-	INPUT_HEREDOC_OPERATOR
+	INPUT_HEREDOC_OPERATOR,
+	SPACE_DELIMITER,
+	PIPE
 }	t_token_type;
 
 typedef struct s_command {
@@ -45,7 +47,7 @@ typedef struct s_command {
 }	t_command;
 
 typedef struct s_token {
-	char			*word;
+	char			*value;
 	t_token_type	type;
 }	t_token;
 
@@ -54,28 +56,28 @@ typedef struct s_execution_plan {
 	int			number_of_commands;
 }	t_execution_plan;
 
-/* Utils */
+/** Utils **/
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 
-/* Prompter */
+/** Prompter **/
 void				print_welcome_message(void);
 char				*prompt(char *line_read);
 
-/* Parser */
-t_execution_plan	*init_execution_plan(int number_of_commands);
-void				destroy_execution_plan(t_execution_plan *execution_plan);
-
-t_command			*init_command(void);
-t_command			*set_command_argv(t_command *command);
-void				destroy_command(t_command *command);
-
-t_list_el			*get_io_from_words(t_list_el *words, t_command *command);
-
+/** Parser **/
 t_execution_plan	*parse_line(char *line);
 
-void				delete_word_token(void *word);
-t_list_el			*split_into_words(t_list_el *words, char *command_as_str);
+/* Builder */
+t_execution_plan	*init_execution_plan(void);
+void				destroy_execution_plan(t_execution_plan *execution_plan);
+t_token				*init_token(void);
+
+/* Tokenizer */
+t_list_el			*tokenize_line(char *line);
+void				set_simple_word(char **str, t_token *token);
+void				set_space_delimiter(char **str, t_token *token);
+
+_Bool				has_more_tokens(char *str);
 
 /* Executor */
 int					execute_plan(t_execution_plan *execution_plan);
