@@ -25,7 +25,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c\
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
 				executor/executor.c executor/pipes.c executor/processes.c executor/io.c \
-				prompter/prompt.c \
+				prompter/prompt.c prompter/signal_handlers.c \
 				common/utils.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell

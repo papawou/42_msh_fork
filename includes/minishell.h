@@ -64,13 +64,19 @@ int					open_file(char *path, int flags);
 void				print_welcome_message(void);
 char				*prompt(char *line_read);
 
+/* Signals */
+void				configure_termios(void);
+void				set_parent_signals(void);
+void				set_child_signals(void);
+void				unset_parent_signals(void);
+
 /** Parser **/
 t_execution_plan	*parse_line(char *line);
 
 /* Builder */
 t_execution_plan	*init_execution_plan(int number_of_commands);
 void				destroy_execution_plan(t_execution_plan *execution_plan);
-t_token				*init_token(void);
+
 t_command			*init_command(void);
 
 /* Tokenizer */
