@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/11 14:38:39 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/17 12:07:09 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	run_prompt(void)
 
 int	main(int argc, __attribute__((unused)) char **argv)
 {
-
 	if (argc != 1)
 	{
 		print_usage();
