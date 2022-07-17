@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 19:29:18 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/17 12:31:22 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_execution_plan	*parse_line(char *line);
 t_execution_plan	*init_execution_plan(int number_of_commands);
 void				destroy_execution_plan(t_execution_plan *execution_plan);
 
+t_token				*init_token(void);
 t_command			*init_command(void);
 
 /* Tokenizer */
