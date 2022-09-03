@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 18:53:42 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/17 12:40:12 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_execution_plan	*parse_line(char *line)
 	tmp = trim_space(line);
 	line = tmp;
 	tmp = ft_strjoin(" ", line);
+	line = tmp;
+	tmp = ft_strjoin(line, " ");
 	line = tmp;
 	tokens = tokenize_line(line);
 	// Expand env variable from token here

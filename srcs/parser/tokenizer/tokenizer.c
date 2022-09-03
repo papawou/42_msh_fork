@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:23:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 18:10:50 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/17 12:55:18 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ t_token	*get_next_token(char **str)
 	return (token);
 }
 
+void	add_space_token(t_list_el **list)
+{
+	t_token		*token;
+
+	token = init_token();
+	token->type = SPACE_DELIMITER;
+	ft_lstadd_front(list, ft_lstnew(token));
+}
+
 t_list_el	*tokenize_line(char *line)
 {
 	char		**cursor;
@@ -49,5 +58,7 @@ t_list_el	*tokenize_line(char *line)
 		if (token)
 			ft_lstadd_back(&list, ft_lstnew(token));
 	}
+	if (((t_token *)list->content)->type != SPACE_DELIMITER)
+		add_space_token(&list);
 	return (list);
 }

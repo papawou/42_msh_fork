@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/17 12:31:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/03 16:55:01 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ _Bool				has_more_tokens(char *str);
 
 /* Parser */
 t_execution_plan	*parse_tokens(t_list_el *tokens);
+
+_Bool				verify_tokens(t_list_el *tokens);
 
 int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);

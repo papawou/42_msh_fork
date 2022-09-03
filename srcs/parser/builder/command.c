@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 18:31:32 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/03 15:40:41 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ t_command	*init_command(void)
 	command->in = NULL;
 	command->out = NULL;
 	command->argv = NULL;
+	command->bin = NULL;
 	command->out_in_append_mode = false;
+	command->return_value = 0;
 	return (command);
 }
 
