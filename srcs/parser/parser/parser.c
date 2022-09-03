@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/03 16:24:25 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/03 17:02:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_execution_plan	*parse_tokens(t_list_el *tokens)
 		}
 		set_io_from_tokens(execution_plan->commands[i]);
 		set_argv_from_tokens(execution_plan->commands[i]);
-		execution_plan->commands[i]->bin =
-				ft_strdup(execution_plan->commands[i]->argv[0]);
+		execution_plan->commands[i]->bin
+			= ft_strdup(execution_plan->commands[i]->argv[0]);
 		i++;
 	}
 	return (execution_plan);

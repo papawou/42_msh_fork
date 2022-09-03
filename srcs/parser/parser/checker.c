@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/03 16:40:10 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/03 17:22:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,26 @@ static _Bool	check_for_words(t_list_el *el, int number)
 	while (i < number)
 	{
 		if (el == NULL)
-			return unexpected_token(NULL);
+			return (unexpected_token(NULL));
 		token = (t_token *)el->content;
 		if (token->type == SPACE_DELIMITER)
 		{
 			el = el->next;
-			continue;
+			continue ;
 		}
 		if (token->type != WORD_WITH_ENV_EXPANSION
 			&& token->type != WORD_WITHOUT_ENV_EXPANSION)
-			return unexpected_token(token->value);
+			return (unexpected_token(token->value));
 		el = el->next;
 		i++;
 	}
 	return (true);
 }
 
-static _Bool	verify_input_simple_operator(t_list_el *next_el, t_list_el *previous_el)
+static _Bool	verify_input_simple_operator(
+		t_list_el *next_el,
+		t_list_el *previous_el
+	)
 {
 	int			number_of_words_after;
 	int			number_of_words_before;
@@ -93,13 +96,15 @@ _Bool	verify_tokens(t_list_el *tokens)
 		token = (t_token *)current_el->content;
 		if (token->type == INPUT_SIMPLE_OPERATOR)
 		{
-			if (verify_input_simple_operator(current_el->next, previous_el) == false)
-				return false;
+			if (verify_input_simple_operator(current_el->next, previous_el)
+				== false)
+				return (false);
 		}
-		if (token->type == OUTPUT_SIMPLE_OPERATOR || token->type == OUTPUT_APPEND_OPERATOR)
+		if (token->type == OUTPUT_SIMPLE_OPERATOR
+			|| token->type == OUTPUT_APPEND_OPERATOR)
 		{
 			if (verify_output_operator(current_el->next) == false)
-				return false;
+				return (false);
 		}
 		previous_el = current_el;
 		current_el = current_el->next;
