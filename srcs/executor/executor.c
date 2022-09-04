@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/17 12:06:57 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 15:01:32 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ static char	**get_env_paths(void)
 	return (paths);
 }
 
+/**
+ *
+ * Find the command full path with the PATH env variable.
+ * Return null if doesn't exist
+ *
+ * @param {t_command *} command
+ *
+ * @return {char *} path
+ */
 static char	*get_path_if_exist(t_command *command)
 {
 	int		i;
@@ -51,11 +60,10 @@ static char	*get_path_if_exist(t_command *command)
 
 	i = 0;
 	paths = get_env_paths();
+	bin = ft_strjoin("/", command->bin);
 	while (paths[i])
 	{
-		bin = ft_strjoin("/", command->bin);
 		bin_path = ft_strjoin(paths[i], bin);
-		free(bin);
 		free(paths[i]);
 		if (access(bin_path, X_OK) == F_OK)
 			break ;
@@ -66,14 +74,14 @@ static char	*get_path_if_exist(t_command *command)
 		}
 		i++;
 	}
+	free(bin);
 	free(paths);
 	return (bin_path);
 }
 
 /**
  *
- * Find the command full path with the PATH env variable.
- * Return null if doesn't exist
+ * Try path for local directory otherwise try PATH variables
  *
  * @param {t_program *} command
  *

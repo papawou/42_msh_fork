@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:14:09 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:42:47 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 14:26:25 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,19 @@ int	open_file(char *path, int flags)
 	if (fd < 0)
 		exit(ERR_OPENING_FILE);
 	return (fd);
+}
+
+/**
+ *
+ * Create a str of one null character on the heap that can be free
+ *
+ * @return  {char *} str
+ */
+char	*create_base_str(void)
+{
+	char	*str;
+
+	str = malloc(sizeof(char));
+	str[0] = '\0';
+	return (str);
 }

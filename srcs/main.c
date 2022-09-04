@@ -23,6 +23,12 @@ void	print_usage(void)
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
 }
 
+/**
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ */
+
 void	run_prompt(void)
 {
 	t_execution_plan	*execution_plan;
@@ -39,6 +45,8 @@ void	run_prompt(void)
 		{
 			unset_parent_signals();
 			execution_plan = parse_line(line_read);
+			if (execution_plan == NULL)
+				continue ;
 			execute_plan(execution_plan);
 			destroy_execution_plan(execution_plan);
 			set_parent_signals();

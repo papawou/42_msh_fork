@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 15:45:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/29 17:00:31 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/07/09 18:27:44 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ t_execution_plan	*init_execution_plan(int number_of_commands)
  */
 void	destroy_execution_plan(t_execution_plan *execution_plan)
 {
-	int		i;
-
-	i = 0;
-	while (i < execution_plan->number_of_commands)
-		destroy_command(execution_plan->commands[i++]);
 	free(execution_plan->commands);
 	free(execution_plan);
 }
