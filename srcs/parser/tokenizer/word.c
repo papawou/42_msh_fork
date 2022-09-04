@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 16:15:21 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 19:16:02 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 15:21:50 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 #include <stdbool.h>
 
+/**
+ *
+ * Check that there is no unclosed quote in str
+ *
+ * @param {char *} str
+ *
+ * @return {_Bool}
+ */
 _Bool	check_quote_closed(char *str)
 {
 	int		i;
@@ -38,6 +46,12 @@ _Bool	check_quote_closed(char *str)
 	return (true);
 }
 
+/**
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ * @param {char} quote
+ */
 void	_set_quoted_word(char **str, t_token *token, char quote)
 {
 	int		i;
@@ -50,16 +64,33 @@ void	_set_quoted_word(char **str, t_token *token, char quote)
 	*str = &((*str)[i + 1]);
 }
 
+/**
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ */
 void	set_double_quote_word(char **str, t_token *token)
 {
 	_set_quoted_word(str, token, '"');
 }
 
+/**
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ */
 void	set_single_quote_word(char **str, t_token *token)
 {
 	_set_quoted_word(str, token, '\'');
 }
 
+/**
+ *
+ * Set given token to simple word
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ */
 void	set_simple_word(char **str, t_token *token)
 {
 	int		i;

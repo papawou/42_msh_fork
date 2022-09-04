@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 16:09:53 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/09 17:33:17 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 15:02:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 #include <stdlib.h>
 
+/**
+ * Allocate memory for a token
+ *
+ * @return {t_token *} token
+ */
 t_token	*init_token(void)
 {
 	t_token		*token;
@@ -25,6 +30,14 @@ t_token	*init_token(void)
 	return (token);
 }
 
+/**
+ *
+ * Free all token memory
+ *
+ * @param token
+ *
+ * @return  {t_token *}
+ */
 t_token	*destroy_token(t_token *token)
 {
 	if (token->value != NULL)

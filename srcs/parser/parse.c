@@ -15,6 +15,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+/**
+ *
+ * @param {char *} line
+ *
+ * @return {t_execution_plan *}
+ */
 t_execution_plan	*parse_line(char *line)
 {
 	t_execution_plan	*execution_plan;

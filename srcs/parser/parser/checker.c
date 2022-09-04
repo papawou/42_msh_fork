@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 14:25:26 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 15:09:54 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 #include "minishell.h"
 
+/**
+ *
+ * Display error message and return false for the calling function
+ *
+ * @param {char *} value
+ *
+ * @return {_Bool} always false
+ */
 _Bool	unexpected_token(char *value)
 {
 	if (value == NULL)
@@ -23,6 +31,15 @@ _Bool	unexpected_token(char *value)
 	return (false);
 }
 
+/**
+ *
+ * Check that there is number of words after el
+ *
+ * @param {t_list_el *} el
+ * @param {int} number
+ *
+ * @return {_Bool}
+ */
 static _Bool	check_for_words(t_list_el *el, int number)
 {
 	t_token	*token;
@@ -47,6 +64,14 @@ static _Bool	check_for_words(t_list_el *el, int number)
 	return (true);
 }
 
+/**
+ *
+ * Check rules for simple input operator
+ *
+ * @param {t_list_el *} next_el
+ *
+ * @return {_Bool} is_valid
+ */
 static _Bool	verify_input_simple_operator(
 		t_list_el *next_el,
 		t_list_el *previous_el
@@ -72,6 +97,14 @@ static _Bool	verify_input_simple_operator(
 	return (true);
 }
 
+/**
+ *
+ * Check rules for output operator
+ *
+ * @param {t_list_el *} next_el
+ *
+ * @return {_Bool} is_valid
+ */
 static _Bool	verify_output_operator(t_list_el *next_el)
 {
 	int			number_of_words_after;
@@ -82,6 +115,14 @@ static _Bool	verify_output_operator(t_list_el *next_el)
 	return (true);
 }
 
+/**
+ * Verify that tokens are valid following some rules. For instance a output
+ * operator need to be followed by a word
+ *
+ * @param {t_list_el *} tokens
+ *
+ * @return {_Bool} is_valid
+ */
 _Bool	verify_tokens(t_list_el *tokens)
 {
 	t_list_el	*current_el;

@@ -23,6 +23,12 @@ void	print_usage(void)
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
 }
 
+/**
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ */
+
 void	run_prompt(void)
 {
 	t_execution_plan	*execution_plan;

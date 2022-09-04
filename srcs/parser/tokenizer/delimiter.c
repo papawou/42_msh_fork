@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/**
+ * Set a token as space delimiter
+ *
+ * @param {char **} str
+ * @param {t_token *} token
+ */
 void	set_space_delimiter(char **str, t_token *token)
 {
 	token->type = SPACE_DELIMITER;

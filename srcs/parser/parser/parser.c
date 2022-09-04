@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 14:46:58 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 15:13:00 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 #include "minishell.h"
 
+/**
+ *
+ * Create a command and attach the correct tokens to it
+ *
+ * @param {t_list_el **} tokens
+ *
+ * @return {t_command *}
+ */
 t_command	*set_tokens_for_command(t_list_el **tokens)
 {
 	t_command	*command;
@@ -39,6 +47,15 @@ t_command	*set_tokens_for_command(t_list_el **tokens)
 	return (command);
 }
 
+/**
+ *
+ * Count the number of argv for a command
+ * @TODO verify that always true with different syntax of input operator
+ *
+ * @param {t_command *} command
+ *
+ * @return {int} number_of_argv
+ */
 int	count_argv(t_command *command)
 {
 	int			i;
@@ -65,6 +82,15 @@ int	count_argv(t_command *command)
 	return (++i);
 }
 
+/**
+ *
+ * Get the tokens and verify them, create the commands with io and argv and
+ * attach them to a created execution_plan
+ *
+ * @param {t_list_el *} tokens
+ *
+ * @return {t_execution_plan *}
+ */
 t_execution_plan	*parse_tokens(t_list_el *tokens)
 {
 	int					i;

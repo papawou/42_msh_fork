@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/**
+ *
+ * Count the number of commands from the tokens using number of pipes + 1
+ *
+ * @param {t_list_el *} tokens
+ * @return {int} number_of_commands
+ */
 int	count_number_of_commands(t_list_el *tokens)
 {
 	int			number_of_commands;
