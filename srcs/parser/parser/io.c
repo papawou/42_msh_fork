@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/17 12:42:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 14:16:40 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	handle_io_token(
 			t_list_el *current_el
 			)
 {
-	if (token->type == INPUT_SIMPLE_OPERATOR)
+	if (token->type == I_SIMPLE_OP)
 		command->in = ft_strdup(((t_token *)current_el->next->content)->value);
-	else if (token->type == OUTPUT_SIMPLE_OPERATOR)
+	else if (token->type == O_SIMPLE_OP)
 		command->out = ft_strdup(((t_token *)current_el->next->content)->value);
-	else if (token->type == OUTPUT_APPEND_OPERATOR)
+	else if (token->type == O_APPEND_OP)
 	{
 		command->out = ft_strdup(
 				((t_token *)current_el->next->next->content)->value);
@@ -60,8 +60,8 @@ void	set_io_from_tokens(t_command *command)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (token->type == WORD_WITHOUT_ENV_EXPANSION
-			|| token->type == WORD_WITH_ENV_EXPANSION
+		if (token->type == WORD_WO_ENV_EXP
+			|| token->type == WORD_W_ENV_EXP
 			|| token->type == SPACE_DELIMITER)
 		{
 			current_el = current_el->next;

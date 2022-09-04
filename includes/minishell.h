@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/03 16:55:01 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 14:27:17 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ typedef enum e_error_codes {
 }	t_error_codes;
 
 typedef enum e_token_type {
-	WORD_WITH_ENV_EXPANSION,
-	WORD_WITHOUT_ENV_EXPANSION,
-	OUTPUT_SIMPLE_OPERATOR,
-	OUTPUT_APPEND_OPERATOR,
-	INPUT_SIMPLE_OPERATOR,
-	INPUT_HEREDOC_OPERATOR,
+	WORD_W_ENV_EXP,
+	WORD_WO_ENV_EXP,
+	O_SIMPLE_OP,
+	O_APPEND_OP,
+	I_SIMPLE_OP,
+	I_HEREDOC_OP,
 	SPACE_DELIMITER,
 	PIPE
 }	t_token_type;
@@ -59,6 +59,7 @@ typedef struct s_execution_plan {
 /** Utils **/
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
+char				*create_base_str(void);
 
 /** Prompter **/
 void				print_welcome_message(void);
@@ -105,7 +106,7 @@ _Bool				verify_tokens(t_list_el *tokens);
 
 int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
-void				set_argv_from_tokens(t_command *command);
+void				set_argv_from_tokens(t_command *command, char **str);
 
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);

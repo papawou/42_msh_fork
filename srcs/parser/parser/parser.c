@@ -6,9 +6,11 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/03 17:02:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 14:46:58 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 #include "minishell.h"
 
@@ -37,16 +39,43 @@ t_command	*set_tokens_for_command(t_list_el **tokens)
 	return (command);
 }
 
+int	count_argv(t_command *command)
+{
+	int			i;
+	t_list_el	*current_el;
+	t_token		*token;
+
+	i = 0;
+	current_el = command->tokens;
+	while (current_el)
+	{
+		token = (t_token *)current_el->content;
+		if (token->type == I_SIMPLE_OP)
+		{
+			current_el = current_el->next->next;
+			continue ;
+		}
+		if (token->type == O_SIMPLE_OP
+			|| token->type == O_APPEND_OP)
+			break ;
+		if (token->type == SPACE_DELIMITER)
+			i++;
+		current_el = current_el->next;
+	}
+	return (++i);
+}
+
 t_execution_plan	*parse_tokens(t_list_el *tokens)
 {
 	int					i;
 	int					number_of_commands;
 	t_execution_plan	*execution_plan;
+	char				*str;
 
 	number_of_commands = count_number_of_commands(tokens);
 	execution_plan = init_execution_plan(number_of_commands);
-	i = 0;
-	while (i < number_of_commands)
+	i = -1;
+	while (++i < number_of_commands)
 	{
 		execution_plan->commands[i] = set_tokens_for_command(&tokens);
 		if (!verify_tokens(execution_plan->commands[i]->tokens))
@@ -55,10 +84,12 @@ t_execution_plan	*parse_tokens(t_list_el *tokens)
 			return (NULL);
 		}
 		set_io_from_tokens(execution_plan->commands[i]);
-		set_argv_from_tokens(execution_plan->commands[i]);
+		execution_plan->commands[i]->argv = malloc(sizeof(char *)
+				* (count_argv(execution_plan->commands[i]) + 1));
+		str = create_base_str();
+		set_argv_from_tokens(execution_plan->commands[i], &str);
 		execution_plan->commands[i]->bin
 			= ft_strdup(execution_plan->commands[i]->argv[0]);
-		i++;
 	}
 	return (execution_plan);
 }

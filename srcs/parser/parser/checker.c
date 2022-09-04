@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/03 17:22:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/04 14:25:26 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static _Bool	check_for_words(t_list_el *el, int number)
 			el = el->next;
 			continue ;
 		}
-		if (token->type != WORD_WITH_ENV_EXPANSION
-			&& token->type != WORD_WITHOUT_ENV_EXPANSION)
+		if (token->type != WORD_W_ENV_EXP && token->type != WORD_WO_ENV_EXP)
 			return (unexpected_token(token->value));
 		el = el->next;
 		i++;
@@ -94,14 +93,13 @@ _Bool	verify_tokens(t_list_el *tokens)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (token->type == INPUT_SIMPLE_OPERATOR)
+		if (token->type == I_SIMPLE_OP)
 		{
 			if (verify_input_simple_operator(current_el->next, previous_el)
 				== false)
 				return (false);
 		}
-		if (token->type == OUTPUT_SIMPLE_OPERATOR
-			|| token->type == OUTPUT_APPEND_OPERATOR)
+		if (token->type == O_SIMPLE_OP || token->type == O_APPEND_OP)
 		{
 			if (verify_output_operator(current_el->next) == false)
 				return (false);

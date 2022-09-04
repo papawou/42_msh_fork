@@ -43,7 +43,7 @@ void	_set_quoted_word(char **str, t_token *token, char quote)
 	int		i;
 
 	i = 1;
-	token->type = WORD_WITH_ENV_EXPANSION;
+	token->type = WORD_W_ENV_EXP;
 	while ((*str)[i] != quote)
 		i++;
 	token->value = ft_strndup(*str + 1, i - 1);
@@ -65,7 +65,7 @@ void	set_simple_word(char **str, t_token *token)
 	int		i;
 
 	i = 0;
-	token->type = WORD_WITH_ENV_EXPANSION;
+	token->type = WORD_W_ENV_EXP;
 	while ((*str)[i] && (*str)[i] != ' ')
 		i++;
 	token->value = ft_strndup(*str, i);
