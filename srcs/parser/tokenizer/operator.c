@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:38:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:14:53 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/17 14:38:00 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
  */
 _Bool	is_an_operator(char *str)
 {
-	if (str[0] != ' ')
-		return (false);
 	if (is_a_pipe(str))
 		return (true);
 	if (is_a_simple_output(str))
@@ -36,6 +34,31 @@ _Bool	is_an_operator(char *str)
 	if (is_a_heredoc_input(str))
 		return (true);
 	return (false);
+}
+
+/**
+ * Return true if is an operator symbol (`<`, `>` or `|`)
+ * @param {char} c
+ *
+ * @return {_Bool}
+ */
+_Bool	is_operator_symbol(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (true);
+	return (false);
+}
+
+/**
+ * Move the string until is neither an operator symbol nor a space
+ * and re-assign the string pointer to the new position
+ *
+ * @param {char **} str
+ */
+void	eat_operator(char **str)
+{
+	while (is_operator_symbol(**str) || **str == ' ')
+		*str = &((*str)[1]);
 }
 
 /**
@@ -56,5 +79,5 @@ void	set_operator(char **str, t_token *token)
 		token->type = I_SIMPLE_OP;
 	else if (is_a_heredoc_input(*str) == true)
 		token->type = I_HEREDOC_OP;
-	*str = &((*str)[3]);
+	eat_operator(str);
 }
