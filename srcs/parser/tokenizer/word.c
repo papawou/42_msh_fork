@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 16:15:21 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:21:50 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/17 14:24:53 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	set_simple_word(char **str, t_token *token)
 
 	i = 0;
 	token->type = WORD_W_ENV_EXP;
-	while ((*str)[i] && (*str)[i] != ' ')
+	while ((*str)[i] && (*str)[i] != ' ' && !is_operator_symbol((*str)[i]))
 		i++;
 	token->value = ft_strndup(*str, i);
 	*str = &((*str)[i]);

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:24:11 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:16:55 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/17 14:29:35 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 _Bool	is_a_simple_output(char *str)
 {
-	if (str[1] == '>' && str[2] == ' ')
+	if (str[0] == '>')
 		return (true);
 	return (false);
 }
@@ -34,7 +34,7 @@ _Bool	is_a_simple_output(char *str)
  */
 _Bool	is_a_append_output(char *str)
 {
-	if (str[1] == '>' && str[2] == '>' && str[3] == ' ')
+	if (str[0] == '>' && str[1] == '>')
 		return (true);
 	return (false);
 }
@@ -46,7 +46,7 @@ _Bool	is_a_append_output(char *str)
  */
 _Bool	is_a_simple_input(char *str)
 {
-	if (str[1] == '<' && str[2] == ' ')
+	if (str[0] == '<')
 		return (true);
 	return (false);
 }
@@ -58,7 +58,7 @@ _Bool	is_a_simple_input(char *str)
  */
 _Bool	is_a_heredoc_input(char *str)
 {
-	if (str[1] == '<' && str[2] == '<' && str[3] == ' ')
+	if (str[0] == '<' && str[1] == '<')
 		return (true);
 	return (false);
 }
@@ -70,7 +70,7 @@ _Bool	is_a_heredoc_input(char *str)
  */
 _Bool	is_a_pipe(char *str)
 {
-	if (str[1] == '|' && str[2] == ' ')
+	if (str[0] == '|')
 		return (true);
 	return (false);
 }

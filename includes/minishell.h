@@ -95,6 +95,7 @@ _Bool				is_a_simple_input(char *str);
 _Bool				is_a_heredoc_input(char *str);
 _Bool				is_a_pipe(char *str);
 _Bool				is_an_operator(char *str);
+_Bool				is_operator_symbol(char c);
 void				set_operator(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
