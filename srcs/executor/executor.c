@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 14:40:12 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 14:41:20 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 static char	**get_env_paths(void)
 {
 	char	**paths;
-	char 	*path_value;
+	char	*path_value;
 
 	path_value = get_env_value("PATH");
 	paths = ft_split(path_value, ':');

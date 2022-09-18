@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 14:41:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 14:19:13 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:00:48 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,67 +15,39 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-_Bool	str_has_env_variable(char *str)
+t_env_variable	*get_env_variable(char *token_value)
 {
-	int		i;
+	t_env_variable	*env_variable;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i++] == '$')
-			return (true);
-	}
-	return (false);
-}
-
-char		*extract_env_variable_key_from_str(char *str)
-{
-	int		i;
-	int		length;
-	char	*start_pos;
-
-	i = 0;
-	length = 0;
-	start_pos = NULL;
-	while (str[i])
-	{
-		if (length > 0 && !ft_isalnum(str[i]))
-			break ;
-		else if (str[i] == '$')
-			start_pos = &(str[i + 1]);
-		else if (start_pos != NULL)
-			length++;
-		i++;
-	}
-	return ft_strndup(start_pos, length);
+	env_variable = malloc(sizeof(t_env_variable));
+	env_variable->token_value = token_value;
+	env_variable->token_value_length = ft_strlen(token_value);
+	env_variable->key = extract_env_variable_key_from_str(token_value);
+	env_variable->key_length = ft_strlen(env_variable->key);
+	env_variable->value = get_env_value(env_variable->key);
+	env_variable->value_length = ft_strlen(env_variable->value);
+	return (env_variable);
 }
 
 void	expend_env_variable(t_token *token)
 {
-	int		i;
-	int		y;
-	int 	z;
-	int		value_length;
-	char	*env_variable;
-	int		env_variable_length;
-	char	*env_variable_value;
-	int		env_variable_value_length;
-	char 	*expanded_value;
+	int				i;
+	int				y;
+	int				z;
+	char			*expanded_value;
+	t_env_variable	*env_variable;
 
-	env_variable = extract_env_variable_key_from_str(token->value);
-	env_variable_length = ft_strlen(env_variable);
-	value_length = ft_strlen(token->value);
-	env_variable_value = get_env_value(env_variable);
-	env_variable_value_length = ft_strlen(env_variable_value);
-	expanded_value = ft_calloc(value_length - env_variable_length + env_variable_value_length, sizeof(char));
+	env_variable = get_env_variable(token->value);
+	expanded_value = ft_calloc(
+			calculate_env_variable_expanded_length(env_variable), sizeof(char));
 	i = 0;
 	y = 0;
 	while (token->value[i] && token->value[i] != '$')
 		expanded_value[y++] = token->value[i++];
 	z = 0;
-	while (env_variable_value[z])
-		expanded_value[y++] = env_variable_value[z++];
-	i += (env_variable_length + 1);
+	while (env_variable->value[z])
+		expanded_value[y++] = env_variable->value[z++];
+	i += (env_variable->key_length + 1);
 	while (token->value[i] && token->value[i] != '$')
 		expanded_value[y++] = token->value[i++];
 	free(token->value);

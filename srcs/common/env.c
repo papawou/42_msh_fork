@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 15:13:27 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 14:40:49 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 14:42:35 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 char	*get_env_value(char *env)
 {
 	int		i;
-	char 	*env_with_eq;
+	char	*env_with_eq;
 	char	*result;
 
 	i = 0;
