@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:01:32 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 14:40:12 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <stdio.h>
 
 /**
@@ -27,18 +26,11 @@
  */
 static char	**get_env_paths(void)
 {
-	int		i;
 	char	**paths;
+	char 	*path_value;
 
-	i = 0;
-	paths = NULL;
-	while (paths == NULL)
-	{
-		if (ft_strncmp(environ[i], "PATH=", 5) == 0)
-			paths = ft_split((environ[i] + 5), ':');
-		else
-			i++;
-	}
+	path_value = get_env_value("PATH");
+	paths = ft_split(path_value, ':');
 	return (paths);
 }
 
@@ -133,7 +125,7 @@ void	execute_command(
 
 /**
  * Execute the all execution plan by creating, and opening the pipes,
- * forking for each command and closing the unnecessary pipes and in each child
+ * forking for each command, closing the unnecessary pipes and in each child
  * process executing the command
  *
  * @param {t_execution_plan *} execution_plan

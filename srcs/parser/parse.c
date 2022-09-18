@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/17 12:40:12 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 14:30:46 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_execution_plan	*parse_line(char *line)
 	tmp = ft_strjoin(line, " ");
 	line = tmp;
 	tokens = tokenize_line(line);
-	// Expand env variable from token here
+	parse_env_variables(tokens);
 	execution_plan = parse_tokens(tokens->next);
 	return (execution_plan);
 }

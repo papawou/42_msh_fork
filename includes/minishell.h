@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 14:27:17 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 14:15:49 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_execution_plan {
 }	t_execution_plan;
 
 /** Utils **/
+char				*get_env_value(char *env);
+
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 char				*create_base_str(void);
@@ -104,6 +106,8 @@ _Bool				has_more_tokens(char *str);
 t_execution_plan	*parse_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
+
+void				parse_env_variables(t_list_el *tokens);
 
 int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
