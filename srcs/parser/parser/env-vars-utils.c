@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:01:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:05:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:07:10 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ *
+ * Check if str contains a $ and so an env variable
+ *
+ * @param {char *} str
+ *
+ * @return {_Bool}
+ */
 _Bool	str_has_env_variable(char *str)
 {
 	int		i;
@@ -28,6 +36,14 @@ _Bool	str_has_env_variable(char *str)
 	return (false);
 }
 
+/**
+ *
+ * Extract the env variable from a str
+ *
+ * @param {char *} str
+ *
+ * @return {char *} env_variable_key
+ */
 char	*extract_env_variable_key_from_str(char *str)
 {
 	int		i;
@@ -50,6 +66,14 @@ char	*extract_env_variable_key_from_str(char *str)
 	return (ft_strndup(start_pos, length));
 }
 
+/**
+ *
+ * Calculate the length of the env variable token value expanded with env variables
+ *
+ * @param {t_env_variable *} env_variable
+ *
+ * @return {int} length
+ */
 int	calculate_env_variable_expanded_length(t_env_variable *env_variable)
 {
 	return (

@@ -6,15 +6,21 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 14:41:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:00:48 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:08:35 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ * Init the t_env_variable from token value
+ *
+ * @param {char *} token_value
+ *
+ * @return {t_env_variable *}
+ */
 t_env_variable	*get_env_variable(char *token_value)
 {
 	t_env_variable	*env_variable;
@@ -29,6 +35,13 @@ t_env_variable	*get_env_variable(char *token_value)
 	return (env_variable);
 }
 
+/**
+ *
+ * Expend the env variable in the token value, only token with env variable
+ * need to be pass to this function
+ *
+ * @param {t_token *} token
+ */
 void	expend_env_variable(t_token *token)
 {
 	int				i;
@@ -54,6 +67,12 @@ void	expend_env_variable(t_token *token)
 	token->value = expanded_value;
 }
 
+/**
+ *
+ * Expand variable in all needed tokens
+ *
+ * @param {t_list_el *} tokens
+ */
 void	parse_env_variables(t_list_el *tokens)
 {
 	t_list_el	*current_el;
