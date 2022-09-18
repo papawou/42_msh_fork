@@ -85,11 +85,7 @@ void	parse_env_variables(t_list_el *tokens)
 		token = (t_token *)current_el->content;
 		while (token->type == WORD_W_ENV_EXP
 			&& str_has_env_variable(token->value))
-		{
-			printf("token value before \"%s\"\n", token->value);
 			expend_env_variable(token);
-			printf("token value after \"%s\"\n", token->value);
-		}
 		current_el = current_el->next;
 	}
 }
