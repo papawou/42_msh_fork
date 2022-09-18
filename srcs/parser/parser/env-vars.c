@@ -6,13 +6,14 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 14:41:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:08:35 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:23:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * Init the t_env_variable from token value
@@ -61,7 +62,7 @@ void	expend_env_variable(t_token *token)
 	while (env_variable->value[z])
 		expanded_value[y++] = env_variable->value[z++];
 	i += (env_variable->key_length + 1);
-	while (token->value[i] && token->value[i] != '$')
+	while (token->value[i])
 		expanded_value[y++] = token->value[i++];
 	free(token->value);
 	token->value = expanded_value;
@@ -82,8 +83,13 @@ void	parse_env_variables(t_list_el *tokens)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (token->type == WORD_W_ENV_EXP && str_has_env_variable(token->value))
+		while (token->type == WORD_W_ENV_EXP
+			&& str_has_env_variable(token->value))
+		{
+			printf("token value before \"%s\"\n", token->value);
 			expend_env_variable(token);
+			printf("token value after \"%s\"\n", token->value);
+		}
 		current_el = current_el->next;
 	}
 }

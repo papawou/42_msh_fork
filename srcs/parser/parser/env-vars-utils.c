@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:01:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:07:10 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:07:31 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*extract_env_variable_key_from_str(char *str)
 
 /**
  *
- * Calculate the length of the env variable token value expanded with env variables
+ * Calculate the length of the env variable token value
+ * expanded with env variables
  *
  * @param {t_env_variable *} env_variable
  *
