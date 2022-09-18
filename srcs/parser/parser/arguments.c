@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:20:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:06:05 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:53:03 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ void	handle_input_simple_for_argv(
  */
 void	set_next_argv_str(t_command *command, char **str, int *i)
 {
-	command->argv[(*i)++] = *str;
-	*str = create_base_str();
+	if (*(str)[0] != '\0')
+	{
+		command->argv[(*i)++] = *str;
+		*str = create_base_str();
+	}
 }
 
 /**

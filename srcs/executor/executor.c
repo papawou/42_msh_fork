@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 14:41:20 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:38:20 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ void	execute_command(
 		perror(program_path);
 		exit(-1);
 	}
-	if (execve(program_path, command->argv, environ) == -1)
+	if (is_a_builtins(command->bin))
+		execute_builtins(command);
+	else if (execve(program_path, command->argv, environ) == -1)
 	{
 		destroy_pipes(execution_plan->number_of_commands, pipes);
 		free(program_path);
