@@ -14,7 +14,6 @@
 
 #include <stdbool.h>
 
-
 /**
  * @param {char *} str
  *

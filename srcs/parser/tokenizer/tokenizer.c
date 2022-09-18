@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
- /**
+/**
   *
   * Return the next token if exist
   *
   * @param {char *} str
   *
   * @return {t_token *} token
-  */
+ */
 t_token	*get_next_token(char **str)
 {
 	t_token		*token;

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 14:27:17 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:03:11 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,18 @@ typedef struct s_execution_plan {
 	int			number_of_commands;
 }	t_execution_plan;
 
+typedef struct s_env_variable {
+	char	*token_value;
+	int		token_value_length;
+	char	*key;
+	int		key_length;
+	char	*value;
+	int		value_length;
+}	t_env_variable;
+
 /** Utils **/
+char				*get_env_value(char *env);
+
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 char				*create_base_str(void);
@@ -104,6 +115,12 @@ _Bool				has_more_tokens(char *str);
 t_execution_plan	*parse_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
+
+void				parse_env_variables(t_list_el *tokens);
+_Bool				str_has_env_variable(char *str);
+char				*extract_env_variable_key_from_str(char *str);
+int					calculate_env_variable_expanded_length(
+						t_env_variable *env_variable);
 
 int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
