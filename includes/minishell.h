@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:03:11 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/18 15:36:24 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,10 @@ void				route_command_io(
 						int index,
 						int number_of_commands
 						);
+
+_Bool				is_a_builtins(char *bin);
+void				execute_builtins(t_command *command);
+
+void				execute_echo(t_command *command);
 
 #endif

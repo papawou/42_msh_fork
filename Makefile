@@ -26,6 +26,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c \
 				executor/executor.c executor/pipes.c executor/processes.c executor/io.c \
+				executor/builtins.c executor/builtins/echo.c \
 				prompter/prompt.c prompter/signal_handlers.c \
 				common/utils.c common/env.c)
 OBJ			= $(SRC:.c=.o)
