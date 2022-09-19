@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:37:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:37:56 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,8 @@ char	*prompt(char *line_read)
 {
 	char	*prompt_name;
 
-	if (line_read)
-	{
-		free(line_read);
+	if (line_read != NULL)
 		line_read = NULL;
-	}
 	prompt_name = get_prompt_name();
 	line_read = readline(prompt_name);
 	free(prompt_name);

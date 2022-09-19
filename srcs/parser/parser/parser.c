@@ -6,13 +6,13 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:13:00 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "minishell.h"
+
+#include <stdlib.h>
 
 /**
  *
@@ -109,6 +109,8 @@ t_execution_plan	*parse_tokens(t_list_el *tokens)
 			destroy_execution_plan(execution_plan);
 			return (NULL);
 		}
+		if (has_heredoc_token(execution_plan->commands[i]->tokens))
+			handle_heredoc_input(execution_plan->commands[i]);
 		set_io_from_tokens(execution_plan->commands[i]);
 		execution_plan->commands[i]->argv = malloc(sizeof(char *)
 				* (count_argv(execution_plan->commands[i]) + 1));
@@ -116,6 +118,7 @@ t_execution_plan	*parse_tokens(t_list_el *tokens)
 		set_argv_from_tokens(execution_plan->commands[i], &str);
 		execution_plan->commands[i]->bin
 			= ft_strdup(execution_plan->commands[i]->argv[0]);
+		free(str);
 	}
 	return (execution_plan);
 }

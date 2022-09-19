@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
 /*   Updated: 2022/09/24 19:09:38 by kmendes          ###   ########.fr       */
@@ -132,7 +132,7 @@ void	execute_command(
 }
 
 /**
- * Execute the all execution plan by creating, and opening the pipes,
+ * Execute the full execution plan by creating, and opening the pipes,
  * forking for each command, closing the unnecessary pipes and in each child
  * process executing the command
  *

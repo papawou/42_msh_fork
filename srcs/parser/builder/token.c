@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 16:09:53 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:02:37 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ t_token	*init_token(void)
  *
  * @return  {t_token *}
  */
-t_token	*destroy_token(t_token *token)
+void	destroy_token(void *token_arg)
 {
+	t_token	*token;
+
+	token = (t_token *)token_arg;
+	if (token == NULL)
+		return ;
 	if (token->value != NULL)
 		free(token->value);
 	free(token);
-	return (NULL);
 }

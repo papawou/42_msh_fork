@@ -25,7 +25,8 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c\
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c \
-				executor/executor.c executor/pipes.c executor/processes.c executor/io.c \
+ 				parser/parser/heredoc.c \
+				executor/executor.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c \
 				executor/builtins.c executor/builtins/echo.c \
 				prompter/prompt.c prompter/signal_handlers.c \
 				environ/environ.c environ/environ-2d.c environ/environ-getters.c \

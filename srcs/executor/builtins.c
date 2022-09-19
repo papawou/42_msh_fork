@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:32:32 by fvarrin           #+#    #+#             */
 /*   Updated: 2022/09/23 13:04:21 by kmendes          ###   ########.fr       */
@@ -13,6 +13,8 @@
 #include "minishell.h"
 
 #include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 _Bool	is_a_builtins(char *bin)
 {
