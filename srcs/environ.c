@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 01:22:37 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 11:53:23 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 12:03:22 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,21 +103,16 @@ char	*getdup_environ_el_value(char *key, t_list_el *entry)
 
 char	**t_list_environ_el_to_char_2d(t_list_el *entry)
 {
-	char		**dst;
-	int			size;
-	t_list_el	el;
-	char		*buf;
-	
-	size = ft_lstsize(entry);
-	dst = malloc(sizeof(char *) * (size + 1));
+	char	**dst;
+	int	i;
+
+	dst = malloc(sizeof(char *) * (ft_lstsize(entry) + 1));
 	if (dst == NULL)
 		return (NULL);
-	dst[size] = NULL;
-
-	int i = 0;
+	ft_bzero(dst, sizeof(char *) * (ft_lstsize(entry) + 1));
+	i = 0;
 	while (entry)
 	{
-		dst[i] = NULL;
 		dst[i] = ft_strjoin_and_free(ft_strjoin(((t_environ_el *)entry->content)->key, "="), ft_strdup(((t_environ_el *)entry->content)->value));
 		entry = entry->next;
 		if (dst[i] == NULL)
