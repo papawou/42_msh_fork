@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 15:13:27 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 14:42:35 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/23 14:25:26 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,9 @@
  */
 char	*get_env_value(char *env)
 {
-	int		i;
-	char	*env_with_eq;
 	char	*result;
 
-	i = 0;
-	result = NULL;
-	env_with_eq = ft_strjoin(env, "=");
-	while (result == NULL && environ[i] != NULL)
-	{
-		if (ft_strncmp(environ[i], env_with_eq, ft_strlen(env_with_eq)) == 0)
-			result = ft_strdup(environ[i] + ft_strlen(env_with_eq));
-		else
-			i++;
-	}
+	result = getdup_environ_el_value(g_environ, env);
 	if (result == NULL)
 		result = ft_strdup("");
 	return (result);

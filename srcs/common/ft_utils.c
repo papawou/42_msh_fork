@@ -6,17 +6,17 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:01:32 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 11:23:55 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 14:25:41 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
 /**
- * ft_lstdel
  * delete an item in the list and set next correctly
  */
-void	ft_lstdel(t_list_el **lst, t_list_el *item, void (*del)(void *))
+void	ft_lstremove(t_list_el **lst, t_list_el *item, void (*del)(void *))
 {
 	t_list_el	*tmp;
 
@@ -39,4 +39,35 @@ void	ft_lstdel(t_list_el **lst, t_list_el *item, void (*del)(void *))
 		}
 		tmp = tmp->next;
 	}
+}
+
+t_list_el *ft_lstfind_by_content(t_list_el *entry, void *content)
+{
+	if (entry == NULL || content == NULL)
+		return (NULL);
+	while (entry)
+	{
+		if (entry->content == content)
+			return (entry);
+		entry = entry->next;
+	}
+	return (NULL);
+}
+
+/**
+ * free 2d array until src[i] == NULL 
+ */
+void	free_char_2d(char **src)
+{
+	int	i;
+	
+	if (src == NULL)
+		return ;
+	i = 0;
+	while (src[i])
+	{
+		free(src[i]);
+		++i;
+	}
+	free(src);
 }

@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 02:18:26 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 14:24:19 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 #include "libft.h"
 #include "minishell.h"
+
+t_list_el *g_environ = NULL;
 
 void	print_usage(void)
 {

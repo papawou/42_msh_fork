@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+         #
+#    By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 10:27:38 by fvarrin           #+#    #+#              #
-#    Updated: 2022/02/17 13:55:47 by fvarrin          ###   ########.fr        #
+#    Updated: 2022/09/23 14:21:09 by kmendes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
 				executor/executor.c executor/pipes.c executor/processes.c executor/io.c \
 				executor/builtins.c executor/builtins/echo.c \
 				prompter/prompt.c prompter/signal_handlers.c \
-				common/utils.c common/env.c)
+				common/utils.c common/env.c common/ft_utils.c\
+				environ.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette
