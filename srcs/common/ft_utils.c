@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:01:32 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 11:08:34 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 11:23:55 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * ft_lstdel
  * delete an item in the list and set next correctly
  */
-void ft_lstdel(t_list_el **lst, t_list_el *item, void (*del)(void *))
+void	ft_lstdel(t_list_el **lst, t_list_el *item, void (*del)(void *))
 {
 	t_list_el	*tmp;
 

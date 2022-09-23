@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 02:17:04 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 11:25:43 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,16 +155,22 @@ void				execute_builtins(t_command *command);
 
 void				execute_echo(t_command *command);
 
-// environ.c - custom env vars
-
+// environ.c
 typedef struct s_environ_el {
-	char *key;
-	int	key_len;
-	char *value;
-	int value_len;
-} t_environ_el;
+	char	*key;
+	int		key_len;
+	char	*value;
+	int		value_len;
+}	t_environ_el;
 
-t_environ_el	*create_environ_el(char *key_value);
+void				del_environ_el(void *el);
+t_environ_el		*create_environ_el(char *key_value);
 t_list_el			*parse_environ(void);
+t_environ_el		*get_environ_el(char *key, t_list_el *entry);
+char				*getdup_environ_el_value(char *key, t_list_el *entry);
+
+// common/ft_utils.c
+void				ft_lstdel(t_list_el **lst, t_list_el *item,
+						void (*del)(void *));
 
 #endif

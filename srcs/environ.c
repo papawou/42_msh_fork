@@ -6,19 +6,12 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 01:22:37 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 11:10:48 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 11:24:22 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-
-typedef struct s_environ_el {
-	char *key;
-	int	key_len;
-	char *value;
-	int value_len;
-} t_environ_el;
 
 /**
  * use it for ft_lstdel(..., void (*del)(void *)) 
@@ -39,7 +32,7 @@ void	del_environ_el(void *el)
 t_environ_el	*create_environ_el(char *key_value)
 {
 	t_environ_el	*dst;	
-	int						idx;
+	int				idx;
 
 	if (key_value == NULL)
 		return (NULL);
@@ -62,10 +55,10 @@ t_environ_el	*create_environ_el(char *key_value)
  * return value is NULL if environ vars is empty /== environ[0] == NULL
  */
 
-t_list_el *parse_environ(void)
+t_list_el	*parse_environ(void)
 {
-	int						i;
-	t_list_el			*lst;
+	int				i;
+	t_list_el		*lst;
 
 	i = 0;
 	lst = NULL;
@@ -96,14 +89,14 @@ t_environ_el	*get_environ_el(char *key, t_list_el *entry)
 
 /**
  * dup t_environ_el->value if key == t_environ_el.key
- * return NULL if key not found
+ * return NULL if key not found //?ft_strdup("")
  */
 char	*getdup_environ_el_value(char *key, t_list_el *entry)
 {
 	t_environ_el	*tmp;
-	
+
 	tmp = get_environ_el(key, entry);
 	if (tmp == NULL)
-		return (NULL); //?ft_strdup("")
+		return (NULL);
 	return (ft_strdup(tmp->value));
 }
