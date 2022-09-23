@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:01:32 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 14:25:41 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 17:37:24 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_lstremove(t_list_el **lst, t_list_el *item, void (*del)(void *))
 	}
 }
 
-t_list_el *ft_lstfind_by_content(t_list_el *entry, void *content)
+t_list_el	*ft_lstfind_by_content(t_list_el *entry, void *content)
 {
 	if (entry == NULL || content == NULL)
 		return (NULL);
@@ -60,7 +60,7 @@ t_list_el *ft_lstfind_by_content(t_list_el *entry, void *content)
 void	free_char_2d(char **src)
 {
 	int	i;
-	
+
 	if (src == NULL)
 		return ;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 16:33:32 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 17:32:01 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "libft.h"
 
 extern char	**environ;
-extern t_list_el *g_environ;
+extern t_list_el	*g_environ;
 
 typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
@@ -164,17 +164,18 @@ typedef struct s_environ_el {
 	int		value_len;
 }	t_environ_el;
 
-void	del_environ_el(void *el);
-void	add_environ_el(t_list_el **entry, char *key_value);
-t_environ_el	*create_environ_el(char *key_value);
-t_environ_el	*get_environ_el(t_list_el *entry, char *key);
-char	*getdup_environ_el_value(t_list_el *entry, char *key);
-t_list_el	*parse_environ(void);
-char	**t_list_environ_el_to_char_2d(t_list_el *entry);
+void				del_environ_el(void *el);
+void				add_environ_el(t_list_el **entry, char *key_value);
+t_environ_el		*create_environ_el(char *key_value);
+t_environ_el		*get_environ_el(t_list_el *entry, char *key);
+char				*getdup_environ_el_value(t_list_el *entry, char *key);
+t_list_el			*parse_environ(void);
+char				**t_list_environ_el_to_char_2d(t_list_el *entry);
 
 //	ft_utils.c
-void	ft_lstremove(t_list_el **lst, t_list_el *item, void (*del)(void *));
-t_list_el *ft_lstfind_by_content(t_list_el *entry, void *content);
-void	free_char_2d(char **src);
+void				ft_lstremove(t_list_el **lst, t_list_el *item,
+						void (*del)(void *));
+t_list_el			*ft_lstfind_by_content(t_list_el *entry, void *content);
+voi					free_char_2d(char **src);
 
 #endif

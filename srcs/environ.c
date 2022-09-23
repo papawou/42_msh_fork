@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 01:22:37 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 17:12:48 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 17:36:25 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	del_environ_el(void *el)
 
 void	add_environ_el(t_list_el **entry, char *key_value)
 {
-	t_environ_el *el;
+	t_environ_el	*el;
 
 	if (entry == NULL || key_value == NULL)
 		return ;
@@ -39,9 +39,9 @@ void	add_environ_el(t_list_el **entry, char *key_value)
 	ft_lstadd_front(entry, ft_lstnew(el));
 }
 
-void remove_environ_el(t_list_el **entry, char *key)
+void	remove_environ_el(t_list_el **entry, char *key)
 {
-	t_environ_el *el;
+	t_environ_el	*el;
 
 	if (entry == NULL || key == NULL)
 		return ;
@@ -55,7 +55,7 @@ void remove_environ_el(t_list_el **entry, char *key)
 t_environ_el	*create_environ_el(char *key_value)
 {
 	t_environ_el	*dst;	
-	char				*idx;
+	char			*idx;
 
 	if (key_value == NULL)
 		return (NULL);
@@ -72,14 +72,12 @@ t_environ_el	*create_environ_el(char *key_value)
 	dst->key_len = ft_strlen(dst->key);
 	dst->value = ft_strdup(idx + 1);
 	dst->value_len = ft_strlen(dst->value);
-	if (dst->key == NULL || dst->value == NULL)
-	{
-		free(dst->key);
-		free(dst->value);
-		free(dst);
-		return (NULL);
-	}
-	return (dst);
+	if (dst->key != NULL && dst->value != NULL)
+		return (dst);
+	free(dst->key);
+	free(dst->value);
+	free(dst);
+	return (NULL);
 }
 
 //GETTERS
@@ -102,7 +100,6 @@ t_environ_el	*get_environ_el(t_list_el *entry, char *key)
 	return (NULL);
 }
 
-
 /**
  * dup t_environ_el->value if key == t_environ_el.key
  * return NULL if key not found //?ft_strdup("")
@@ -118,7 +115,6 @@ char	*getdup_environ_el_value(t_list_el *entry, char *key)
 		return (NULL);
 	return (ft_strdup(tmp->value));
 }
-
 
 //TOSTRING PARER
 /**
@@ -147,7 +143,7 @@ t_list_el	*parse_environ(void)
 char	**t_list_environ_el_to_char_2d(t_list_el *entry)
 {
 	char	**dst;
-	int	i;
+	int		i;
 
 	if (entry == NULL)
 		return (NULL);
@@ -158,7 +154,9 @@ char	**t_list_environ_el_to_char_2d(t_list_el *entry)
 	i = 0;
 	while (entry)
 	{
-		dst[i] = ft_strjoin_and_free(ft_strjoin(((t_environ_el *)entry->content)->key, "="), ft_strdup(((t_environ_el *)entry->content)->value));
+		dst[i] = ft_strjoin_and_free(
+				ft_strjoin(((t_environ_el *)entry->content)->key, "="),
+				ft_strdup(((t_environ_el *)entry->content)->value));
 		entry = entry->next;
 		if (dst[i] == NULL)
 			continue ;
