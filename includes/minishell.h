@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 20:09:07 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 21:53:43 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,9 @@ typedef struct s_environ_el {
 
 void				del_environ_el(void *el);
 void				add_environ_el(t_list_el **entry, char *key_value);
-void	remove_environ_el(t_list_el **entry, char *key);
+void				remove_environ_el(t_list_el **entry, char *key);
 t_environ_el		*create_environ_el(char *key_value);
+void				clear_g_environ(void);
 
 //	environ_2.c
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);

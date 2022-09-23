@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 20:09:18 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 21:53:26 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	del_environ_el(void *el)
 	free(((t_environ_el *)el)->key);
 	free(((t_environ_el *)el)->value);
 	free(el);
+}
+
+void	clear_g_environ(void)
+{
+	ft_lstclear(&g_environ, &del_environ_el);
 }
 
 void	add_environ_el(t_list_el **entry, char *key_value)

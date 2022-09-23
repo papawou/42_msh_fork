@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 20:44:44 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 21:52:26 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ int	main(int argc, __attribute__((unused)) char **argv)
 	set_parent_signals();
 	print_welcome_message();
 	run_prompt();
+	clear_g_environ();
 }
