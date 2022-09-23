@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 21:53:26 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 21:57:22 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	del_environ_el(void *el)
 	free(el);
 }
 
-void	clear_g_environ(void)
+void	clean_g_environ(void)
 {
 	ft_lstclear(&g_environ, &del_environ_el);
 }
