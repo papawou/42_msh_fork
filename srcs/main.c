@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 14:24:19 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 17:15:17 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,16 @@ void	run_prompt(void)
 	}
 }
 
+void debug()
+{
+	char *str = get_env_value("CACAPIOI");
+	(void) str;
+}
+
 int	main(int argc, __attribute__((unused)) char **argv)
 {
+	g_environ = parse_environ();
+	debug();
 	if (argc != 1)
 	{
 		print_usage();

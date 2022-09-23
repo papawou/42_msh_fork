@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 01:22:37 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 14:30:40 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 17:12:48 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_environ_el	*get_environ_el(t_list_el *entry, char *key)
 	while (entry)
 	{
 		tmp = entry->content;
-		if (tmp != NULL && ft_strncmp(key, tmp->key, ft_strlen(key)))
+		if (tmp != NULL && !ft_strncmp(key, tmp->key, ft_strlen(key)))
 			return (tmp);
 		entry = entry->next;
 	}

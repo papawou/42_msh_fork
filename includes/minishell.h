@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 14:24:11 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 16:33:32 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "libft.h"
 
 extern char	**environ;
-
 extern t_list_el *g_environ;
 
 typedef enum e_error_codes {
