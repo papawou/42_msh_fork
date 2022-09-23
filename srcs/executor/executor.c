@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 14:24:28 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 15:51:47 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	execute_command(
 {
 	char		*program_path;
 	t_command	*command;
-	char **fork_environ;
+	//char **fork_environ;
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
@@ -119,12 +119,13 @@ void	execute_command(
 	}
 	if (is_a_builtins(command->bin))
 		execute_builtins(command);
-	fork_environ = t_list_environ_el_to_char_2d(g_environ);
-	if (execve(program_path, command->argv, fork_environ) == -1)
+	//fork_environ = t_list_environ_el_to_char_2d(g_environ);
+	if (execve(program_path, command->argv, environ) == -1)
 	{
 		destroy_pipes(execution_plan->number_of_commands, pipes);
 		free(program_path);
-		free_char_2d(fork_environ);
+		//free_char_2d(fork_environ);
+		exit(127);
 	}
 }
 
