@@ -6,7 +6,7 @@
 #    By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 10:27:38 by fvarrin           #+#    #+#              #
-#    Updated: 2022/09/23 14:21:09 by kmendes          ###   ########.fr        #
+#    Updated: 2022/09/23 19:58:12 by kmendes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
 				executor/builtins.c executor/builtins/echo.c \
 				prompter/prompt.c prompter/signal_handlers.c \
 				common/utils.c common/env.c common/ft_utils.c\
-				environ.c)
+				env_builtin/environ.c	env_builtin/environ_2.c	env_builtin/environ_parser.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette

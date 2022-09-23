@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 17:29:02 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 20:44:44 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-t_list_el *g_environ = NULL;
+t_list_el	*g_environ = NULL;
 
 void	print_usage(void)
 {
@@ -58,13 +58,12 @@ void	run_prompt(void)
 
 int	main(int argc, __attribute__((unused)) char **argv)
 {
-	g_environ = parse_environ();
-	debug();
 	if (argc != 1)
 	{
 		print_usage();
 		return (-3);
 	}
+	g_environ = parse_environ();
 	configure_termios();
 	set_parent_signals();
 	print_welcome_message();

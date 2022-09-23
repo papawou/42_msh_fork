@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 17:32:01 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 20:09:07 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,23 +159,26 @@ void				execute_echo(t_command *command);
 // environ.c
 typedef struct s_environ_el {
 	char	*key;
-	int		key_len;
 	char	*value;
-	int		value_len;
 }	t_environ_el;
 
 void				del_environ_el(void *el);
 void				add_environ_el(t_list_el **entry, char *key_value);
+void	remove_environ_el(t_list_el **entry, char *key);
 t_environ_el		*create_environ_el(char *key_value);
+
+//	environ_2.c
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 char				*getdup_environ_el_value(t_list_el *entry, char *key);
+
+//	environ_parser.c
 t_list_el			*parse_environ(void);
-char				**t_list_environ_el_to_char_2d(t_list_el *entry);
+char				**list_environ_el_to_char_2d(t_list_el *entry);
 
 //	ft_utils.c
 void				ft_lstremove(t_list_el **lst, t_list_el *item,
 						void (*del)(void *));
 t_list_el			*ft_lstfind_by_content(t_list_el *entry, void *content);
-voi					free_char_2d(char **src);
+void				free_char_2d(char **src);
 
 #endif
