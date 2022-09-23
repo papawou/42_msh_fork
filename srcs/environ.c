@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 01:22:37 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 02:29:28 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/23 11:10:48 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef struct s_environ_el {
 	char *value;
 	int value_len;
 } t_environ_el;
-
 
 /**
  * use it for ft_lstdel(..., void (*del)(void *)) 
@@ -78,8 +77,33 @@ t_list_el *parse_environ(void)
 	return (lst);
 }
 
-
-t_environ_el	*get_environ_value(char *env)
+/**
+ * return t_environ_el* if key == t_environ_el.key
+ */
+t_environ_el	*get_environ_el(char *key, t_list_el *entry)
 {
+	t_environ_el	*tmp;
+
+	while (entry)
+	{
+		tmp = entry->content;
+		if (ft_strncmp(key, tmp->key, ft_strlen(key)))
+			return (tmp);
+		entry = entry->next;
+	}
+	return (NULL);
+}
+
+/**
+ * dup t_environ_el->value if key == t_environ_el.key
+ * return NULL if key not found
+ */
+char	*getdup_environ_el_value(char *key, t_list_el *entry)
+{
+	t_environ_el	*tmp;
 	
+	tmp = get_environ_el(key, entry);
+	if (tmp == NULL)
+		return (NULL); //?ft_strdup("")
+	return (ft_strdup(tmp->value));
 }
