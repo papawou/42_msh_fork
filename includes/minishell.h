@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:36:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/23 02:17:04 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 
+# include <unistd.h>
 # include "libft.h"
 
 extern char	**environ;
@@ -153,5 +154,17 @@ _Bool				is_a_builtins(char *bin);
 void				execute_builtins(t_command *command);
 
 void				execute_echo(t_command *command);
+
+// environ.c - custom env vars
+
+typedef struct s_environ_el {
+	char *key;
+	int	key_len;
+	char *value;
+	int value_len;
+} t_environ_el;
+
+t_environ_el	*create_environ_el(char *key_value);
+t_list_el			*parse_environ(void);
 
 #endif
