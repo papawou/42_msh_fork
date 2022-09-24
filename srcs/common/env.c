@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 15:13:27 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 14:25:26 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/24 15:15:46 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 
 /**
  *
- * Get env variable value
+ * Get env variable value, return empty string if not found
  *
  * @return {char **} paths
  */
-char	*get_env_value(char *env)
+char	*get_env_value(char *key)
 {
-	char	*result;
+	t_environ_el	*tmp;
+	t_list_el		*entry;
 
-	result = getdup_environ_el_value(g_environ, env);
-	if (result == NULL)
-		result = ft_strdup("");
-	return (result);
+	entry = g_environ;
+	if (entry == NULL || key == NULL)
+		return (NULL);
+	tmp = get_environ_el(entry, key);
+	if (tmp == NULL)
+		return (ft_strdup(""));
+	return (ft_strdup(tmp->value));
 }

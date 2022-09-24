@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/23 19:55:50 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/24 15:20:44 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static char	**get_env_paths(void)
 
 	path_value = get_env_value("PATH");
 	paths = ft_split(path_value, ':');
+	free(path_value);
 	return (paths);
 }
 
@@ -107,7 +108,6 @@ void	execute_command(
 {
 	char		*program_path;
 	t_command	*command;
-	char		**fork_environ;
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
@@ -119,12 +119,11 @@ void	execute_command(
 	}
 	if (is_a_builtins(command->bin))
 		execute_builtins(command);
-	fork_environ = list_environ_el_to_char_2d(g_environ);
 	if (execve(program_path, command->argv, environ) == -1)
 	{
 		destroy_pipes(execution_plan->number_of_commands, pipes);
 		free(program_path);
-		free_char_2d(fork_environ);
+		ft_lstclear(&g_environ, &destroy_environ_el);
 		exit(127);
 	}
 }

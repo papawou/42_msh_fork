@@ -68,5 +68,5 @@ int	main(int argc, __attribute__((unused)) char **argv)
 	set_parent_signals();
 	print_welcome_message();
 	run_prompt();
-	clear_g_environ();
+	ft_lstclear(&g_environ, &destroy_environ_el);
 }

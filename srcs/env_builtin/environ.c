@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/23 21:57:22 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/24 15:38:27 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 #include "libft.h"
 
 /**
- * use it for ft_lstdel(..., void (*del)(void *)) 
+ *
+ * use it for ft_lstdel(..., void (*del)(void *))
+ *
+ * @param {void *} el
  */
-void	del_environ_el(void *el)
+void	destroy_environ_el(void *el)
 {
 	if (el == NULL)
 		return ;
@@ -27,23 +30,28 @@ void	del_environ_el(void *el)
 	free(el);
 }
 
-void	clean_g_environ(void)
-{
-	ft_lstclear(&g_environ, &del_environ_el);
-}
-
+/**
+ *
+ * @param {t_list_el} **entry
+ * @param {char *} key_value
+ */
 void	add_environ_el(t_list_el **entry, char *key_value)
 {
 	t_environ_el	*el;
 
 	if (entry == NULL || key_value == NULL)
 		return ;
-	el = create_environ_el(key_value);
+	el = init_environ_el(key_value);
 	if (el == NULL)
 		return ;
 	ft_lstadd_front(entry, ft_lstnew(el));
 }
 
+/**
+ *
+ * @param {t_list_el **} entry
+ * @param {char *} key
+ */
 void	remove_environ_el(t_list_el **entry, char *key)
 {
 	t_environ_el	*el;
@@ -51,13 +59,18 @@ void	remove_environ_el(t_list_el **entry, char *key)
 	if (entry == NULL || key == NULL)
 		return ;
 	el = get_environ_el(*entry, key);
-	ft_lstremove(entry, ft_lstfind_by_content(*entry, el), &del_environ_el);
+	ft_lstremove(entry, ft_lstfind_by_content(*entry, el), &destroy_environ_el);
 }
 
 /**
+ *
  * parse env variable from "key=value..." to struct s_environ_el
+ *
+ * @param {char *} key_value
+ *
+ * @return {t_environ_el *}
  */
-t_environ_el	*create_environ_el(char *key_value)
+t_environ_el	*init_environ_el(char *key_value)
 {
 	t_environ_el	*dst;	
 	char			*idx;
@@ -80,5 +93,30 @@ t_environ_el	*create_environ_el(char *key_value)
 	free(dst->key);
 	free(dst->value);
 	free(dst);
+	return (NULL);
+}
+
+/**
+ *
+ * return t_environ_el* if key == t_environ_el.key
+ *
+ * @param {t_list_el *} entry
+ * @param {char *} key
+ *
+ * @return {t_environ_el *}
+ */
+t_environ_el	*get_environ_el(t_list_el *entry, char *key)
+{
+	t_environ_el	*tmp;
+
+	if (key == NULL || entry == NULL)
+		return (NULL);
+	while (entry)
+	{
+		tmp = entry->content;
+		if (tmp != NULL && !ft_strncmp(key, tmp->key, ft_strlen(key)))
+			return (tmp);
+		entry = entry->next;
+	}
 	return (NULL);
 }

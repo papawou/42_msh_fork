@@ -28,8 +28,8 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
 				executor/executor.c executor/pipes.c executor/processes.c executor/io.c \
 				executor/builtins.c executor/builtins/echo.c \
 				prompter/prompt.c prompter/signal_handlers.c \
-				common/utils.c common/env.c common/ft_utils.c\
-				env_builtin/environ.c	env_builtin/environ_2.c	env_builtin/environ_parser.c)
+				common/utils.c common/env.c \
+				env_builtin/environ.c env_builtin/environ_parser.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette

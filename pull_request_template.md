@@ -23,5 +23,5 @@ echo "$HOME"
 ```
 - [ ] display home path / editor
 ```
-echo "$HOME/$EDIT"
+echo "$HOME/$EDITOR"
 ```

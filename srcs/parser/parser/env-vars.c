@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 /**
  * Init the t_env_variable from token value
