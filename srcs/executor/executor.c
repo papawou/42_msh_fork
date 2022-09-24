@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 17:26:45 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 19:09:38 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	execute_command(
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
-	program_path = get_program_path(execution_plan->env, command);
+	program_path = get_program_path(*execution_plan->env, command);
 	if (program_path == NULL)
 	{
 		perror(program_path);
@@ -120,12 +120,12 @@ void	execute_command(
 	}
 	if (is_a_builtins(command->bin))
 		execute_builtins(command);
-	environ_as_arr = environ_el_to_char_2d(execution_plan->env);
+	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
 	{
 		destroy_pipes(execution_plan->number_of_commands, pipes);
 		free(program_path);
-		ft_lstclear(&execution_plan->env, &destroy_environ_el);
+		ft_lstclear(execution_plan->env, &destroy_environ_el);
 		free_environ_char_2d(environ_as_arr);
 		exit(127);
 	}

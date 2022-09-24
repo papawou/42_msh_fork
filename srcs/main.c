@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 17:29:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 19:10:35 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	run_prompt(void)
 			execution_plan = parse_line(env, line_read);
 			if (execution_plan == NULL)
 				continue ;
-			execution_plan->env = env;
+			execution_plan->env = &env;
 			execute_plan(execution_plan);
 			destroy_execution_plan(execution_plan);
 			set_parent_signals();
 		}
 	}
-	ft_lstclear(&execution_plan->env, &destroy_environ_el);
+	ft_lstclear(execution_plan->env, &destroy_environ_el);
 }
 
 int	main(int argc, __attribute__((unused)) char **argv)

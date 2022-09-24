@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 17:29:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 19:06:15 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_token {
 typedef struct s_execution_plan {
 	t_command	**commands;
 	int			number_of_commands;
-	t_list_el	*env;
+	t_list_el	**env;
 }	t_execution_plan;
 
 typedef struct s_environ_el {
