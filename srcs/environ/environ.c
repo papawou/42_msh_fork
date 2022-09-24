@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/24 15:38:27 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:12:52 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,25 +98,20 @@ t_environ_el	*init_environ_el(char *key_value)
 
 /**
  *
- * return t_environ_el* if key == t_environ_el.key
+ * parse char **environ from unistd.h to a linked list and return it
+ * return value is NULL if environ vars is empty
  *
- * @param {t_list_el *} entry
- * @param {char *} key
- *
- * @return {t_environ_el *}
+ * @return {t_list_el *}
  */
-t_environ_el	*get_environ_el(t_list_el *entry, char *key)
+t_list_el	*parse_environ(void)
 {
-	t_environ_el	*tmp;
+	int				i;
+	t_list_el		*lst;
 
-	if (key == NULL || entry == NULL)
-		return (NULL);
-	while (entry)
-	{
-		tmp = entry->content;
-		if (tmp != NULL && !ft_strncmp(key, tmp->key, ft_strlen(key)))
-			return (tmp);
-		entry = entry->next;
-	}
-	return (NULL);
+	i = 0;
+	lst = NULL;
+	while (environ[i])
+		add_environ_el(&lst, environ[i++]);
+	return (lst);
 }
+

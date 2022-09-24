@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 15:33:52 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 16:59:32 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 
 //	environ_parser.c
 t_list_el			*parse_environ(void);
-char				**list_environ_el_to_char_2d(t_list_el *entry);
+char				**environ_el_to_char_2d(t_list_el *entry);
+void				free_environ_char_2d(char **src);
 
 #endif

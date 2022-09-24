@@ -1,17 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   environ-getters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 15:13:27 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 15:15:46 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:15:16 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
+
+/**
+ *
+ * return t_environ_el* if key == t_environ_el.key
+ *
+ * @param {t_list_el *} entry
+ * @param {char *} key
+ *
+ * @return {t_environ_el *}
+ */
+t_environ_el	*get_environ_el(t_list_el *entry, char *key)
+{
+	t_environ_el	*tmp;
+
+	if (key == NULL || entry == NULL)
+		return (NULL);
+	while (entry)
+	{
+		tmp = entry->content;
+		if (tmp != NULL && !ft_strncmp(key, tmp->key, ft_strlen(key)))
+			return (tmp);
+		entry = entry->next;
+	}
+	return (NULL);
+}
 
 /**
  *
