@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:36:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:29:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 
+# include <unistd.h>
 # include "libft.h"
 
-extern char	**environ;
+extern char			**environ;
 
 typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
@@ -54,7 +55,13 @@ typedef struct s_token {
 typedef struct s_execution_plan {
 	t_command	**commands;
 	int			number_of_commands;
+	t_list_el	*env;
 }	t_execution_plan;
+
+typedef struct s_environ_el {
+	char	*key;
+	char	*value;
+}	t_environ_el;
 
 typedef struct s_env_variable {
 	char	*token_value;
@@ -66,8 +73,6 @@ typedef struct s_env_variable {
 }	t_env_variable;
 
 /** Utils **/
-char				*get_env_value(char *env);
-
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 char				*create_base_str(void);
@@ -76,14 +81,27 @@ char				*create_base_str(void);
 void				print_welcome_message(void);
 char				*prompt(char *line_read);
 
-/* Signals */
+/** Signals **/
 void				configure_termios(void);
 void				set_parent_signals(void);
 void				set_child_signals(void);
 void				unset_parent_signals(void);
 
+/** Environ **/
+void				destroy_environ_el(void *el);
+void				add_environ_el(t_list_el **entry, char *key_value);
+void				remove_environ_el(t_list_el **entry, char *key);
+t_environ_el		*init_environ_el(char *key_value);
+t_list_el			*parse_environ(void);
+
+char				**environ_el_to_char_2d(t_list_el *entry);
+void				free_environ_char_2d(char **src);
+
+t_environ_el		*get_environ_el(t_list_el *entry, char *key);
+char				*get_env_value(t_list_el *env, char *key);
+
 /** Parser **/
-t_execution_plan	*parse_line(char *line);
+t_execution_plan	*parse_line(t_list_el *env, char *line);
 
 /* Builder */
 t_execution_plan	*init_execution_plan(int number_of_commands);
@@ -116,7 +134,7 @@ t_execution_plan	*parse_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
 
-void				parse_env_variables(t_list_el *tokens);
+void				parse_env_variables(t_list_el *env, t_list_el *tokens);
 _Bool				str_has_env_variable(char *str);
 char				*extract_env_variable_key_from_str(char *str);
 int					calculate_env_variable_expanded_length(

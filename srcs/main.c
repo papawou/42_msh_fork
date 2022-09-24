@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/07/17 12:07:09 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:29:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	run_prompt(void)
 {
 	t_execution_plan	*execution_plan;
 	char				*line_read;
+	t_list_el			*env;
 
 	line_read = NULL;
+	env = parse_environ();
 	while (42)
 	{
 		line_read = prompt(line_read);
@@ -44,14 +46,16 @@ void	run_prompt(void)
 		if (*line_read)
 		{
 			unset_parent_signals();
-			execution_plan = parse_line(line_read);
+			execution_plan = parse_line(env, line_read);
 			if (execution_plan == NULL)
 				continue ;
+			execution_plan->env = env;
 			execute_plan(execution_plan);
 			destroy_execution_plan(execution_plan);
 			set_parent_signals();
 		}
 	}
+	ft_lstclear(&execution_plan->env, &destroy_environ_el);
 }
 
 int	main(int argc, __attribute__((unused)) char **argv)

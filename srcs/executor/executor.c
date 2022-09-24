@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:38:20 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:26:45 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@
 
 /**
  *
- * Get list of paths from environment
+ * Get list of paths from environ
  *
  * @return {char **} paths
  */
-static char	**get_env_paths(void)
+static char	**get_env_paths(t_list_el *env)
 {
 	char	**paths;
 	char	*path_value;
 
-	path_value = get_env_value("PATH");
+	path_value = get_env_value(env, "PATH");
 	paths = ft_split(path_value, ':');
+	free(path_value);
 	return (paths);
 }
 
@@ -43,7 +44,7 @@ static char	**get_env_paths(void)
  *
  * @return {char *} path
  */
-static char	*get_path_if_exist(t_command *command)
+static char	*get_path_if_exist(t_list_el *env, t_command *command)
 {
 	int		i;
 	char	**paths;
@@ -51,7 +52,7 @@ static char	*get_path_if_exist(t_command *command)
 	char	*bin_path;
 
 	i = 0;
-	paths = get_env_paths();
+	paths = get_env_paths(env);
 	bin = ft_strjoin("/", command->bin);
 	while (paths[i])
 	{
@@ -79,7 +80,7 @@ static char	*get_path_if_exist(t_command *command)
  *
  * @return {char *} Program path
  */
-static char	*get_program_path(t_command *command)
+static char	*get_program_path(t_list_el *env, t_command *command)
 {
 	if (command->bin[0] == '/' || command->bin[0] == '.')
 	{
@@ -88,7 +89,7 @@ static char	*get_program_path(t_command *command)
 		else
 			return (NULL);
 	}
-	return (get_path_if_exist(command));
+	return (get_path_if_exist(env, command));
 }
 
 /**
@@ -107,10 +108,11 @@ void	execute_command(
 {
 	char		*program_path;
 	t_command	*command;
+	char		**environ_as_arr;
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
-	program_path = get_program_path(command);
+	program_path = get_program_path(execution_plan->env, command);
 	if (program_path == NULL)
 	{
 		perror(program_path);
@@ -118,10 +120,14 @@ void	execute_command(
 	}
 	if (is_a_builtins(command->bin))
 		execute_builtins(command);
-	else if (execve(program_path, command->argv, environ) == -1)
+	environ_as_arr = environ_el_to_char_2d(execution_plan->env);
+	if (execve(program_path, command->argv, environ_as_arr) == -1)
 	{
 		destroy_pipes(execution_plan->number_of_commands, pipes);
 		free(program_path);
+		ft_lstclear(&execution_plan->env, &destroy_environ_el);
+		free_environ_char_2d(environ_as_arr);
+		exit(127);
 	}
 }
 
