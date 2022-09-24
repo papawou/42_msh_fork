@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 19:10:35 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/24 20:24:06 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	run_prompt(void)
 			set_parent_signals();
 		}
 	}
-	ft_lstclear(execution_plan->env, &destroy_environ_el);
+	ft_lstclear(&env, &destroy_environ_el);
 }
 
 int	main(int argc, __attribute__((unused)) char **argv)
