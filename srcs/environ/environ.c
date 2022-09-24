@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/24 17:12:52 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:13:03 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,3 @@ t_list_el	*parse_environ(void)
 		add_environ_el(&lst, environ[i++]);
 	return (lst);
 }
-

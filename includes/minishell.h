@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 16:59:32 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:21:14 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include "libft.h"
 
-extern char	**environ;
+extern char			**environ;
 extern t_list_el	*g_environ;
 
 typedef enum e_error_codes {
@@ -58,6 +58,11 @@ typedef struct s_execution_plan {
 	int			number_of_commands;
 }	t_execution_plan;
 
+typedef struct s_environ_el {
+	char	*key;
+	char	*value;
+}	t_environ_el;
+
 typedef struct s_env_variable {
 	char	*token_value;
 	int		token_value_length;
@@ -68,8 +73,6 @@ typedef struct s_env_variable {
 }	t_env_variable;
 
 /** Utils **/
-char				*get_env_value(char *env);
-
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 char				*create_base_str(void);
@@ -78,11 +81,24 @@ char				*create_base_str(void);
 void				print_welcome_message(void);
 char				*prompt(char *line_read);
 
-/* Signals */
+/** Signals **/
 void				configure_termios(void);
 void				set_parent_signals(void);
 void				set_child_signals(void);
 void				unset_parent_signals(void);
+
+/** Environ **/
+void				destroy_environ_el(void *el);
+void				add_environ_el(t_list_el **entry, char *key_value);
+void				remove_environ_el(t_list_el **entry, char *key);
+t_environ_el		*init_environ_el(char *key_value);
+t_list_el			*parse_environ(void);
+
+char				**environ_el_to_char_2d(t_list_el *entry);
+void				free_environ_char_2d(char **src);
+
+t_environ_el		*get_environ_el(t_list_el *entry, char *key);
+char				*get_env_value(char *env);
 
 /** Parser **/
 t_execution_plan	*parse_line(char *line);
@@ -155,22 +171,5 @@ _Bool				is_a_builtins(char *bin);
 void				execute_builtins(t_command *command);
 
 void				execute_echo(t_command *command);
-
-// environ.c
-typedef struct s_environ_el {
-	char	*key;
-	char	*value;
-}	t_environ_el;
-
-void				destroy_environ_el(void *el);
-void				add_environ_el(t_list_el **entry, char *key_value);
-void				remove_environ_el(t_list_el **entry, char *key);
-t_environ_el		*init_environ_el(char *key_value);
-t_environ_el		*get_environ_el(t_list_el *entry, char *key);
-
-//	environ_parser.c
-t_list_el			*parse_environ(void);
-char				**environ_el_to_char_2d(t_list_el *entry);
-void				free_environ_char_2d(char **src);
 
 #endif
