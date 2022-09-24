@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 15:13:27 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 17:15:16 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:25:41 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ t_environ_el	*get_environ_el(t_list_el *entry, char *key)
  *
  * @return {char **} paths
  */
-char	*get_env_value(char *key)
+char	*get_env_value(t_list_el *env, char *key)
 {
 	t_environ_el	*tmp;
 	t_list_el		*entry;
 
-	entry = g_environ;
+	entry = env;
 	if (entry == NULL || key == NULL)
 		return (NULL);
 	tmp = get_environ_el(entry, key);

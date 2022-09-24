@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 17:21:14 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:29:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "libft.h"
 
 extern char			**environ;
-extern t_list_el	*g_environ;
 
 typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
@@ -56,6 +55,7 @@ typedef struct s_token {
 typedef struct s_execution_plan {
 	t_command	**commands;
 	int			number_of_commands;
+	t_list_el	*env;
 }	t_execution_plan;
 
 typedef struct s_environ_el {
@@ -98,10 +98,10 @@ char				**environ_el_to_char_2d(t_list_el *entry);
 void				free_environ_char_2d(char **src);
 
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
-char				*get_env_value(char *env);
+char				*get_env_value(t_list_el *env, char *key);
 
 /** Parser **/
-t_execution_plan	*parse_line(char *line);
+t_execution_plan	*parse_line(t_list_el *env, char *line);
 
 /* Builder */
 t_execution_plan	*init_execution_plan(int number_of_commands);
@@ -134,7 +134,7 @@ t_execution_plan	*parse_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
 
-void				parse_env_variables(t_list_el *tokens);
+void				parse_env_variables(t_list_el *env, t_list_el *tokens);
 _Bool				str_has_env_variable(char *str);
 char				*extract_env_variable_key_from_str(char *str);
 int					calculate_env_variable_expanded_length(

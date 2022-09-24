@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 14:41:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:23:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/24 17:27:35 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  *
  * @return {t_env_variable *}
  */
-t_env_variable	*get_env_variable(char *token_value)
+t_env_variable	*get_env_variable(t_list_el *env, char *token_value)
 {
 	t_env_variable	*env_variable;
 
@@ -30,7 +30,7 @@ t_env_variable	*get_env_variable(char *token_value)
 	env_variable->token_value_length = ft_strlen(token_value);
 	env_variable->key = extract_env_variable_key_from_str(token_value);
 	env_variable->key_length = ft_strlen(env_variable->key);
-	env_variable->value = get_env_value(env_variable->key);
+	env_variable->value = get_env_value(env, env_variable->key);
 	env_variable->value_length = ft_strlen(env_variable->value);
 	return (env_variable);
 }
@@ -42,7 +42,7 @@ t_env_variable	*get_env_variable(char *token_value)
  *
  * @param {t_token *} token
  */
-void	expend_env_variable(t_token *token)
+void	expend_env_variable(t_list_el *env, t_token *token)
 {
 	int				i;
 	int				y;
@@ -50,7 +50,7 @@ void	expend_env_variable(t_token *token)
 	char			*expanded_value;
 	t_env_variable	*env_variable;
 
-	env_variable = get_env_variable(token->value);
+	env_variable = get_env_variable(env, token->value);
 	expanded_value = ft_calloc(
 			calculate_env_variable_expanded_length(env_variable), sizeof(char));
 	i = 0;
@@ -73,7 +73,7 @@ void	expend_env_variable(t_token *token)
  *
  * @param {t_list_el *} tokens
  */
-void	parse_env_variables(t_list_el *tokens)
+void	parse_env_variables(t_list_el *env, t_list_el *tokens)
 {
 	t_list_el	*current_el;
 	t_token		*token;
@@ -84,7 +84,7 @@ void	parse_env_variables(t_list_el *tokens)
 		token = (t_token *)current_el->content;
 		while (token->type == WORD_W_ENV_EXP
 			&& str_has_env_variable(token->value))
-			expend_env_variable(token);
+			expend_env_variable(env, token);
 		current_el = current_el->next;
 	}
 }
