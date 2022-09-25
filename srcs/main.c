@@ -14,6 +14,7 @@
 #include <signal.h>
 
 #include <termios.h>
+#include <stdlib.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -39,21 +40,23 @@ void	run_prompt(void)
 	env = parse_environ();
 	while (42)
 	{
-		line_read = prompt(line_read);
-		line_read = trim_space(line_read);
-		if (line_read == NULL)
+		line_read = prompt(line_read); //<- free line_read
+		if (line_read == NULL) //<- real EOF received
 			break ;
-		if (*line_read)
+		line_read = trim_space(line_read);
+		if (line_read == NULL || (line_read && line_read[0] == '\0' )) //<- keep running baby
+			continue ;
+		execution_plan = parse_line(env, line_read); //<- line_read is freed inside it whatever happens
+		if (execution_plan == NULL)
 		{
-			unset_parent_signals();
-			execution_plan = parse_line(env, line_read);
-			if (execution_plan == NULL)
-				continue ;
-			execution_plan->env = &env;
-			execute_plan(execution_plan);
-			destroy_execution_plan(execution_plan);
-			set_parent_signals();
+			line_read = NULL; //<- prevent double free, flow: parse_line -> prompt
+			continue ;
 		}
+		execution_plan->env = &env;
+		unset_parent_signals();
+		execute_plan(execution_plan);
+		set_parent_signals();
+		destroy_execution_plan(execution_plan);
 	}
 	ft_lstclear(&env, &destroy_environ_el);
 }

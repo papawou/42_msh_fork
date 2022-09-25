@@ -51,6 +51,7 @@ void	execute_heredoc(t_command *command)
 	char	*line_read;
 	char	*heredoc_str;
 	int		tmp_file_fd;
+	char	*tmp;
 
 	line_read = NULL;
 	heredoc_str = ft_strdup("");
@@ -60,11 +61,13 @@ void	execute_heredoc(t_command *command)
 	{
 		line_read = prompt_heredoc(line_read);
 		if (!line_read)
-			return ;
+			break ;
 		if (ft_strcmp(line_read, command->heredoc) == 0)
 			break ;
-		heredoc_str = ft_strjoin(heredoc_str, line_read);
-		heredoc_str = ft_strjoin(heredoc_str, "\n");
+		tmp = ft_strjoin(heredoc_str, line_read);
+		free(heredoc_str);
+		heredoc_str = ft_strjoin(tmp, "\n");
+		free(tmp);
 	}
 	free(line_read);
 	ft_printf_fd(tmp_file_fd, "%s", heredoc_str);
