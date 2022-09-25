@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 15:32:32 by fvarrin           #+#    #+#             */
+/*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
 /*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdbool.h>
-#include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-_Bool	is_a_builtins(char *bin)
+void	execute_cd(t_list_el *env, t_command *command)
 {
-	if (ft_strcmp(bin, "echo") == 0)
-		return (true);
-	if (ft_strcmp(bin, "cd") == 0)
-		return (true);
-	if (ft_strcmp(bin, "pwd") == 0)
-		return (true);
-	return (false);
-}
+	int		status;
 
-void	execute_builtins(t_list_el *env, t_command *command)
-{
-	if (ft_strcmp(command->bin, "echo") == 0)
-		execute_echo(command);
-	if (ft_strcmp(command->bin, "cd") == 0)
-		execute_cd(env, command);
-	if (ft_strcmp(command->bin, "pwd") == 0)
-		execute_pwd();
+	if (command->argv[2] != NULL)
+	{
+		printf("cd: too many arguments\n");
+		return ;
+	}
+	if (command->argv[1])
+		status = chdir(command->argv[1]);
+	else
+		status = chdir(get_env_value(env, "HOME"));
+	if (status != 0)
+		perror(command->argv[1]);
 }

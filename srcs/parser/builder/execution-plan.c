@@ -6,11 +6,12 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 15:45:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "minishell.h"
 
@@ -36,6 +37,7 @@ t_execution_plan	*init_execution_plan(int number_of_commands)
 		exit(ERR_ALLOCATING_MEMORY);
 	}
 	execution_plan->number_of_commands = number_of_commands;
+	execution_plan->need_to_fork = true;
 	return (execution_plan);
 }
 

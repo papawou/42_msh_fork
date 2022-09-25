@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	*create_processes(t_execution_plan *execution_plan, int *pids, int **pipes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
 			execute_heredoc(execution_plan->commands[i]);
-		pids[i] = fork();
+		if (execution_plan->need_to_fork)
+			pids[i] = fork();
+		else
+			pids[i] = 0;
 		if (pids[i] == -1)
 			exit(ERR_FORKING_PROCESS);
 		if (pids[i] == 0)

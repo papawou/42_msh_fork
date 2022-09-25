@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 18:48:52 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/26 20:47:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ void	execute_heredoc(t_command *command)
 	line_read = NULL;
 	heredoc_str = ft_strdup("");
 	tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
+	if (tmp_file_fd < 1)
+	{
+		ft_printf_fd(STDERR_FILENO, "Could not create temp file\n");
+		return ;
+	}
 	ft_printf_fd(tmp_file_fd, "");
 	while (42)
 	{

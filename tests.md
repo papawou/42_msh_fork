@@ -49,3 +49,13 @@ echo "$HOME/$EDITOR"
 ```
 cat -n << EOF
 ```
+
+- [ ] Change directory
+```
+cd /tmp
+```
+
+- [ ] Should go to home
+```
+cd
+```
