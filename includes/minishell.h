@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 16:03:44 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 16:09:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ _Bool				has_more_tokens(char *str);
 void				destroy_token(void *token);
 
 /* Parser */
-t_execution_plan	*parse_tokens(t_list_el *tokens);
+t_execution_plan	*parse_all_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
 

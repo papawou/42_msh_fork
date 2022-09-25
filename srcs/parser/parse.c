@@ -43,6 +43,6 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 	tokens = tokenize_line(line);
 	free(line);
 	parse_env_variables(env, tokens);
-	execution_plan = parse_tokens(tokens->next);
+	execution_plan = parse_all_tokens(tokens->next);
 	return (execution_plan);
 }
