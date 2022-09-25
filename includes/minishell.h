@@ -20,6 +20,8 @@
 
 extern char	**environ;
 
+# define TMP_FILE "/tmp/.minishell.heredoc"
+
 typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
 	ERR_OPENING_FILE = 2,
@@ -42,6 +44,7 @@ typedef struct s_command {
 	char		*out;
 	char		*bin;
 	char		**argv;
+	char		*heredoc;
 	t_list_el	*tokens;
 	int			return_value;
 	_Bool		out_in_append_mode;

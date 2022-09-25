@@ -25,3 +25,11 @@ echo "$HOME"
 ```
 echo "$HOME/$EDITOR"
 ```
+- [ ] Get from stdin syntax one
+```
+<< EOF cat -n
+```
+- [ ] Get from stdin syntax two
+```
+cat -n << EOF
+```
