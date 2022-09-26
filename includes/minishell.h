@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 16:09:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/26 18:46:14 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # define FILE_PERMISSION_IF_CREATED 0664
+# define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
 
 # include <unistd.h>
 # include "libft.h"
