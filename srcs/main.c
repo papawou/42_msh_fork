@@ -24,6 +24,15 @@ void	print_usage(void)
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
 }
 
+static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
+{
+	execution_plan->env = env;
+	unset_parent_signals();
+	execute_plan(execution_plan);
+	set_parent_signals();
+	destroy_execution_plan(execution_plan);
+}
+
 /**
  *
  * @param {char **} str
@@ -40,23 +49,19 @@ void	run_prompt(void)
 	env = parse_environ();
 	while (42)
 	{
-		line_read = prompt(line_read); //<- free line_read
-		if (line_read == NULL) //<- real EOF received
+		line_read = prompt(line_read);
+		if (line_read == NULL)
 			break ;
 		line_read = trim_space(line_read);
-		if (line_read == NULL || (line_read && line_read[0] == '\0' )) //<- keep running baby
+		if (line_read == NULL || (line_read && line_read[0] == '\0' ))
 			continue ;
-		execution_plan = parse_line(env, line_read); //<- line_read is freed inside it whatever happens
+		execution_plan = parse_line(env, line_read);
 		if (execution_plan == NULL)
 		{
-			line_read = NULL; //<- prevent double free, flow: parse_line -> prompt
+			line_read = NULL;
 			continue ;
 		}
-		execution_plan->env = &env;
-		unset_parent_signals();
-		execute_plan(execution_plan);
-		set_parent_signals();
-		destroy_execution_plan(execution_plan);
+		exec_run_prompt(execution_plan, &env);
 	}
 	ft_lstclear(&env, &destroy_environ_el);
 }
