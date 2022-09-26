@@ -56,11 +56,9 @@ void	run_prompt(void)
 		if (line_read == NULL || (line_read && line_read[0] == '\0' ))
 			continue ;
 		execution_plan = parse_line(env, line_read);
+		line_read = NULL;
 		if (execution_plan == NULL)
-		{
-			line_read = NULL;
 			continue ;
-		}
 		exec_run_prompt(execution_plan, &env);
 	}
 	ft_lstclear(&env, &destroy_environ_el);
