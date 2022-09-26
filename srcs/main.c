@@ -14,6 +14,7 @@
 #include <signal.h>
 
 #include <termios.h>
+#include <stdlib.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -21,6 +22,15 @@
 void	print_usage(void)
 {
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
+}
+
+static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
+{
+	execution_plan->env = env;
+	unset_parent_signals();
+	execute_plan(execution_plan);
+	set_parent_signals();
+	destroy_execution_plan(execution_plan);
 }
 
 /**
@@ -40,20 +50,16 @@ void	run_prompt(void)
 	while (42)
 	{
 		line_read = prompt(line_read);
-		line_read = trim_space(line_read);
 		if (line_read == NULL)
 			break ;
-		if (*line_read)
-		{
-			unset_parent_signals();
-			execution_plan = parse_line(env, line_read);
-			if (execution_plan == NULL)
-				continue ;
-			execution_plan->env = &env;
-			execute_plan(execution_plan);
-			destroy_execution_plan(execution_plan);
-			set_parent_signals();
-		}
+		line_read = trim_space(line_read);
+		if (line_read == NULL || (line_read && line_read[0] == '\0' ))
+			continue ;
+		execution_plan = parse_line(env, line_read);
+		line_read = NULL;
+		if (execution_plan == NULL)
+			continue ;
+		exec_run_prompt(execution_plan, &env);
 	}
 	ft_lstclear(&env, &destroy_environ_el);
 }

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 16:23:20 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/26 18:48:52 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ char	*prompt_heredoc(char *line_read)
 	return (line_read);
 }
 
+static void	build_heredoc_str(char *heredoc_str, char *line_read)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(heredoc_str, line_read);
+	free(heredoc_str);
+	heredoc_str = ft_strjoin(tmp, "\n");
+	free(tmp);
+}
+
 /**
  *
  * Prompt for heredoc and write it to a tmp file
@@ -60,11 +70,14 @@ void	execute_heredoc(t_command *command)
 	{
 		line_read = prompt_heredoc(line_read);
 		if (!line_read)
-			return ;
+		{
+			ft_printf_fd(2, "%s (wanted `%s')\n",
+				HEREDOC_EOF_WARNING, command->heredoc);
+			break ;
+		}
 		if (ft_strcmp(line_read, command->heredoc) == 0)
 			break ;
-		heredoc_str = ft_strjoin(heredoc_str, line_read);
-		heredoc_str = ft_strjoin(heredoc_str, "\n");
+		build_heredoc_str(heredoc_str, line_read);
 	}
 	free(line_read);
 	ft_printf_fd(tmp_file_fd, "%s", heredoc_str);

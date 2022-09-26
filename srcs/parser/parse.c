@@ -31,6 +31,7 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 	if (check_quote_closed(line) == false)
 	{
 		printf("Syntax error, unclosed quote\n");
+		free(line);
 		return (NULL);
 	}
 	tmp = trim_space(line);

@@ -69,11 +69,14 @@ char	*prompt(char *line_read)
 	char	*prompt_name;
 
 	if (line_read != NULL)
+	{
+		free(line_read);
 		line_read = NULL;
+	}
 	prompt_name = get_prompt_name();
 	line_read = readline(prompt_name);
 	free(prompt_name);
-	if (line_read && *line_read)
+	if (line_read && line_read[0] != '\0')
 		add_history(line_read);
 	return (line_read);
 }
