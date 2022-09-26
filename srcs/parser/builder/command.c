@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/03 15:40:41 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 18:08:42 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_command	*init_command(void)
 	command->in = NULL;
 	command->out = NULL;
 	command->argv = NULL;
+	command->heredoc = NULL;
 	command->bin = NULL;
 	command->out_in_append_mode = false;
 	command->return_value = 0;
@@ -45,6 +46,15 @@ t_command	*init_command(void)
  */
 void	destroy_command(t_command *command)
 {
+	int		i;
+
+	i = 0;
+	if (command == NULL)
+		return ;
+	while (command->argv[i])
+		free(command->argv[i++]);
+	if (command->tokens)
+		ft_lstclear(&(command->tokens), destroy_token);
 	free(command->argv);
 	free(command->bin);
 	free(command->in);

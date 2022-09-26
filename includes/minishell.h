@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 19:06:15 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/26 18:46:14 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 # define MINISHELL_H
 
 # define FILE_PERMISSION_IF_CREATED 0664
+# define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
 
 # include <unistd.h>
 # include "libft.h"
 
-extern char			**environ;
+extern char	**environ;
+
+# define TMP_FILE "/tmp/.minishell.heredoc"
 
 typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
@@ -42,6 +45,7 @@ typedef struct s_command {
 	char		*out;
 	char		*bin;
 	char		**argv;
+	char		*heredoc;
 	t_list_el	*tokens;
 	int			return_value;
 	_Bool		out_in_append_mode;
@@ -109,6 +113,7 @@ void				destroy_execution_plan(t_execution_plan *execution_plan);
 
 t_token				*init_token(void);
 t_command			*init_command(void);
+void				destroy_command(t_command *command);
 
 /* Tokenizer */
 t_list_el			*tokenize_line(char *line);
@@ -129,8 +134,10 @@ void				set_operator(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
 
+void				destroy_token(void *token);
+
 /* Parser */
-t_execution_plan	*parse_tokens(t_list_el *tokens);
+t_execution_plan	*parse_all_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
 
@@ -143,6 +150,9 @@ int					calculate_env_variable_expanded_length(
 int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
 void				set_argv_from_tokens(t_command *command, char **str);
+
+_Bool				has_heredoc_token(t_list_el *tokens);
+void				handle_heredoc_input(t_command *command);
 
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);
@@ -166,6 +176,8 @@ void				route_command_io(
 						int index,
 						int number_of_commands
 						);
+
+void				execute_heredoc(t_command *command);
 
 _Bool				is_a_builtins(char *bin);
 void				execute_builtins(t_command *command);

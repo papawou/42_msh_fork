@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:09:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static _Bool	check_for_words(t_list_el *el, int number)
  *
  * @return {_Bool} is_valid
  */
-static _Bool	verify_input_simple_operator(
+static _Bool	verify_input_operator(
+		t_list_el *lst,
 		t_list_el *next_el,
 		t_list_el *previous_el
 	)
@@ -89,6 +90,7 @@ static _Bool	verify_input_simple_operator(
 	{
 		number_of_words_after = 1;
 		number_of_words_before = 1;
+		previous_el = lst;
 	}
 	if (!check_for_words(previous_el, number_of_words_before))
 		return (false);
@@ -134,9 +136,9 @@ _Bool	verify_tokens(t_list_el *tokens)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (token->type == I_SIMPLE_OP)
+		if (token->type == I_SIMPLE_OP || token->type == I_HEREDOC_OP)
 		{
-			if (verify_input_simple_operator(current_el->next, previous_el)
+			if (verify_input_operator(tokens, current_el->next, previous_el)
 				== false)
 				return (false);
 		}

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 14:16:40 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_io_token(
 	else if (token->type == O_APPEND_OP)
 	{
 		command->out = ft_strdup(
-				((t_token *)current_el->next->next->content)->value);
+				((t_token *)current_el->next->content)->value);
 		command->out_in_append_mode = true;
 	}
 }

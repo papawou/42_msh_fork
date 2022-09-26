@@ -6,13 +6,13 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/04 15:13:00 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 16:22:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "minishell.h"
+
+#include <stdlib.h>
 
 /**
  *
@@ -82,6 +82,26 @@ int	count_argv(t_command *command)
 	return (++i);
 }
 
+t_command	*parse_command_tokens(t_command *command, t_list_el **tokens)
+{
+	char		*str;
+
+	command = set_tokens_for_command(tokens);
+	if (!verify_tokens(command->tokens))
+		return (NULL);
+	if (has_heredoc_token(command->tokens))
+		handle_heredoc_input(command);
+	set_io_from_tokens(command);
+	command->argv = malloc(sizeof(char *)
+			* (count_argv(command) + 1));
+	str = create_base_str();
+	set_argv_from_tokens(command, &str);
+	command->bin
+		= ft_strdup(command->argv[0]);
+	free(str);
+	return (command);
+}
+
 /**
  *
  * Get the tokens and verify them, create the commands with io and argv and
@@ -91,31 +111,25 @@ int	count_argv(t_command *command)
  *
  * @return {t_execution_plan *}
  */
-t_execution_plan	*parse_tokens(t_list_el *tokens)
+t_execution_plan	*parse_all_tokens(t_list_el *tokens)
 {
 	int					i;
 	int					number_of_commands;
 	t_execution_plan	*execution_plan;
-	char				*str;
 
 	number_of_commands = count_number_of_commands(tokens);
 	execution_plan = init_execution_plan(number_of_commands);
-	i = -1;
-	while (++i < number_of_commands)
+	i = 0;
+	while (i < number_of_commands)
 	{
-		execution_plan->commands[i] = set_tokens_for_command(&tokens);
-		if (!verify_tokens(execution_plan->commands[i]->tokens))
+		execution_plan->commands[i]
+			= parse_command_tokens(execution_plan->commands[i], &tokens);
+		if (execution_plan->commands[i] == NULL)
 		{
 			destroy_execution_plan(execution_plan);
 			return (NULL);
 		}
-		set_io_from_tokens(execution_plan->commands[i]);
-		execution_plan->commands[i]->argv = malloc(sizeof(char *)
-				* (count_argv(execution_plan->commands[i]) + 1));
-		str = create_base_str();
-		set_argv_from_tokens(execution_plan->commands[i], &str);
-		execution_plan->commands[i]->bin
-			= ft_strdup(execution_plan->commands[i]->argv[0]);
+		i++;
 	}
 	return (execution_plan);
 }

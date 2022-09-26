@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/24 19:07:23 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/19 13:52:39 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 /**
@@ -30,6 +31,7 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 	if (check_quote_closed(line) == false)
 	{
 		printf("Syntax error, unclosed quote\n");
+		free(line);
 		return (NULL);
 	}
 	tmp = trim_space(line);
@@ -37,9 +39,11 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 	tmp = ft_strjoin(" ", line);
 	line = tmp;
 	tmp = ft_strjoin(line, " ");
+	free(line);
 	line = tmp;
 	tokens = tokenize_line(line);
+	free(line);
 	parse_env_variables(env, tokens);
-	execution_plan = parse_tokens(tokens->next);
+	execution_plan = parse_all_tokens(tokens->next);
 	return (execution_plan);
 }
