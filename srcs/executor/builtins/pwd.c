@@ -16,11 +16,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-void	execute_pwd(void)
+unsigned int execute_pwd(void)
 {
 	char			*current_dir;
 
 	current_dir = get_current_dir();
 	printf("%s\n", current_dir);
 	free(current_dir);
+	return (0);
 }

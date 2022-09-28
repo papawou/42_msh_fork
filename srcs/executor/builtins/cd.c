@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:17:11 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/28 18:28:41 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	execute_cd(t_list_el *env, t_command *command)
+unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
 	int		status;
 
 	if (command->argv[1] != NULL && command->argv[2] != NULL)
 	{
 		printf("cd: too many arguments\n");
-		return ;
+		return (1);
 	}
 	if (command->argv[1])
 		status = chdir(command->argv[1]);
@@ -31,4 +31,5 @@ void	execute_cd(t_list_el *env, t_command *command)
 		status = chdir(get_env_value(env, "HOME"));
 	if (status != 0)
 		perror(command->argv[1]);
+	return (status);
 }

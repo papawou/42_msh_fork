@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:42:10 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/28 18:37:17 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
 	ERR_OPENING_FILE = 2,
 	ERR_FORKING_PROCESS = 3,
+	ERR_PIPING = 5,
+	ERR_EXEC = 6
 }	t_error_codes;
 
 typedef enum e_token_type {
@@ -197,10 +199,10 @@ void				execute_heredoc(t_command *command);
 char				*get_program_path(t_list_el *env, t_command *command);
 
 _Bool				is_a_builtins(char *bin);
-void				execute_builtins(t_list_el *env, t_command *command);
+int					execute_builtins(t_list_el *env, t_command *command);
 
-void				execute_echo(t_command *command);
-void				execute_cd(t_list_el *env, t_command *command);
-void				execute_pwd(void);
+unsigned int		execute_echo(t_command *command);
+unsigned int		execute_cd(t_list_el *env, t_command *command);
+unsigned int		execute_pwd(void);
 
 #endif
