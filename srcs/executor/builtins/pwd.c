@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 20:41:13 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:41:13 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/28 18:30:53 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-unsigned int execute_pwd(void)
+unsigned int	execute_pwd(void)
 {
 	char			*current_dir;
 

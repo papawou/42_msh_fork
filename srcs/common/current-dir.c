@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 17:44:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 17:49:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/28 18:50:44 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
  */
 char	*get_current_dir(void)
 {
-	const int		buf_size = 1024;
-	char			*current_dir;
+	const int	buf_size = 1024;
+	char		*current_dir;
 
 	current_dir = malloc(sizeof(char) * buf_size);
 	getcwd(current_dir, buf_size);
