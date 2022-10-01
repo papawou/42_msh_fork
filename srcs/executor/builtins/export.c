@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:12:26 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 16:42:33 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 16:43:59 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ unsigned int	execute_export(t_list_el **env, t_command *command)
 	{
 		if (!is_valid_key_value_env(command->argv[i], true))
 		{
-			has_an_error = tru;
+			has_an_error = true;
 			print_export_error(command->argv[i++]);
 			continue ;
 		}
