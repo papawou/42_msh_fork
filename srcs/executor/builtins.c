@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:32:32 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 16:40:33 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:13:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ _Bool	is_a_builtins(char *bin)
 	if (ft_strcmp(bin, "pwd") == 0)
 		return (true);
 	if (ft_strcmp(bin, "export") == 0)
+		return (true);
+	if (ft_strcmp(bin, "unset") == 0)
 		return (true);
 	return (false);
 }
@@ -49,5 +51,7 @@ int	execute_builtins(t_list_el **env, t_command *command)
 		return (execute_pwd());
 	if (ft_strcmp(command->bin, "export") == 0)
 		return (execute_export(env, command));
+	if (ft_strcmp(command->bin, "unset") == 0)
+		return (execute_unset(env, command));
 	return (-1);
 }

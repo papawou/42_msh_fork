@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:12:31 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:14:12 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ void				free_environ_char_2d(char **src);
 
 _Bool				is_valid_key_value_env(char *key_value);
 _Bool				extract_key_value(char *key_value,
-
 						char **key, char **value);
 
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
@@ -215,5 +214,6 @@ unsigned int		execute_echo(t_command *command);
 unsigned int		execute_cd(t_list_el *env, t_command *command);
 unsigned int		execute_pwd(void);
 unsigned int		execute_export(t_list_el **env, t_command *command);
+unsigned int		execute_unset(t_list_el **env, t_command *command);
 
 #endif
