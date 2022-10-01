@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 15:06:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 16:40:54 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,9 @@ t_list_el			*parse_environ(void);
 char				**environ_el_to_char_2d(t_list_el *entry);
 void				free_environ_char_2d(char **src);
 
+_Bool				is_valid_key_value_env(
+						char *key_value, _Bool accept_key_only);
+
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 char				*get_env_value(t_list_el *env, char *key);
 
@@ -204,10 +207,11 @@ void				execute_heredoc(t_command *command);
 char				*get_program_path(t_list_el *env, t_command *command);
 
 _Bool				is_a_builtins(char *bin);
-int					execute_builtins(t_list_el *env, t_command *command);
+int					execute_builtins(t_list_el **env, t_command *command);
 
 unsigned int		execute_echo(t_command *command);
 unsigned int		execute_cd(t_list_el *env, t_command *command);
 unsigned int		execute_pwd(void);
+unsigned int		execute_export(t_list_el **env, t_command *command);
 
 #endif

@@ -56,7 +56,7 @@ void	execute_command(
 		return (route_back_command_io(command));
 	if (is_a_builtins(command->bin))
 	{
-		execute_builtins(*(execution_plan->env), command);
+		execute_builtins(execution_plan->env, command);
 		return (route_back_command_io(command));
 	}
 	program_path = get_program_path(*execution_plan->env, command);

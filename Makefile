@@ -27,9 +27,9 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c parser/parser/builtins.c \
  				parser/parser/heredoc.c \
 				executor/executor.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c executor/path.c executor/file-redirect.c \
-				executor/builtins.c executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c \
+				executor/builtins.c executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c executor/builtins/export.c \
 				prompter/prompt.c prompter/signal_handlers.c \
-				environ/environ.c environ/environ-2d.c environ/environ-getters.c \
+				environ/environ.c environ/environ-2d.c environ/environ-getters.c environ/environ-checker.c \
 				common/utils.c common/current-dir.c common/error.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
