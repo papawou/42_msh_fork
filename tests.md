@@ -40,6 +40,16 @@ echo "$HOME"
 echo "$HOME/$EDITOR"
 ```
 
+- [ ] T1 and T2 should be in env, 2T should display and error message
+```
+export T1=42 2T=42 T3=42
+```
+
+- [ ] T1 and T2 should not be in env anymore
+```
+unset T1 2T T3
+```
+
 - [ ] Get from stdin
 ```
 << EOF cat -n
@@ -64,3 +74,4 @@ cd /tmp
 ```
 cd
 ```
+

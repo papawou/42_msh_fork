@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 13:30:37 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:30:36 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	execute_command(
 	char		*program_path;
 	t_command	*command;
 	char		**environ_as_arr;
+	int			builtin_result;
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
@@ -56,7 +57,9 @@ void	execute_command(
 		return (route_back_command_io(command));
 	if (is_a_builtins(command->bin))
 	{
-		execute_builtins(*(execution_plan->env), command);
+		builtin_result = execute_builtins(execution_plan->env, command);
+		if (execution_plan->need_to_fork)
+			exit(builtin_result);
 		return (route_back_command_io(command));
 	}
 	program_path = get_program_path(*execution_plan->env, command);

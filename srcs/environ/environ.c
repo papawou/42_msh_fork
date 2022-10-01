@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/24 17:13:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:09:55 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,20 @@ void	remove_environ_el(t_list_el **entry, char *key)
 t_environ_el	*init_environ_el(char *key_value)
 {
 	t_environ_el	*dst;	
-	char			*idx;
 
 	if (key_value == NULL)
 		return (NULL);
 	if (key_value[0] == 0)
 		return (NULL);
 	dst = (t_environ_el *) malloc(sizeof(t_environ_el));
-	idx = ft_strchr(key_value, '=');
-	if (idx == NULL || dst == NULL)
+	if (dst == NULL)
+		return (NULL);
+	if (!extract_key_value(key_value, &dst->key, &dst->value))
 	{
 		free(dst);
 		return (NULL);
 	}
-	dst->key = ft_strndup(key_value, idx - key_value);
-	dst->value = ft_strdup(idx + 1);
-	if (dst->key != NULL && dst->value != NULL)
-		return (dst);
-	free(dst->key);
-	free(dst->value);
-	free(dst);
-	return (NULL);
+	return (dst);
 }
 
 /**

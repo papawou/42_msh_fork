@@ -6,14 +6,15 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:11:03 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/24 17:18:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:26:22 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "minishell.h"
 #include "libft.h"
+
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  *
@@ -63,4 +64,13 @@ void	free_environ_char_2d(char **src)
 	while (src[i])
 		free(src[i++]);
 	free(src);
+}
+
+void	print_environ_char_2d(char **char_2d)
+{
+	int		i;
+
+	i = 0;
+	while (char_2d[i])
+		printf("%s\n", char_2d[i++]);
 }
