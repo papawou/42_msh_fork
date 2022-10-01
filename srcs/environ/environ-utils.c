@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:15:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:03:31 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 19:39:58 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
  *
  * Check if key_value param is a valid environment variable
  * formatted as #*[a-b,A-Z,0-9]=*.#
- * return addr of '=' if valid
- * return NULL if invalid
  *
  * @param {char *} key_value
  * @param {_Bool} accept_key_only
