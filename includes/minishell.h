@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:36:30 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 15:06:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,12 @@ _Bool				is_a_simple_output(char *str);
 _Bool				is_a_append_output(char *str);
 _Bool				is_a_simple_input(char *str);
 _Bool				is_a_heredoc_input(char *str);
-_Bool				is_a_pipe(char *str);
 _Bool				is_an_operator(char *str);
 _Bool				is_operator_symbol(char c);
 void				set_operator(char **str, t_token *token);
+
+_Bool				is_a_pipe(char *str);
+void				set_pipe(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
 
