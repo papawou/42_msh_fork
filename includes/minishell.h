@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:37:17 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 13:08:08 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 # define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
+# define SHELL_NAME "minishell"
 
 # include <unistd.h>
 # include "libft.h"
@@ -91,6 +92,8 @@ int					open_file(char *path, int flags);
 char				*create_base_str(void);
 
 char				*get_current_dir(void);
+
+void				print_erno_error(char *error);
 
 /** Prompter **/
 void				print_welcome_message(void);

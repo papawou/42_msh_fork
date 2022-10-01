@@ -30,6 +30,6 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 	else
 		status = chdir(get_env_value(env, "HOME"));
 	if (status != 0)
-		perror(command->argv[1]);
+		print_erno_error(command->argv[1]);
 	return (status);
 }

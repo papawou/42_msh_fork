@@ -6,13 +6,15 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 17:44:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:50:44 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 13:06:45 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
 
 /**
  *
@@ -22,10 +24,16 @@
  */
 char	*get_current_dir(void)
 {
-	const int	buf_size = 1024;
 	char		*current_dir;
 
-	current_dir = malloc(sizeof(char) * buf_size);
-	getcwd(current_dir, buf_size);
+	current_dir = malloc(sizeof(char) * PATH_MAX);
+	if (current_dir == NULL)
+		return (NULL);
+	getcwd(current_dir, PATH_MAX);
+	if (current_dir == NULL)
+	{
+		print_erno_error(NULL);
+		return (NULL);
+	}
 	return (current_dir);
 }

@@ -30,7 +30,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
 				executor/builtins.c executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c \
 				prompter/prompt.c prompter/signal_handlers.c \
 				environ/environ.c environ/environ-2d.c environ/environ-getters.c \
-				common/utils.c common/current-dir.c)
+				common/utils.c common/current-dir.c common/error.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
 NORM_BIN	= norminette

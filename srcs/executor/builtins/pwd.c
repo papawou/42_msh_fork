@@ -21,6 +21,8 @@ unsigned int	execute_pwd(void)
 	char			*current_dir;
 
 	current_dir = get_current_dir();
+	if (current_dir == NULL)
+		return (1);
 	printf("%s\n", current_dir);
 	free(current_dir);
 	return (0);

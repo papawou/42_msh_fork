@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:38:55 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 13:30:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,17 @@ void	execute_command(
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
+	if (command->bin == NULL)
+		return (route_back_command_io(command));
 	if (is_a_builtins(command->bin))
 	{
 		execute_builtins(*(execution_plan->env), command);
-		route_back_command_io(command);
-		return ;
+		return (route_back_command_io(command));
 	}
 	program_path = get_program_path(*execution_plan->env, command);
 	if (program_path == NULL)
 	{
-		perror(program_path);
+		print_erno_error(NULL);
 		exit(-1);
 	}
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
