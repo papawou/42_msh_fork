@@ -17,15 +17,15 @@ cat /etc/passwd | grep root > /tmp/test-out
 
 - [ ] Append /etc/passwd root line to tmp file
 ```
-cat /etc/passwd | grep root >> /tmp/test-out
+cat /etc/passwd | >> /tmp/test-out grep root 
 ```
 
-- [ ] Get /etc/passwd as input file syntax one
+- [ ] Get /etc/passwd as input file
 ```
 < /etc/passwd cat -n
 ```
 
-- [ ] Get /etc/passwd as input file syntax two
+- [ ] Get /etc/passwd as input file other syntax
 ```
 cat -n < /etc/passwd 
 ```
@@ -40,14 +40,19 @@ echo "$HOME"
 echo "$HOME/$EDITOR"
 ```
 
-- [ ] Get from stdin syntax one
+- [ ] Get from stdin
 ```
 << EOF cat -n
 ```
 
-- [ ] Get from stdin syntax two
+- [ ] Get from stdin other syntax
 ```
 cat -n << EOF
+```
+
+- [ ] Test multiple redirections, should create all three out file and add the content of << in out3
+```
+< /etc/passwd << EOF > /tmp/out1 cat -n > /tmp/out2 >/tmp/out3
 ```
 
 - [ ] Change directory

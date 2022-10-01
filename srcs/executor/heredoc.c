@@ -41,13 +41,13 @@ char	*prompt_heredoc(char *line_read)
 	return (line_read);
 }
 
-static void	build_heredoc_str(char *heredoc_str, char *line_read)
+static void	build_heredoc_str(char **heredoc_str, char *line_read)
 {
 	char	*tmp;
 
-	tmp = ft_strjoin(heredoc_str, line_read);
-	free(heredoc_str);
-	heredoc_str = ft_strjoin(tmp, "\n");
+	tmp = ft_strjoin(*heredoc_str, line_read);
+	free(*heredoc_str);
+	*heredoc_str = ft_strjoin(tmp, "\n");
 	free(tmp);
 }
 
@@ -89,7 +89,7 @@ void	execute_heredoc(t_command *command)
 		}
 		if (ft_strcmp(line_read, command->heredoc) == 0)
 			break ;
-		build_heredoc_str(heredoc_str, line_read);
+		build_heredoc_str(&heredoc_str, line_read);
 	}
 	free(line_read);
 	ft_printf_fd(tmp_file_fd, "%s", heredoc_str);

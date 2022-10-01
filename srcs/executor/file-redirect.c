@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 19:40:37 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 21:01:33 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 13:59:31 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ t_file_redirect	*init_file_redirect(char *file)
 	return (file_redirect);
 }
 
-t_file_redirect	*destroy_file_redirect(t_file_redirect *file_redirect)
+void	destroy_file_redirect(void *file_redirect_arg)
 {
+	t_file_redirect	*file_redirect;
+
+	file_redirect = (t_file_redirect *)file_redirect_arg;
 	if (file_redirect == NULL)
-		return (NULL);
+		return ;
 	free(file_redirect->file);
 	free(file_redirect);
-	return (NULL);
+	return ;
 }

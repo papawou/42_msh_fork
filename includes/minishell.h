@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 13:08:08 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 15:06:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ typedef struct s_file_redirect {
 }	t_file_redirect;
 
 typedef struct s_command {
-	t_file_redirect		*in;
-	t_file_redirect		*out;
-	char				*bin;
-	char				**argv;
-	char				*heredoc;
-	t_list_el			*tokens;
-	int					return_value;
+	t_list_el		*in;
+	t_list_el		*out;
+	char			*bin;
+	char			**argv;
+	char			*heredoc;
+	t_list_el		*tokens;
+	int				return_value;
 }	t_command;
 
 typedef struct s_token {
@@ -141,10 +141,12 @@ _Bool				is_a_simple_output(char *str);
 _Bool				is_a_append_output(char *str);
 _Bool				is_a_simple_input(char *str);
 _Bool				is_a_heredoc_input(char *str);
-_Bool				is_a_pipe(char *str);
 _Bool				is_an_operator(char *str);
 _Bool				is_operator_symbol(char c);
 void				set_operator(char **str, t_token *token);
+
+_Bool				is_a_pipe(char *str);
+void				set_pipe(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
 
@@ -165,8 +167,8 @@ int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
 void				set_argv_from_tokens(t_command *command, char **str);
 
+_Bool				is_io_token(t_token *token);
 _Bool				has_heredoc_token(t_list_el *tokens);
-void				handle_heredoc_input(t_command *command);
 
 _Bool				check_if_need_to_fork(t_execution_plan *execution_plan);
 
@@ -195,7 +197,7 @@ void				route_command_io(
 void				route_back_command_io(t_command *command);
 
 t_file_redirect		*init_file_redirect(char *file);
-t_file_redirect		*destroy_file_redirect(t_file_redirect *file_redirect);
+void				destroy_file_redirect(void *file_redirect_arg);
 
 void				execute_heredoc(t_command *command);
 

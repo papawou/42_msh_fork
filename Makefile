@@ -22,7 +22,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/parse.c parser/builder/execution-plan.c parser/builder/command.c \
  				parser/builder/token.c \
  				parser/tokenizer/tokenizer.c parser/tokenizer/utils.c parser/tokenizer/word.c \
- 				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c\
+ 				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c parser/tokenizer/pipe.c \
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c parser/parser/builtins.c \
  				parser/parser/heredoc.c \
