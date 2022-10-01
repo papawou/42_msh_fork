@@ -6,13 +6,14 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:12:26 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 16:43:59 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:01:19 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 void	print_export_error(char *identifier)
 {
@@ -24,6 +25,25 @@ void	print_export_error(char *identifier)
 		);
 }
 
+static void	add_or_modify_environ_el(t_list_el **env, char *key_value)
+{
+	char			*key;
+	char			*value;
+	t_environ_el	*el;
+
+	extract_key_value(key_value, &key, &value);
+	el = get_environ_el(*env, key);
+	if (el)
+	{
+		free(el->value);
+		el->value = ft_strdup(value);
+	}
+	else
+		add_environ_el(env, key_value);
+	free(value);
+	free(key);
+}
+
 unsigned int	execute_export(t_list_el **env, t_command *command)
 {
 	int		i;
@@ -33,13 +53,13 @@ unsigned int	execute_export(t_list_el **env, t_command *command)
 	i = 1;
 	while (command->argv[i])
 	{
-		if (!is_valid_key_value_env(command->argv[i], true))
+		if (!is_valid_key_value_env(command->argv[i]))
 		{
 			has_an_error = true;
 			print_export_error(command->argv[i++]);
 			continue ;
 		}
-		add_environ_el(env, command->argv[i++]);
+		add_or_modify_environ_el(env, command->argv[i++]);
 	}
 	if (has_an_error)
 		return (1);

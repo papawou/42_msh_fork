@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 16:40:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:12:31 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ t_list_el			*parse_environ(void);
 char				**environ_el_to_char_2d(t_list_el *entry);
 void				free_environ_char_2d(char **src);
 
-_Bool				is_valid_key_value_env(
-						char *key_value, _Bool accept_key_only);
+_Bool				is_valid_key_value_env(char *key_value);
+_Bool				extract_key_value(char *key_value,
+
+						char **key, char **value);
 
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 char				*get_env_value(t_list_el *env, char *key);
