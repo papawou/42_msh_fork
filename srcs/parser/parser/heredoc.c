@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 16:44:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/25 16:09:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/26 20:38:46 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_heredoc_input(t_command *command)
 		{
 			command->heredoc
 				= ft_strdup(((t_token *)current_el->next->content)->value);
-			command->in = ft_strdup(TMP_FILE);
+			command->in = init_file_redirect(TMP_FILE);
 			ft_lstremove(&command->tokens, current_el->next, &destroy_token);
 			ft_lstremove(&command->tokens, current_el, &destroy_token);
 			break ;

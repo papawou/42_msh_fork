@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 18:46:14 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 13:08:08 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 # define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
+# define SHELL_NAME "minishell"
 
 # include <unistd.h>
 # include "libft.h"
@@ -27,6 +28,8 @@ typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
 	ERR_OPENING_FILE = 2,
 	ERR_FORKING_PROCESS = 3,
+	ERR_PIPING = 5,
+	ERR_EXEC = 6
 }	t_error_codes;
 
 typedef enum e_token_type {
@@ -40,15 +43,21 @@ typedef enum e_token_type {
 	PIPE
 }	t_token_type;
 
+typedef struct s_file_redirect {
+	char	*file;
+	int		file_fd;
+	int		std_copy;
+	int		mode;
+}	t_file_redirect;
+
 typedef struct s_command {
-	char		*in;
-	char		*out;
-	char		*bin;
-	char		**argv;
-	char		*heredoc;
-	t_list_el	*tokens;
-	int			return_value;
-	_Bool		out_in_append_mode;
+	t_file_redirect		*in;
+	t_file_redirect		*out;
+	char				*bin;
+	char				**argv;
+	char				*heredoc;
+	t_list_el			*tokens;
+	int					return_value;
 }	t_command;
 
 typedef struct s_token {
@@ -60,6 +69,7 @@ typedef struct s_execution_plan {
 	t_command	**commands;
 	int			number_of_commands;
 	t_list_el	**env;
+	_Bool		need_to_fork;
 }	t_execution_plan;
 
 typedef struct s_environ_el {
@@ -80,6 +90,10 @@ typedef struct s_env_variable {
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 char				*create_base_str(void);
+
+char				*get_current_dir(void);
+
+void				print_erno_error(char *error);
 
 /** Prompter **/
 void				print_welcome_message(void);
@@ -154,6 +168,8 @@ void				set_argv_from_tokens(t_command *command, char **str);
 _Bool				has_heredoc_token(t_list_el *tokens);
 void				handle_heredoc_input(t_command *command);
 
+_Bool				check_if_need_to_fork(t_execution_plan *execution_plan);
+
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);
 void				execute_command(t_execution_plan *execution_plan,
@@ -176,12 +192,20 @@ void				route_command_io(
 						int index,
 						int number_of_commands
 						);
+void				route_back_command_io(t_command *command);
+
+t_file_redirect		*init_file_redirect(char *file);
+t_file_redirect		*destroy_file_redirect(t_file_redirect *file_redirect);
 
 void				execute_heredoc(t_command *command);
 
-_Bool				is_a_builtins(char *bin);
-void				execute_builtins(t_command *command);
+char				*get_program_path(t_list_el *env, t_command *command);
 
-void				execute_echo(t_command *command);
+_Bool				is_a_builtins(char *bin);
+int					execute_builtins(t_list_el *env, t_command *command);
+
+unsigned int		execute_echo(t_command *command);
+unsigned int		execute_cd(t_list_el *env, t_command *command);
+unsigned int		execute_pwd(void);
 
 #endif

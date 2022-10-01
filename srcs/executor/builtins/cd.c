@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 15:36:50 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:26:50 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/09/28 18:28:41 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#include <unistd.h>
 #include <stdio.h>
-#include <stdbool.h>
+#include <stdlib.h>
 
-unsigned int	execute_echo(t_command *command)
+unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
-	_Bool	without_line_break;
-	int		i;
+	int		status;
 
-	without_line_break = false;
-	i = 1;
-	if (command->argv[i] && ft_strcmp(command->argv[i], "-n") == 0)
+	if (command->argv[1] != NULL && command->argv[2] != NULL)
 	{
-		without_line_break = true;
-		i++;
+		printf("cd: too many arguments\n");
+		return (1);
 	}
-	while (command->argv[i])
-	{
-		printf("%s", command->argv[i++]);
-		if (command->argv[i])
-			printf(" ");
-	}
-	if (!without_line_break)
-		printf("\n");
-	return (0);
+	if (command->argv[1])
+		status = chdir(command->argv[1]);
+	else
+		status = chdir(get_env_value(env, "HOME"));
+	if (status != 0)
+		print_erno_error(command->argv[1]);
+	return (status);
 }

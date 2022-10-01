@@ -96,8 +96,9 @@ t_command	*parse_command_tokens(t_command *command, t_list_el **tokens)
 			* (count_argv(command) + 1));
 	str = create_base_str();
 	set_argv_from_tokens(command, &str);
-	command->bin
-		= ft_strdup(command->argv[0]);
+	if (command->argv[0])
+		command->bin
+			= ft_strdup(command->argv[0]);
 	free(str);
 	return (command);
 }

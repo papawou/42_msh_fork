@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 15:36:50 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:26:50 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/09/26 20:41:13 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/09/28 18:30:53 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,16 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-unsigned int	execute_echo(t_command *command)
+unsigned int	execute_pwd(void)
 {
-	_Bool	without_line_break;
-	int		i;
+	char			*current_dir;
 
-	without_line_break = false;
-	i = 1;
-	if (command->argv[i] && ft_strcmp(command->argv[i], "-n") == 0)
-	{
-		without_line_break = true;
-		i++;
-	}
-	while (command->argv[i])
-	{
-		printf("%s", command->argv[i++]);
-		if (command->argv[i])
-			printf(" ");
-	}
-	if (!without_line_break)
-		printf("\n");
+	current_dir = get_current_dir();
+	if (current_dir == NULL)
+		return (1);
+	printf("%s\n", current_dir);
+	free(current_dir);
 	return (0);
 }
