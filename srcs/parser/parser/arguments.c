@@ -56,7 +56,7 @@ void	skip_n_elements(
  * @param {t_list_el **} current_el
  * @param {t_list_el **} last_el
  */
-void	handle_input_simple_for_argv(
+void	skip_io_token_for_argv(
 		t_list_el **current_el,
 		t_list_el **last_el
 		)
@@ -103,10 +103,8 @@ void	set_argv_from_tokens(t_command *command, char **str)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (token->type == I_SIMPLE_OP)
-			handle_input_simple_for_argv(&current_el, &last_el);
-		if (token->type == O_SIMPLE_OP || token->type == O_APPEND_OP)
-			break ;
+		if (is_io_token(token))
+			skip_io_token_for_argv(&current_el, &last_el);
 		if (token->type == WORD_W_ENV_EXP || token->type == WORD_WO_ENV_EXP)
 			*str = ft_strjoin(*str, token->value);
 		else if (token->type == SPACE_DELIMITER)

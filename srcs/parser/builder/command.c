@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:20:15 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:35:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 14:00:11 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	destroy_command(t_command *command)
 		ft_lstclear(&(command->tokens), destroy_token);
 	free(command->argv);
 	free(command->bin);
-	destroy_file_redirect(command->in);
-	destroy_file_redirect(command->out);
+	if (command->in)
+		ft_lstclear(&command->in, destroy_file_redirect);
+	if (command->out)
+		ft_lstclear(&command->out, destroy_file_redirect);
 	free(command);
 }
