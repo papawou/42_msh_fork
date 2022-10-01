@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:26:33 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:38:47 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,5 +217,6 @@ unsigned int		execute_pwd(void);
 unsigned int		execute_export(t_list_el **env, t_command *command);
 unsigned int		execute_unset(t_list_el **env, t_command *command);
 unsigned int		execute_env(t_list_el **env);
+unsigned int		execute_exit(t_command *command);
 
 #endif
