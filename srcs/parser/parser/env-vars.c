@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 14:41:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 12:09:44 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 12:09:58 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_env_variable	*get_env_variable(t_list_el *env, char *token_value)
 	return (env_variable);
 }
 
-t_env_variable *destroy_env_variable(t_env_variable *env_variable)
+t_env_variable	*destroy_env_variable(t_env_variable *env_variable)
 {
 	if (env_variable == NULL)
 		return (NULL);
