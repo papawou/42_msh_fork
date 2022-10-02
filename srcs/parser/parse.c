@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/27 15:00:06 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,5 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 	free(line);
 	parse_env_variables(env, tokens);
 	execution_plan = parse_all_tokens(tokens->next);
-	if (execution_plan != NULL && !check_if_need_to_fork(execution_plan))
-		execution_plan->need_to_fork = false;
 	return (execution_plan);
 }

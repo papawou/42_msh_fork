@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 13:22:53 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,48 @@ static _Bool	check_for_words(t_list_el *el, int number)
 
 /**
  *
+ * Check rules for simple input operator
+ *
+ * @param {t_list_el *} next_el
+ *
+ * @return {_Bool} is_valid
+ */
+static _Bool	verify_input_operator(
+		t_list_el *lst,
+		t_list_el *next_el,
+		t_list_el *previous_el
+	)
+{
+	int			number_of_words_after;
+	int			number_of_words_before;
+
+	if (previous_el == NULL)
+	{
+		number_of_words_after = 2;
+		number_of_words_before = 0;
+	}
+	else
+	{
+		number_of_words_after = 1;
+		number_of_words_before = 1;
+		previous_el = lst;
+	}
+	if (!check_for_words(previous_el, number_of_words_before))
+		return (false);
+	if (!check_for_words(next_el, number_of_words_after))
+		return (false);
+	return (true);
+}
+
+/**
+ *
  * Check rules for output operator
  *
  * @param {t_list_el *} next_el
  *
  * @return {_Bool} is_valid
  */
-static _Bool	verify_io_operator(t_list_el *next_el)
+static _Bool	verify_output_operator(t_list_el *next_el)
 {
 	int			number_of_words_after;
 
@@ -93,18 +128,26 @@ static _Bool	verify_io_operator(t_list_el *next_el)
 _Bool	verify_tokens(t_list_el *tokens)
 {
 	t_list_el	*current_el;
+	t_list_el	*previous_el;
 	t_token		*token;
 
+	previous_el = NULL;
 	current_el = tokens;
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (token->type == O_SIMPLE_OP || token->type == O_APPEND_OP
-			|| token->type == I_SIMPLE_OP || token->type == I_HEREDOC_OP)
+		if (token->type == I_SIMPLE_OP || token->type == I_HEREDOC_OP)
 		{
-			if (verify_io_operator(current_el->next) == false)
+			if (verify_input_operator(tokens, current_el->next, previous_el)
+				== false)
 				return (false);
 		}
+		if (token->type == O_SIMPLE_OP || token->type == O_APPEND_OP)
+		{
+			if (verify_output_operator(current_el->next) == false)
+				return (false);
+		}
+		previous_el = current_el;
 		current_el = current_el->next;
 	}
 	return (true);

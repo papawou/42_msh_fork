@@ -61,3 +61,15 @@ _Bool	is_a_heredoc_input(char *str)
 		return (true);
 	return (false);
 }
+
+/**
+ * @param {char *} str
+ *
+ * @return  {_Bool} is_a_pipe
+ */
+_Bool	is_a_pipe(char *str)
+{
+	if (str[0] == '|')
+		return (true);
+	return (false);
+}

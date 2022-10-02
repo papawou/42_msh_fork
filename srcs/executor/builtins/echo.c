@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:36:50 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:26:50 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/27 15:00:05 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-unsigned int	execute_echo(t_command *command)
+unsigned char	execute_echo(t_command *command)
 {
 	_Bool	without_line_break;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:38:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 15:05:04 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 15:57:52 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
  */
 _Bool	is_an_operator(char *str)
 {
+	if (is_a_pipe(str))
+		return (true);
 	if (is_a_append_output(str))
 		return (true);
 	if (is_a_simple_output(str))
@@ -42,7 +44,7 @@ _Bool	is_an_operator(char *str)
  */
 _Bool	is_operator_symbol(char c)
 {
-	if (c == '<' || c == '>')
+	if (c == '|' || c == '<' || c == '>')
 		return (true);
 	return (false);
 }
@@ -53,7 +55,7 @@ _Bool	is_operator_symbol(char c)
  *
  * @param {char **} str
  */
-static void	eat_operator(char **str)
+void	eat_operator(char **str)
 {
 	while (is_operator_symbol(**str) || **str == ' ')
 		*str = &((*str)[1]);
@@ -67,7 +69,9 @@ static void	eat_operator(char **str)
  */
 void	set_operator(char **str, t_token *token)
 {
-	if (is_a_append_output(*str) == true)
+	if (is_a_pipe(*str) == true)
+		token->type = PIPE;
+	else if (is_a_append_output(*str) == true)
 		token->type = O_APPEND_OP;
 	else if (is_a_simple_output(*str) == true)
 		token->type = O_SIMPLE_OP;

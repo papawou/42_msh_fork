@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:37:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/27 15:00:07 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ static char	*get_prompt_name(void)
 	char	*prompt_name;
 	char	*user;
 	char	*user_and_path;
+	int		buf_size;
 
-	path = get_current_dir();
+	buf_size = 1024;
+	path = malloc(sizeof(char) * buf_size);
+	getcwd(path, buf_size);
 	user = ft_strjoin(getenv("USER"), "@");
 	user_and_path = ft_strjoin(user, path);
 	free(user);

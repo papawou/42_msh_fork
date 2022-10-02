@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:35:48 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/09/25 16:22:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,14 @@ int	count_argv(t_command *command)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		if (is_io_token(token))
+		if (token->type == I_SIMPLE_OP)
 		{
 			current_el = current_el->next->next;
 			continue ;
 		}
+		if (token->type == O_SIMPLE_OP
+			|| token->type == O_APPEND_OP)
+			break ;
 		if (token->type == SPACE_DELIMITER)
 			i++;
 		current_el = current_el->next;
@@ -86,14 +89,15 @@ t_command	*parse_command_tokens(t_command *command, t_list_el **tokens)
 	command = set_tokens_for_command(tokens);
 	if (!verify_tokens(command->tokens))
 		return (NULL);
+	if (has_heredoc_token(command->tokens))
+		handle_heredoc_input(command);
 	set_io_from_tokens(command);
 	command->argv = malloc(sizeof(char *)
 			* (count_argv(command) + 1));
 	str = create_base_str();
 	set_argv_from_tokens(command, &str);
-	if (command->argv[0])
-		command->bin
-			= ft_strdup(command->argv[0]);
+	command->bin
+		= ft_strdup(command->argv[0]);
 	free(str);
 	return (command);
 }
