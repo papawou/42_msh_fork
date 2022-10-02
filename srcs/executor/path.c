@@ -81,7 +81,7 @@ char	*get_program_path(t_list_el *env, t_command *command)
 	if (command->bin[0] == '/' || command->bin[0] == '.')
 	{
 		if (access(command->bin, X_OK) == F_OK)
-			return (command->bin);
+			return (ft_strdup(command->bin));
 		else
 			return (NULL);
 	}
