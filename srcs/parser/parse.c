@@ -45,6 +45,7 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 	free(line);
 	parse_env_variables(env, tokens);
 	execution_plan = parse_all_tokens(tokens->next);
+	destroy_token((void *)tokens);
 	if (execution_plan != NULL && !check_if_need_to_fork(execution_plan))
 		execution_plan->need_to_fork = false;
 	return (execution_plan);
