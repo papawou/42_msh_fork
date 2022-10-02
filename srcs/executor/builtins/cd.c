@@ -19,6 +19,7 @@
 unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
 	int		status;
+	char	*path;
 
 	if (command->argv[1] != NULL && command->argv[2] != NULL)
 	{
@@ -28,7 +29,11 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 	if (command->argv[1])
 		status = chdir(command->argv[1]);
 	else
-		status = chdir(get_env_value(env, "HOME"));
+	{
+		path = get_env_value(env, "HOME");
+		status = chdir(path);
+		free(path);
+	}
 	if (status != 0)
 		print_erno_error(command->argv[1]);
 	return (status);

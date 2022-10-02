@@ -56,6 +56,7 @@ void	destroy_command(t_command *command)
 		ft_lstclear(&(command->tokens), destroy_token);
 	free(command->argv);
 	free(command->bin);
+	free(command->heredoc);
 	if (command->in)
 		ft_lstclear(&command->in, destroy_file_redirect);
 	if (command->out)

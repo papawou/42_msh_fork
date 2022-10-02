@@ -39,6 +39,7 @@ t_command	*set_tokens_for_command(t_list_el **tokens)
 		{
 			last_el->next = NULL;
 			*tokens = current_el->next;
+			ft_lstremove(&current_el, current_el, destroy_token);
 			break ;
 		}
 		last_el = current_el;
