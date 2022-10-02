@@ -17,7 +17,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
 
+/*
 static void	clear_if_exec_fail(
 		t_execution_plan *execution_plan,
 		int **pipes,
@@ -31,7 +33,7 @@ static void	clear_if_exec_fail(
 	free_environ_char_2d(environ_as_arr);
 	exit(127);
 }
-
+*/
 /**
  *
  * Take a command, set the io routing and execute it
@@ -40,7 +42,7 @@ static void	clear_if_exec_fail(
  * @param {int **} pipes
  * @param {int} index
  */
-void	execute_command(
+int	execute_command(
 			t_execution_plan *execution_plan,
 			int **pipes,
 			int index
@@ -53,24 +55,71 @@ void	execute_command(
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
+	
 	if (command->bin == NULL)
-		return (route_back_command_io(command));
+	{
+		route_back_command_io(command);
+		return (42);
+	}
 	if (is_a_builtins(command->bin))
 	{
 		builtin_result = execute_builtins(execution_plan->env, command);
 		if (execution_plan->need_to_fork)
 			exit(builtin_result);
-		return (route_back_command_io(command));
+		route_back_command_io(command);
+		return (42);
 	}
+
 	program_path = get_program_path(*execution_plan->env, command);
 	if (program_path == NULL)
 	{
 		print_erno_error(NULL);
 		exit(-1);
 	}
+
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
-		clear_if_exec_fail(execution_plan, pipes, program_path, environ_as_arr);
+	{
+		int	exit_code;
+		exit_code = execve_process_error(program_path, errno);
+		free(program_path);
+		free_environ_char_2d(environ_as_arr);
+		return(exit_code);
+	}
+	return (2);
+}
+
+int	wait_execute_plan(t_execution_plan *plan, int last_pid)
+{
+	int wait_ret;
+	int	wait_stat;
+
+	(void) plan;
+	(void) last_pid;
+	while (1)
+	{
+		wait_ret = wait(&wait_stat);
+		if (wait_ret == -1)
+		{
+			if (errno == ECHILD)
+				break ;
+			break ; //== EINTR <- this should not be fired
+		}
+		if (last_pid == wait_ret) //1 is used for debug, in prod replace with "last_pid == wait_ret"
+		{
+			if (WIFSIGNALED(wait_stat))
+			{ printf("DEBUG: %d: child_sign: 128 + %d\n", wait_ret, WTERMSIG(wait_stat));
+				return (128 + WTERMSIG(wait_stat));
+			}
+			else if (WIFEXITED(wait_stat))
+			{ printf("DEBUG: %d: child_exit: %d\n", wait_ret, WEXITSTATUS(wait_stat));
+				return (WEXITSTATUS(wait_stat));
+			}
+			printf("DEBUG: child exited not monitored\n");
+			return (3);
+		}
+	}
+	return (0);
 }
 
 /**
@@ -83,26 +132,21 @@ void	execute_command(
  */
 int	execute_plan(t_execution_plan *execution_plan)
 {
-	int			i;
-	int			*pids;
+	static int	last_exit = 0;
+	int			last_pid;
 	int			**pipes;
 	int			number_of_child_processes;
 
 	number_of_child_processes = execution_plan->number_of_commands;
-	pipes = NULL;
-	pids = NULL;
-	pipes = create_pipes(number_of_child_processes, pipes);
-	pids = create_processes(execution_plan, pids, pipes);
-	i = 0;
-	close_pipes_in_main_process(pipes, number_of_child_processes);
-	while (i < number_of_child_processes)
+	pipes = create_pipes(number_of_child_processes);
+	if (pipes == NULL)
 	{
-		waitpid(pids[i], &(execution_plan->commands[i]->return_value), 0);
-		if (WEXITSTATUS(execution_plan->commands[i]->return_value) != 0)
-			exit(WEXITSTATUS(execution_plan->commands[i]->return_value));
-		i++;
+		last_exit = 2;
+		return (ERR_PIPING | ERR_ALLOCATING_MEMORY);
 	}
+	last_pid = create_processes(execution_plan, pipes);
+	close_pipes_in_main_process(pipes, number_of_child_processes);
+	last_exit = wait_execute_plan(execution_plan, last_pid);
 	destroy_pipes(number_of_child_processes, pipes);
-	free(pids);
-	return (0);
+	return (last_exit);
 }

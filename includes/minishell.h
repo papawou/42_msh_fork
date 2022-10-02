@@ -179,18 +179,17 @@ _Bool				check_if_need_to_fork(t_execution_plan *execution_plan);
 
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);
-void				execute_command(t_execution_plan *execution_plan,
+int				execute_command(t_execution_plan *execution_plan,
 						int **pipes, int index);
 
-int					**create_pipes(int number_of_child_processes, int **pipes);
+int					**create_pipes(int number_of_child_processes);
 void				close_pipes_in_child_process(int **pipes,
 						int number_of_child_processes, int index);
 void				close_pipes_in_main_process(
 						int **pipes, int number_of_child_processes);
 void				destroy_pipes(int number_of_child_processes, int **pipes);
 
-int					*create_processes(t_execution_plan *execution_plan,
-						int *pids, int **pipes);
+int					create_processes(t_execution_plan *execution_plan, int **pipes);
 int					count_total_process(int number_of_child_processes);
 
 void				route_command_io(
@@ -218,5 +217,8 @@ unsigned int		execute_export(t_list_el **env, t_command *command);
 unsigned int		execute_unset(t_list_el **env, t_command *command);
 unsigned int		execute_env(t_list_el **env);
 unsigned int		execute_exit(t_command *command);
+
+//execve_errros.c
+int execve_process_error(char *command, int execve_errno);
 
 #endif

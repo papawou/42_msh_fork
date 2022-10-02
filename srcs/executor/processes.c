@@ -38,31 +38,40 @@ int	count_total_process(int number_of_child_processes)
  *
  * @return {int *} return a pointer to the pids
  */
-int	*create_processes(t_execution_plan *execution_plan, int *pids, int **pipes)
+int	create_processes(t_execution_plan *execution_plan, int **pipes)
 {
 	int		i;
 	int		number_of_child_processes;
+	int		last_pid;
+	int		cmd_ret;
 
 	number_of_child_processes = execution_plan->number_of_commands;
-	pids = malloc(sizeof(int) * number_of_child_processes);
 	i = 0;
 	while (i < number_of_child_processes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
+		{
 			execute_heredoc(execution_plan->commands[i]);
+			++i ;
+			continue ;
+		}
 		if (execution_plan->need_to_fork)
-			pids[i] = fork();
+			last_pid = fork();
 		else
-			pids[i] = 0;
-		if (pids[i] == -1)
-			exit(ERR_FORKING_PROCESS);
-		if (pids[i] == 0)
+			last_pid = 0;
+		if (last_pid == -1)
+			break ;
+		if (last_pid == 0)
 		{
 			set_child_signals();
 			close_pipes_in_child_process(pipes, number_of_child_processes, i);
-			execute_command(execution_plan, pipes, i);
+			cmd_ret = execute_command(execution_plan, pipes, i);
+			destroy_pipes(number_of_child_processes, pipes);
+			destroy_execution_plan(execution_plan);
+			ft_lstclear(execution_plan->env, &destroy_environ_el);
+			exit(cmd_ret);
 		}
 		i++;
 	}
-	return (pids);
+	return (last_pid);
 }
