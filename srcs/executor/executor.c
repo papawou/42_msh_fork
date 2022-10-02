@@ -91,6 +91,7 @@ int	execute_command(
 
 int	wait_execute_plan(t_execution_plan *plan, int last_pid)
 {
+	int	code;
 	int wait_ret;
 	int	wait_stat;
 
@@ -109,17 +110,17 @@ int	wait_execute_plan(t_execution_plan *plan, int last_pid)
 		{
 			if (WIFSIGNALED(wait_stat))
 			{ printf("DEBUG: %d: child_sign: 128 + %d\n", wait_ret, WTERMSIG(wait_stat));
-				return (128 + WTERMSIG(wait_stat));
+				code = (128 + WTERMSIG(wait_stat));
 			}
 			else if (WIFEXITED(wait_stat))
 			{ printf("DEBUG: %d: child_exit: %d\n", wait_ret, WEXITSTATUS(wait_stat));
-				return (WEXITSTATUS(wait_stat));
+				code = (WEXITSTATUS(wait_stat));
 			}
 			printf("DEBUG: child exited not monitored\n");
-			return (3);
+			code = 3;
 		}
 	}
-	return (0);
+	return (code);
 }
 
 /**
