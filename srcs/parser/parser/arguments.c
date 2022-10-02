@@ -96,6 +96,7 @@ void	set_argv_from_tokens(t_command *command, char **str)
 	t_list_el	*current_el;
 	t_list_el	*last_el;
 	t_token		*token;
+	char		*tmp;
 
 	i = 0;
 	current_el = command->tokens;
@@ -106,7 +107,11 @@ void	set_argv_from_tokens(t_command *command, char **str)
 		if (is_io_token(token))
 			skip_io_token_for_argv(&current_el, &last_el);
 		if (token->type == WORD_W_ENV_EXP || token->type == WORD_WO_ENV_EXP)
-			*str = ft_strjoin(*str, token->value);
+		{
+			tmp = ft_strjoin(*str, token->value);
+			free(*str);
+			*str = tmp;
+		}
 		else if (token->type == SPACE_DELIMITER)
 			set_next_argv_str(command, str, &i);
 		skip_n_elements(&current_el, &last_el, 1);

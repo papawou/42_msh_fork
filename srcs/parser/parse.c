@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 11:45:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,27 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+void	set_exactly_one_space_padding(char **line)
+{
+	char	*str;
+	char	*tmp;
+	int		i;
+	int		y;
+
+	str = *line;
+	tmp = trim_space(str);
+	str = malloc((ft_strlen(tmp) + 3) * sizeof(char));
+	i = 0;
+	y = 0;
+	str[y++] = ' ';
+	while (tmp[i])
+		str[y++] = tmp[i++];
+	str[y++] = ' ';
+	str[y] = '\0';
+	free(tmp);
+	*line = str;
+}
 
 /**
  *
@@ -26,7 +47,6 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 {
 	t_execution_plan	*execution_plan;
 	t_list_el			*tokens;
-	char				*tmp;
 
 	if (check_quote_closed(line) == false)
 	{
@@ -34,13 +54,7 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 		free(line);
 		return (NULL);
 	}
-	tmp = trim_space(line);
-	line = tmp;
-	tmp = ft_strjoin(" ", line);
-	line = tmp;
-	tmp = ft_strjoin(line, " ");
-	free(line);
-	line = tmp;
+	set_exactly_one_space_padding(&line);
 	tokens = tokenize_line(line);
 	free(line);
 	parse_env_variables(env, tokens);
