@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:20:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:53:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 12:16:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,15 @@ void	set_next_argv_str(t_command *command, char **str, int *i)
 	}
 }
 
+void	join_token_value(char **str, t_token *token)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(*str, token->value);
+	free(*str);
+	*str = tmp;
+}
+
 /**
  *
  * Define argv from the tokens
@@ -106,7 +115,7 @@ void	set_argv_from_tokens(t_command *command, char **str)
 		if (is_io_token(token))
 			skip_io_token_for_argv(&current_el, &last_el);
 		if (token->type == WORD_W_ENV_EXP || token->type == WORD_WO_ENV_EXP)
-			*str = ft_strjoin(*str, token->value);
+			join_token_value(str, token);
 		else if (token->type == SPACE_DELIMITER)
 			set_next_argv_str(command, str, &i);
 		skip_n_elements(&current_el, &last_el, 1);

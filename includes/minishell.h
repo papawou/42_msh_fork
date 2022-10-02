@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:38:47 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 14:14:24 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char				*create_base_str(void);
 char				*get_current_dir(void);
 
 void				print_erno_error(char *error);
+void				print_custom_error(char *prefix, char *message);
 
 /** Prompter **/
 void				print_welcome_message(void);

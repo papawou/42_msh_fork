@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 17:23:50 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 14:10:52 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static char	*get_path_if_exist(t_list_el *env, t_command *command)
 	i = 0;
 	paths = get_env_paths(env);
 	bin = ft_strjoin("/", command->bin);
+	bin_path = NULL;
 	while (paths[i])
 	{
 		bin_path = ft_strjoin(paths[i], bin);

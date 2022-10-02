@@ -6,18 +6,19 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:37:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 14:03:48 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+#include "minishell.h"
 
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <termios.h>
-
-#include "libft.h"
-#include "minishell.h"
+#include <stdbool.h>
 
 /**
  * Return an allocated string holding the prompt name
@@ -53,6 +54,19 @@ void	print_welcome_message(void)
 	printf("***************************\n\n");
 }
 
+_Bool	has_only_space(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isspace(line[i++]))
+			return (false);
+	}
+	return (true);
+}
+
 /**
  * Prompt the user for the next command.
  * It frees line_read if already set and allocate memory for the next line.
@@ -73,7 +87,7 @@ char	*prompt(char *line_read)
 	prompt_name = get_prompt_name();
 	line_read = readline(prompt_name);
 	free(prompt_name);
-	if (line_read && line_read[0] != '\0')
+	if (line_read && !has_only_space(line_read))
 		add_history(line_read);
 	return (line_read);
 }

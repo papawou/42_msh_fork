@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 16:15:21 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/17 14:24:53 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 13:49:48 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,17 @@ _Bool	check_quote_closed(char *str)
  * @param {t_token *} token
  * @param {char} quote
  */
-void	_set_quoted_word(char **str, t_token *token, char quote)
+void	_set_quoted_word(
+			char **str,
+			t_token *token,
+			char quote,
+			t_token_type token_type
+		)
 {
 	int		i;
 
 	i = 1;
-	token->type = WORD_W_ENV_EXP;
+	token->type = token_type;
 	while ((*str)[i] != quote)
 		i++;
 	token->value = ft_strndup(*str + 1, i - 1);
@@ -71,7 +76,7 @@ void	_set_quoted_word(char **str, t_token *token, char quote)
  */
 void	set_double_quote_word(char **str, t_token *token)
 {
-	_set_quoted_word(str, token, '"');
+	_set_quoted_word(str, token, '"', WORD_W_ENV_EXP);
 }
 
 /**
@@ -81,7 +86,7 @@ void	set_double_quote_word(char **str, t_token *token)
  */
 void	set_single_quote_word(char **str, t_token *token)
 {
-	_set_quoted_word(str, token, '\'');
+	_set_quoted_word(str, token, '\'', WORD_WO_ENV_EXP);
 }
 
 /**
