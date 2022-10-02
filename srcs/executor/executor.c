@@ -116,8 +116,10 @@ int	wait_execute_plan(t_execution_plan *plan, int last_pid)
 			{ printf("DEBUG: %d: child_exit: %d\n", wait_ret, WEXITSTATUS(wait_stat));
 				code = (WEXITSTATUS(wait_stat));
 			}
-			printf("DEBUG: child exited not monitored\n");
-			code = 3;
+			else
+			{ printf("DEBUG: child exited not monitored\n");
+				code = 3;
+			}
 		}
 	}
 	return (code);

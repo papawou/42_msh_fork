@@ -52,8 +52,6 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 		if (execution_plan->commands[i]->heredoc != NULL)
 		{
 			execute_heredoc(execution_plan->commands[i]);
-			++i ;
-			continue ;
 		}
 		if (execution_plan->need_to_fork)
 			last_pid = fork();
