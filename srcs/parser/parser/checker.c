@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 13:22:53 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 12:33:34 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,23 @@ static _Bool	verify_io_operator(t_list_el *next_el)
 	return (true);
 }
 
+static _Bool	verify_has_non_space_tokens(t_list_el *tokens)
+{
+	t_list_el	*current_el;
+	t_token		*token;
+
+	current_el = tokens;
+	while (current_el)
+	{
+		token = (t_token *)current_el->content;
+		if (token->type != SPACE_DELIMITER)
+			return (true);
+		current_el = current_el->next;
+	}
+	unexpected_token(token->value);
+	return (false);
+}
+
 /**
  * Verify that tokens are valid following some rules. For instance a output
  * operator need to be followed by a word
@@ -96,6 +113,8 @@ _Bool	verify_tokens(t_list_el *tokens)
 	t_token		*token;
 
 	current_el = tokens;
+	if (verify_has_non_space_tokens(tokens) == false)
+		return (false);
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
