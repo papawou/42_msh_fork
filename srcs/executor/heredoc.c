@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:49:26 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 14:14:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
 	if (*tmp_file_fd < 1)
 	{
-		ft_printf_fd(STDERR_FILENO, "Could not create temp file\n");
+		print_custom_error("heredoc","Could not create temp file");
 		return (false);
 	}
 	ft_printf_fd(*tmp_file_fd, "");
