@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 16:44:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:10:11 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/10/01 13:06:01 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/10/01 13:17:55 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
  *
- * Check if one of the tokens is a heredoc input
+ * A wrapper around perror to add the shell name in the prefix
  *
- * @param tokens
- * @return
+ * @param {char *} error
  */
-_Bool	has_heredoc_token(t_list_el *tokens)
+void	print_erno_error(char *error)
 {
-	t_list_el	*current_el;
-	t_token		*token;
+	char	*prefix;
 
-	current_el = tokens;
-	while (current_el)
-	{
-		token = (t_token *)current_el->content;
-		if (token->type == PIPE)
-			return (false);
-		if (token->type == I_HEREDOC_OP)
-			return (true);
-		current_el = current_el->next;
-	}
-	return (false);
+	if (error != NULL)
+		prefix = ft_strjoin(SHELL_NAME, error);
+	else
+		prefix = ft_strdup(SHELL_NAME);
+	perror(prefix);
+	free(prefix);
 }

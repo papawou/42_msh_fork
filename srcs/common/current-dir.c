@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   current-dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 16:44:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:10:11 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/09/25 17:44:18 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/10/01 13:06:45 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
 
 /**
  *
- * Check if one of the tokens is a heredoc input
+ * Return an allocated string holding the current working directory
  *
- * @param tokens
- * @return
+ * @return {char *}
  */
-_Bool	has_heredoc_token(t_list_el *tokens)
+char	*get_current_dir(void)
 {
-	t_list_el	*current_el;
-	t_token		*token;
+	char		*current_dir;
 
-	current_el = tokens;
-	while (current_el)
+	current_dir = malloc(sizeof(char) * PATH_MAX);
+	if (current_dir == NULL)
+		return (NULL);
+	getcwd(current_dir, PATH_MAX);
+	if (current_dir == NULL)
 	{
-		token = (t_token *)current_el->content;
-		if (token->type == PIPE)
-			return (false);
-		if (token->type == I_HEREDOC_OP)
-			return (true);
-		current_el = current_el->next;
+		print_erno_error(NULL);
+		return (NULL);
 	}
-	return (false);
+	return (current_dir);
 }

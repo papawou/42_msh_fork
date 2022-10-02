@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 16:44:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:10:11 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/09/28 18:28:41 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <stdbool.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-/**
- *
- * Check if one of the tokens is a heredoc input
- *
- * @param tokens
- * @return
- */
-_Bool	has_heredoc_token(t_list_el *tokens)
+unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
-	t_list_el	*current_el;
-	t_token		*token;
+	int		status;
 
-	current_el = tokens;
-	while (current_el)
+	if (command->argv[1] != NULL && command->argv[2] != NULL)
 	{
-		token = (t_token *)current_el->content;
-		if (token->type == PIPE)
-			return (false);
-		if (token->type == I_HEREDOC_OP)
-			return (true);
-		current_el = current_el->next;
+		printf("cd: too many arguments\n");
+		return (1);
 	}
-	return (false);
+	if (command->argv[1])
+		status = chdir(command->argv[1]);
+	else
+		status = chdir(get_env_value(env, "HOME"));
+	if (status != 0)
+		print_erno_error(command->argv[1]);
+	return (status);
 }

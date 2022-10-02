@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/27 15:00:02 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:38:47 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 # define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
+# define SHELL_NAME "minishell"
 
 # include <unistd.h>
 # include "libft.h"
@@ -27,7 +28,8 @@ typedef enum e_error_codes {
 	ERR_ALLOCATING_MEMORY = 1,
 	ERR_OPENING_FILE = 2,
 	ERR_FORKING_PROCESS = 3,
-	ERR_PIPING = 4
+	ERR_PIPING = 5,
+	ERR_EXEC = 6
 }	t_error_codes;
 
 typedef enum e_token_type {
@@ -41,15 +43,21 @@ typedef enum e_token_type {
 	PIPE
 }	t_token_type;
 
+typedef struct s_file_redirect {
+	char	*file;
+	int		file_fd;
+	int		std_copy;
+	int		mode;
+}	t_file_redirect;
+
 typedef struct s_command {
-	char		*in;
-	char		*out;
-	char		*bin;
-	char		**argv;
-	char		*heredoc;
-	t_list_el	*tokens;
-	int			return_value;
-	_Bool		out_in_append_mode;
+	t_list_el		*in;
+	t_list_el		*out;
+	char			*bin;
+	char			**argv;
+	char			*heredoc;
+	t_list_el		*tokens;
+	int				return_value;
 }	t_command;
 
 typedef struct s_token {
@@ -61,6 +69,7 @@ typedef struct s_execution_plan {
 	t_command	**commands;
 	int			number_of_commands;
 	t_list_el	**env;
+	_Bool		need_to_fork;
 }	t_execution_plan;
 
 typedef struct s_environ_el {
@@ -82,6 +91,10 @@ char				*trim_space(char *source);
 int					open_file(char *path, int flags);
 char				*create_base_str(void);
 
+char				*get_current_dir(void);
+
+void				print_erno_error(char *error);
+
 /** Prompter **/
 void				print_welcome_message(void);
 char				*prompt(char *line_read);
@@ -101,8 +114,11 @@ t_list_el			*parse_environ(void);
 
 char				**environ_el_to_char_2d(t_list_el *entry);
 void				free_environ_char_2d(char **src);
-_Bool				environ_el_extract_key_value(char *key_value, char **key, char **value);
-char				*is_valid_key_value_env(char *key_value);
+void				print_environ_char_2d(char **char_2d);
+
+_Bool				is_valid_key_value_env(char *key_value);
+_Bool				extract_key_value(char *key_value,
+						char **key, char **value);
 
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 char				*get_env_value(t_list_el *env, char *key);
@@ -130,10 +146,12 @@ _Bool				is_a_simple_output(char *str);
 _Bool				is_a_append_output(char *str);
 _Bool				is_a_simple_input(char *str);
 _Bool				is_a_heredoc_input(char *str);
-_Bool				is_a_pipe(char *str);
 _Bool				is_an_operator(char *str);
 _Bool				is_operator_symbol(char c);
 void				set_operator(char **str, t_token *token);
+
+_Bool				is_a_pipe(char *str);
+void				set_pipe(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
 
@@ -154,8 +172,10 @@ int					count_number_of_commands(t_list_el *tokens);
 void				set_io_from_tokens(t_command *command);
 void				set_argv_from_tokens(t_command *command, char **str);
 
+_Bool				is_io_token(t_token *token);
 _Bool				has_heredoc_token(t_list_el *tokens);
-void				handle_heredoc_input(t_command *command);
+
+_Bool				check_if_need_to_fork(t_execution_plan *execution_plan);
 
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);
@@ -179,17 +199,24 @@ void				route_command_io(
 						int index,
 						int number_of_commands
 						);
+void				route_back_command_io(t_command *command);
+
+t_file_redirect		*init_file_redirect(char *file);
+void				destroy_file_redirect(void *file_redirect_arg);
 
 void				execute_heredoc(t_command *command);
 
+char				*get_program_path(t_list_el *env, t_command *command);
+
 _Bool				is_a_builtins(char *bin);
-int				execute_builtins(t_command *command);
+int					execute_builtins(t_list_el **env, t_command *command);
 
-unsigned char				execute_echo(t_command *command);
-
-//execve_errors.c
-int	file_status(char *file);
-int execve_process_error(char *command, int execve_errno);
-
+unsigned int		execute_echo(t_command *command);
+unsigned int		execute_cd(t_list_el *env, t_command *command);
+unsigned int		execute_pwd(void);
+unsigned int		execute_export(t_list_el **env, t_command *command);
+unsigned int		execute_unset(t_list_el **env, t_command *command);
+unsigned int		execute_env(t_list_el **env);
+unsigned int		execute_exit(t_command *command);
 
 #endif

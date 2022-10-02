@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/27 15:05:14 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/09/28 18:49:26 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <readline/readline.h>
 
@@ -40,14 +41,16 @@ char	*prompt_heredoc(char *line_read)
 	return (line_read);
 }
 
-static void	build_heredoc_str(char *heredoc_str, char *line_read)
+_Bool	open_tmp_file(int *tmp_file_fd)
 {
-	char	*tmp;
-
-	tmp = ft_strjoin(heredoc_str, line_read);
-	free(heredoc_str);
-	heredoc_str = ft_strjoin(tmp, "\n");
-	free(tmp);
+	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
+	if (*tmp_file_fd < 1)
+	{
+		ft_printf_fd(STDERR_FILENO, "Could not create temp file\n");
+		return (false);
+	}
+	ft_printf_fd(*tmp_file_fd, "");
+	return (true);
 }
 
 /**
@@ -59,13 +62,10 @@ static void	build_heredoc_str(char *heredoc_str, char *line_read)
 void	execute_heredoc(t_command *command)
 {
 	char	*line_read;
-	char	*heredoc_str;
 	int		tmp_file_fd;
 
 	line_read = NULL;
-	heredoc_str = ft_strdup("");
-	tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
-	ft_printf_fd(tmp_file_fd, "");
+	open_tmp_file(&tmp_file_fd);
 	while (42)
 	{
 		line_read = prompt_heredoc(line_read);
@@ -77,10 +77,8 @@ void	execute_heredoc(t_command *command)
 		}
 		if (ft_strcmp(line_read, command->heredoc) == 0)
 			break ;
-		build_heredoc_str(heredoc_str, line_read);
+		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
 	}
 	free(line_read);
-	ft_printf_fd(tmp_file_fd, "%s", heredoc_str);
-	free(heredoc_str);
 	close(tmp_file_fd);
 }

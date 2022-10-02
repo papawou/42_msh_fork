@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 17:39:50 by kmendes           #+#    #+#             */
-/*   Updated: 2022/09/24 17:13:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/01 17:09:55 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_environ_el	*init_environ_el(char *key_value)
 	dst = (t_environ_el *) malloc(sizeof(t_environ_el));
 	if (dst == NULL)
 		return (NULL);
-	if (environ_el_extract_key_value(key_value, &dst->key, &dst->value))	
+	if (!extract_key_value(key_value, &dst->key, &dst->value))
 	{
 		free(dst);
 		return (NULL);
