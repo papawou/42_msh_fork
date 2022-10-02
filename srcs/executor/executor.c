@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:16:21 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 14:16:22 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	execute_command(
 	if (program_path == NULL)
 	{
 		print_custom_error(command->bin, "No such file or directory");
-		exit(-1);
+		exit(127);
 	}
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
