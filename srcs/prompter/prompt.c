@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:37:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 13:42:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/02 14:03:48 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*prompt(char *line_read)
 	prompt_name = get_prompt_name();
 	line_read = readline(prompt_name);
 	free(prompt_name);
-	if (!has_only_space(line_read))
+	if (line_read && !has_only_space(line_read))
 		add_history(line_read);
 	return (line_read);
 }
