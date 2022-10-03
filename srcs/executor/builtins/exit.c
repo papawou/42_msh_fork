@@ -37,5 +37,7 @@ unsigned int	execute_exit(t_command *command)
 	exit_status = 0;
 	if (command->argv[1])
 		exit_status = ft_atoi(command->argv[1]);
-	exit(exit_status);
+	if (exit_status < 0)
+		exit(255);
+	exit(exit_status % 256);
 }
