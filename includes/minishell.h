@@ -218,7 +218,7 @@ unsigned int		execute_pwd(void);
 unsigned int		execute_export(t_list_el **env, t_command *command);
 unsigned int		execute_unset(t_list_el **env, t_command *command);
 unsigned int		execute_env(t_list_el **env);
-unsigned int		execute_exit(t_command *command);
+unsigned int		execute_exit(t_command *command, t_list_el **env);
 
 //execve_errros.c
 int execve_process_error(char *command, int execve_errno);

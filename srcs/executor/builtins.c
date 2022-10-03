@@ -60,6 +60,6 @@ int	execute_builtins(t_list_el **env, t_command *command)
 	if (ft_strcmp(command->bin, "env") == 0)
 		return (execute_env(env));
 	if (ft_strcmp(command->bin, "exit") == 0)
-		return (execute_exit(command));
+		return (execute_exit(command, env));
 	return (-1);
 }

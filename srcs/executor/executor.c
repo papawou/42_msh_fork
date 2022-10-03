@@ -70,13 +70,16 @@ int	execute_command(
 		return (builtin_result);
 	}
 	
-	program_path = get_program_path(*execution_plan->env, command);
-	if (program_path == NULL)
+	if (!ft_strchr(command->bin, '/')) //is a command
 	{
-		print_custom_error(command->bin, "No such file or directory");
-		exit(127);
+		program_path = get_program_path(*execution_plan->env, command);
+		if (program_path == NULL)
+		{
+			print_custom_error(command->bin, "No such file or directory");
+			return(127);
+		}
 	}
-
+	
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
 	{
