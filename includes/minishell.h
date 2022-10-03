@@ -120,6 +120,7 @@ void				print_environ_char_2d(char **char_2d);
 _Bool				is_valid_key_value_env(char *key_value);
 _Bool				extract_key_value(char *key_value,
 						char **key, char **value);
+int					add_environ_el_exitcode(t_list_el **el, int	value);
 
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 char				*get_env_value(t_list_el *env, char *key);

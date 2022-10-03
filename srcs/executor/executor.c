@@ -69,6 +69,7 @@ int	execute_command(
 		route_back_command_io(command);
 		return (builtin_result);
 	}
+	
 	program_path = get_program_path(*execution_plan->env, command);
 	if (program_path == NULL)
 	{

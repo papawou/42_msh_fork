@@ -26,6 +26,7 @@ void	print_usage(void)
 
 static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
 {
+
 	execution_plan->env = env;
 	unset_parent_signals();
 	execute_plan(execution_plan);
@@ -47,6 +48,8 @@ void	run_prompt(void)
 
 	line_read = NULL;
 	env = parse_environ();
+	add_environ_el(&env, "?=0");
+	print_environ_char_2d(environ_el_to_char_2d(env));
 	while (42)
 	{
 		line_read = prompt(line_read);

@@ -37,9 +37,12 @@ char	**environ_el_to_char_2d(t_list_el *lst)
 	i = 0;
 	while (lst)
 	{
-		dst[i] = ft_strjoin_and_free(
+		if (ft_strcmp("?", ((t_environ_el *)lst->content)->key) != 0)
+		{
+			dst[i] = ft_strjoin_and_free(
 				ft_strjoin(((t_environ_el *)lst->content)->key, "="),
-				ft_strdup(((t_environ_el *)lst->content)->value));
+				ft_strdup(((t_environ_el *)lst->content)->value));	
+		}
 		lst = lst->next;
 		if (dst[i] == NULL)
 			continue ;
