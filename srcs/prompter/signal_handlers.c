@@ -52,7 +52,7 @@ static void	sigint_handler(int status __attribute__((unused)))
  */
 void	set_parent_signals(void)
 {
-	static struct sigaction	act_sigint = {.sa_handler = sigint_handler};
+	static struct sigaction	act_sigint = {.sa_handler = sigint_handler, .sa_flags = SA_RESTART};
 
 	signal(SIGQUIT, SIG_IGN);
 	sigfillset(&act_sigint.sa_mask);

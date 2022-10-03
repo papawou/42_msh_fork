@@ -221,5 +221,6 @@ unsigned int		execute_exit(t_command *command);
 
 //execve_errros.c
 int execve_process_error(char *command, int execve_errno);
+int	create_shellscript(t_execution_plan *execution_plan, int **pipes);
 
 #endif

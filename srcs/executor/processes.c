@@ -17,6 +17,11 @@
 #include <stdlib.h>
 
 /**
+ * 
+ **/
+
+
+/**
  * Utility to get the total number of process from the number of child process.
  * The goal is to avoid the "1" magic number at several places
  *
@@ -50,13 +55,8 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 	while (i < number_of_child_processes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
-		{
 			execute_heredoc(execution_plan->commands[i]);
-		}
-		if (execution_plan->need_to_fork)
-			last_pid = fork();
-		else
-			last_pid = 0;
+		last_pid = fork();
 		if (last_pid == -1)
 			break ;
 		if (last_pid == 0)
@@ -72,4 +72,22 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 		i++;
 	}
 	return (last_pid);
+}
+
+int	create_shellscript(t_execution_plan *execution_plan, int **pipes)
+{
+	int		i;
+	int		number_of_child_processes;
+	int		cmd_ret;
+
+	number_of_child_processes = execution_plan->number_of_commands;
+	i = 0;
+	while (i < number_of_child_processes)
+	{
+		if (execution_plan->commands[i]->heredoc != NULL)
+			execute_heredoc(execution_plan->commands[i]);
+		cmd_ret = execute_command(execution_plan, pipes, i);
+		i++;
+	}
+	return (cmd_ret);
 }

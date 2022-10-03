@@ -59,7 +59,7 @@ int	execute_command(
 	if (command->bin == NULL)
 	{
 		route_back_command_io(command);
-		return (42);
+		return (0);
 	}
 	if (is_a_builtins(command->bin))
 	{
@@ -67,9 +67,8 @@ int	execute_command(
 		if (execution_plan->need_to_fork)
 			exit(builtin_result);
 		route_back_command_io(command);
-		return (42);
+		return (builtin_result);
 	}
-
 	program_path = get_program_path(*execution_plan->env, command);
 	if (program_path == NULL)
 	{
@@ -135,21 +134,20 @@ int	wait_execute_plan(t_execution_plan *plan, int last_pid)
  */
 int	execute_plan(t_execution_plan *execution_plan)
 {
-	static int	last_exit = 0;
+	int			last_exit;
 	int			last_pid;
 	int			**pipes;
-	int			number_of_child_processes;
 
-	number_of_child_processes = execution_plan->number_of_commands;
-	pipes = create_pipes(number_of_child_processes);
+	pipes = create_pipes(execution_plan->number_of_commands);
 	if (pipes == NULL)
-	{
-		last_exit = 2;
-		return (ERR_PIPING | ERR_ALLOCATING_MEMORY);
-	}
-	last_pid = create_processes(execution_plan, pipes);
-	close_pipes_in_main_process(pipes, number_of_child_processes);
-	last_exit = wait_execute_plan(execution_plan, last_pid);
-	destroy_pipes(number_of_child_processes, pipes);
+		return (2);
+	if (execution_plan->need_to_fork)
+		last_pid = create_processes(execution_plan, pipes);
+	else
+		last_exit = create_shellscript(execution_plan, pipes);
+	close_pipes_in_main_process(pipes, execution_plan->number_of_commands);
+	if (execution_plan->need_to_fork)
+		last_exit = wait_execute_plan(execution_plan, last_pid);
+	destroy_pipes(execution_plan->number_of_commands, pipes);
 	return (last_exit);
 }
