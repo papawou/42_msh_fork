@@ -26,10 +26,12 @@ void	print_usage(void)
 
 static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
 {
+	int	last_exit;
 
 	execution_plan->env = env;
 	unset_parent_signals();
-	execute_plan(execution_plan);
+	last_exit =	execute_plan(execution_plan);
+	add_environ_el(env, ft_strjoin_and_free(ft_strdup("?="), ft_itoa(last_exit)));
 	set_parent_signals();
 	destroy_execution_plan(execution_plan);
 }
