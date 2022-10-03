@@ -26,6 +26,8 @@ static char	**get_env_paths(t_list_el *env)
 	char	*path_value;
 
 	path_value = get_env_value(env, "PATH");
+	if (path_value == NULL && env)
+		path_value = ft_strdup("");
 	paths = ft_split(path_value, ':');
 	free(path_value);
 	return (paths);

@@ -34,6 +34,8 @@ t_env_variable	*get_env_variable(t_list_el *env, char *token_value)
 	env_variable->key = extract_env_variable_key_from_str(token_value);
 	env_variable->key_length = ft_strlen(env_variable->key);
 	env_variable->value = get_env_value(env, env_variable->key);
+	if (env_variable->value == NULL && env_variable->key && env)
+		env_variable->value = ft_strdup("");
 	env_variable->value_length = ft_strlen(env_variable->value);
 	return (env_variable);
 }

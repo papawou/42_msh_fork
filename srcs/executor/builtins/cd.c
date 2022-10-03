@@ -32,14 +32,17 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 		status = chdir(command->argv[1]);
 		if (status == -1)
 			print_custom_error("cd", strerror(errno));
+		return (status == -1);
 	}
-	else
+	path = get_env_value(env, "HOME");
+	if (path == NULL)
 	{
-		path = get_env_value(env, "HOME");
-		status = chdir(path);
-		if (status == -1)
-			print_custom_error("cd", strerror(errno));
-		free(path);
+		print_custom_error("cd", "HOME not set");
+		return (1);
 	}
+	status = chdir(path);
+	if (status == -1)
+		print_custom_error("cd", strerror(errno));
+	free(path);
 	return (status == -1);
 }

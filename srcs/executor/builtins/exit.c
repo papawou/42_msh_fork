@@ -15,6 +15,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+static long	ft_safer_atoi(const char *str)
+{
+	int		sign;
+	long	res;
+
+	if (str == NULL)
+		return (0);
+	while (ft_isspace(*str))
+		str++;
+	sign = 1;
+	if (*str == '+')
+		str++;
+	else if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	res = 0;
+	while (*str >= '0' && *str <= '9')
+	{
+		res *= 10;
+		res += (*str - 48);
+		str++;
+	}
+	return (res * sign);
+}
+
+
 static void	print_exit_error(char *identifier, char *err_msg)
 {
 	ft_printf_fd(
@@ -52,7 +81,7 @@ unsigned int	execute_exit(t_command *command, t_list_el **env)
 		exit(2);
 	}
 	if (command->argv[1] == NULL && env)
-		exit(ft_atoi(get_env_value(*env, "?")));
+		exit(ft_safer_atoi(get_env_value(*env, "?")));
 	else if (command->argv[1] == NULL)
 		exit(0);
 	if (check_exit_arg(command))
