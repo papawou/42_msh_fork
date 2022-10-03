@@ -93,7 +93,7 @@ char				*create_base_str(void);
 
 char				*get_current_dir(void);
 
-void				print_erno_error(char *error);
+void	print_erno_error(char *error, int arg_errno);
 void				print_custom_error(char *prefix, char *message);
 
 /** Prompter **/

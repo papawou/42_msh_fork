@@ -15,16 +15,18 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-void	print_export_error(char *identifier)
+void	print_export_error(char *identifier, char *err_msg)
 {
 	ft_printf_fd(
 		STDERR_FILENO,
-		"%s: export: `%s`: not a valid identifier\n",
+		"%s: export: `%s`: %s\n",
 		SHELL_NAME,
-		identifier
+		identifier,
+		err_msg
 		);
 }
 
+/* upsert added to add_environ_el based on key
 static void	add_or_modify_environ_el(t_list_el **env, char *key_value)
 {
 	char			*key;
@@ -43,6 +45,7 @@ static void	add_or_modify_environ_el(t_list_el **env, char *key_value)
 	free(value);
 	free(key);
 }
+*/
 
 unsigned int	execute_export(t_list_el **env, t_command *command)
 {
@@ -56,10 +59,11 @@ unsigned int	execute_export(t_list_el **env, t_command *command)
 		if (!is_valid_key_value_env(command->argv[i]))
 		{
 			has_an_error = true;
-			print_export_error(command->argv[i++]);
-			continue ;
+			print_export_error(command->argv[i], "not a valid identifier");
 		}
-		add_or_modify_environ_el(env, command->argv[i++]);
+		else
+			add_environ_el(env, command->argv[i]);
+		++i;
 	}
 	if (has_an_error)
 		return (1);

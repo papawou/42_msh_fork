@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
@@ -23,18 +24,22 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 
 	if (command->argv[1] != NULL && command->argv[2] != NULL)
 	{
-		printf("cd: too many arguments\n");
+		print_custom_error("cd", "too many arguments");
 		return (1);
 	}
 	if (command->argv[1])
+	{
 		status = chdir(command->argv[1]);
+		if (status == -1)
+			print_custom_error("cd", strerror(errno));
+	}
 	else
 	{
 		path = get_env_value(env, "HOME");
 		status = chdir(path);
+		if (status == -1)
+			print_custom_error("cd", strerror(errno));
 		free(path);
 	}
-	if (status != 0)
-		print_erno_error(command->argv[1]);
-	return (status);
+	return (status == -1);
 }

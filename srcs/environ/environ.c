@@ -48,7 +48,9 @@ void	add_environ_el(t_list_el **entry, char *key_value)
 	tmp = get_environ_el(*entry, el->key);
 	if (tmp != NULL)
 	{
+		free(tmp->value);
 		tmp->value = el->value;
+		free(el->key);
 		free(el);
 		return ;
 	}

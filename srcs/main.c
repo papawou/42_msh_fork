@@ -51,7 +51,7 @@ void	run_prompt(void)
 	line_read = NULL;
 	env = parse_environ();
 	add_environ_el(&env, "?=0");
-	print_environ_char_2d(environ_el_to_char_2d(env));
+	//print_environ_char_2d(environ_el_to_char_2d(env));
 	while (42)
 	{
 		line_read = prompt(line_read);
