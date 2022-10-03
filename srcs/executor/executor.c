@@ -104,22 +104,16 @@ int	wait_execute_plan(t_execution_plan *plan, int last_pid)
 		{
 			if (errno == ECHILD)
 				break ;
-			break ; //== EINTR <- this should not be fired
+			break ;
 		}
-		if (last_pid == wait_ret) //1 is used for debug, in prod replace with "last_pid == wait_ret"
+		if (last_pid == wait_ret)
 		{
 			if (WIFSIGNALED(wait_stat))
-			{ printf("DEBUG: %d: child_sign: 128 + %d\n", wait_ret, WTERMSIG(wait_stat));
 				code = (128 + WTERMSIG(wait_stat));
-			}
 			else if (WIFEXITED(wait_stat))
-			{ printf("DEBUG: %d: child_exit: %d\n", wait_ret, WEXITSTATUS(wait_stat));
 				code = (WEXITSTATUS(wait_stat));
-			}
 			else
-			{ printf("DEBUG: child exited not monitored\n");
 				code = 3;
-			}
 		}
 	}
 	return (code);
