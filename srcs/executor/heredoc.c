@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:14:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/03 19:26:45 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,32 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
 	if (*tmp_file_fd < 1)
 	{
-		print_custom_error("heredoc","Could not create temp file");
+		print_custom_error("heredoc", "Could not create tmp file");
 		return (false);
 	}
 	ft_printf_fd(*tmp_file_fd, "");
 	return (true);
+}
+
+void	execute_heredoc(char *heredoc, int tmp_file_fd)
+{
+	char		*line_read;
+
+	line_read = NULL;
+	while (42)
+	{
+		line_read = prompt_heredoc(line_read);
+		if (!line_read)
+		{
+			ft_printf_fd(2, "%s (wanted `%s')\n",
+				HEREDOC_EOF_WARNING, heredoc);
+			break ;
+		}
+		if (ft_strcmp(line_read, (char *)heredoc) == 0)
+			break ;
+		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
+	}
+	free(line_read);
 }
 
 /**
@@ -59,26 +80,17 @@ _Bool	open_tmp_file(int *tmp_file_fd)
  *
  * @param {t_command *} command
  */
-void	execute_heredoc(t_command *command)
+void	execute_heredocs(t_command *command)
 {
-	char	*line_read;
-	int		tmp_file_fd;
+	int			tmp_file_fd;
+	t_list_el	*current_el;
 
-	line_read = NULL;
-	open_tmp_file(&tmp_file_fd);
-	while (42)
+	current_el = command->heredoc;
+	while (current_el)
 	{
-		line_read = prompt_heredoc(line_read);
-		if (!line_read)
-		{
-			ft_printf_fd(2, "%s (wanted `%s')\n",
-				HEREDOC_EOF_WARNING, command->heredoc);
-			break ;
-		}
-		if (ft_strcmp(line_read, command->heredoc) == 0)
-			break ;
-		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
+		open_tmp_file(&tmp_file_fd);
+		execute_heredoc(current_el->content, tmp_file_fd);
+		current_el = current_el->next;
 	}
-	free(line_read);
 	close(tmp_file_fd);
 }

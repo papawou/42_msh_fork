@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:14:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/03 19:24:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_command {
 	t_list_el		*out;
 	char			*bin;
 	char			**argv;
-	char			*heredoc;
+	t_list_el		*heredoc;
 	t_list_el		*tokens;
 	int				return_value;
 }	t_command;
@@ -205,7 +205,7 @@ void				route_back_command_io(t_command *command);
 t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
-void				execute_heredoc(t_command *command);
+void				execute_heredocs(t_command *command);
 
 char				*get_program_path(t_list_el *env, t_command *command);
 

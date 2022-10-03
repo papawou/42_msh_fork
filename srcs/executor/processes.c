@@ -49,7 +49,7 @@ int	*create_processes(t_execution_plan *execution_plan, int *pids, int **pipes)
 	while (i < number_of_child_processes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
-			execute_heredoc(execution_plan->commands[i]);
+			execute_heredocs(execution_plan->commands[i]);
 		if (execution_plan->need_to_fork)
 			pids[i] = fork();
 		else
