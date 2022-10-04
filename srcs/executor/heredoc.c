@@ -46,7 +46,7 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
 	if (*tmp_file_fd < 1)
 	{
-		print_custom_error("heredoc","Could not create temp file");
+		print_custom_error("heredoc", NULL, "Could not create temp file");
 		return (false);
 	}
 	ft_printf_fd(*tmp_file_fd, "");
@@ -63,16 +63,19 @@ void	execute_heredoc(t_command *command)
 {
 	char	*line_read;
 	int		tmp_file_fd;
+	int		no_line;
 
+	no_line = 0;
 	line_read = NULL;
 	open_tmp_file(&tmp_file_fd);
 	while (42)
 	{
+		++no_line;
 		line_read = prompt_heredoc(line_read);
 		if (!line_read)
 		{
-			ft_printf_fd(2, "%s (wanted `%s')\n",
-				HEREDOC_EOF_WARNING, command->heredoc);
+			ft_printf_fd(2, "%s: warning: here-document at line %d delimited by end-of-file (wanted `%s')",
+				SHELL_NAME, no_line, command->heredoc);
 			break ;
 		}
 		if (ft_strcmp(line_read, command->heredoc) == 0)

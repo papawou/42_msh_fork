@@ -75,11 +75,12 @@ int	execute_command(
 		program_path = get_program_path(*execution_plan->env, command);
 		if (program_path == NULL)
 		{
-			print_custom_error(command->bin, "No such file or directory");
+			print_custom_error(command->bin, NULL, "No such file or directory");
 			return(127);
 		}
 	}
-	
+	else
+		program_path = ft_strdup(command->bin);
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
 	{

@@ -32,7 +32,7 @@ char	*get_current_dir(void)
 		return (NULL);
 	if (getcwd(current_dir, PATH_MAX) == NULL)
 	{
-		print_custom_error(NULL, strerror(errno));
+		print_custom_error(NULL, NULL, strerror(errno));
 		free(current_dir);
 		return (NULL);
 	}

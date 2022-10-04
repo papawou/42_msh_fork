@@ -24,25 +24,25 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 
 	if (command->argv[1] != NULL && command->argv[2] != NULL)
 	{
-		print_custom_error("cd", "too many arguments");
+		print_custom_error("cd", NULL, "too many arguments");
 		return (1);
 	}
 	if (command->argv[1])
 	{
 		status = chdir(command->argv[1]);
 		if (status == -1)
-			print_custom_error("cd", strerror(errno));
+			print_custom_error("cd", NULL, strerror(errno));
 		return (status == -1);
 	}
 	path = get_env_value(env, "HOME");
 	if (path == NULL)
 	{
-		print_custom_error("cd", "HOME not set");
+		print_custom_error("cd", NULL, "HOME not set");
 		return (1);
 	}
 	status = chdir(path);
 	if (status == -1)
-		print_custom_error("cd", strerror(errno));
+		print_custom_error("cd", NULL, strerror(errno));
 	free(path);
 	return (status == -1);
 }

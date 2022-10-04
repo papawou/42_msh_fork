@@ -43,17 +43,6 @@ static long	ft_safer_atoi(const char *str)
 	return (res * sign);
 }
 
-
-static void	print_exit_error(char *identifier, char *err_msg)
-{
-	ft_printf_fd(
-		STDERR_FILENO,
-		"%s: error: `%s`: %s\n",
-		SHELL_NAME,
-		identifier,
-		err_msg
-		);
-}
 /**
  * check if argument is an int, return 0 if success
  **/
@@ -77,7 +66,7 @@ unsigned int	execute_exit(t_command *command, t_list_el **env)
 	printf("exit\n");
 	if (command->argv[1] && command->argv[2])
 	{
-		print_custom_error("exit", "too many arguments");
+		print_custom_error("exit", NULL, "too many arguments");
 		exit(2);
 	}
 	if (command->argv[1] == NULL && env)
@@ -86,7 +75,7 @@ unsigned int	execute_exit(t_command *command, t_list_el **env)
 		exit(0);
 	if (check_exit_arg(command))
 	{
-		print_exit_error(command->argv[1], "numeric argument required");
+		print_custom_error("exit", command->argv[1], "numeric argument required");
 		exit (128);
 	}
 	exit_status = ft_atoi(command->argv[1]);

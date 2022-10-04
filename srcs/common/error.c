@@ -16,30 +16,15 @@
 #include <stdlib.h>
 #include <errno.h>
 
-/**
- *
- * A wrapper around perror to add the shell name in the prefix
- *
- * @param {char *} error
- */
-void	print_erno_error(char *error, int arg_errno)
+void	print_custom_error(char *prefix, char *attribute, char *message)
 {
-	char	*prefix;
-
-	if (error != NULL)
-		prefix = ft_strjoin(SHELL_NAME, error);
-	else
-		prefix = ft_strdup(SHELL_NAME);
-	errno = arg_errno;
-	perror(prefix);
-	free(prefix);
-}
-
-
-void	print_custom_error(char *prefix, char *message)
-{
-	if (prefix)
-		ft_printf_fd(STDERR_FILENO, "%s: %s: %s\n", SHELL_NAME, prefix, message);
+	if (prefix && attribute && message)
+		ft_printf_fd(STDERR_FILENO, "%s: %s: `%s`: %s\n",
+			SHELL_NAME, prefix, attribute, message);
+	else if (prefix && message)
+		ft_printf_fd(STDERR_FILENO, "%s: %s: %s\n",
+			SHELL_NAME, prefix, message);
 	else if (message)
-		ft_printf_fd(STDERR_FILENO, "%s: %s\n", SHELL_NAME, message);
+		ft_printf_fd(STDERR_FILENO, "%s: %s\n",
+			SHELL_NAME, message);
 }
