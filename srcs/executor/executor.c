@@ -75,7 +75,7 @@ int	execute_command(
 		program_path = get_program_path(*execution_plan->env, command);
 		if (program_path == NULL)
 		{
-			print_custom_error(command->bin, NULL, "No such file or directory");
+			print_custom_error(command->bin, NULL, "command not found");
 			return(127);
 		}
 	}
