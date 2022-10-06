@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 00:00:06 by kmendes           #+#    #+#             */
-/*   Updated: 2022/06/11 14:44:04 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 15:14:42 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <signal.h>
 #include <termios.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include <unistd.h>
 
@@ -37,6 +38,7 @@ void	configure_termios(void)
  */
 static void	sigint_handler(int status __attribute__((unused)))
 {
+	env_exit = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

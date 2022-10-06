@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/26 20:34:54 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 17:33:24 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "libft.h"
 #include "minishell.h"
 
+volatile sig_atomic_t env_exit = 0;
+
 void	print_usage(void)
 {
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
@@ -26,12 +28,9 @@ void	print_usage(void)
 
 static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
 {
-	int	last_exit;
-
 	execution_plan->env = env;
 	unset_parent_signals();
-	last_exit =	execute_plan(execution_plan);
-	add_environ_el(env, ft_strjoin_and_free(ft_strdup("?="), ft_itoa(last_exit)));
+	env_exit = execute_plan(execution_plan);
 	set_parent_signals();
 	destroy_execution_plan(execution_plan);
 }
@@ -69,7 +68,7 @@ int	config_env(t_list_el **env)
 	*env = parse_environ();
 	if (*env == NULL)
 		return (1);
-	add_environ_el(env, "?=0");
+	env_exit = 0;
 	return (0);
 }
 

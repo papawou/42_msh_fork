@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:37:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:47:10 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 17:33:07 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-static long	ft_safer_atoi(const char *str)
-{
-	int		sign;
-	long	res;
-
-	if (str == NULL)
-		return (0);
-	while (ft_isspace(*str))
-		str++;
-	sign = 1;
-	if (*str == '+')
-		str++;
-	else if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	res = 0;
-	while (*str >= '0' && *str <= '9')
-	{
-		res *= 10;
-		res += (*str - 48);
-		str++;
-	}
-	return (res * sign);
-}
 
 /**
  * check if argument is an int, return 0 if success
@@ -70,7 +43,7 @@ unsigned int	execute_exit(t_command *command, t_list_el **env)
 		exit(2);
 	}
 	if (command->argv[1] == NULL && env)
-		exit(ft_safer_atoi(get_env_value(*env, "?")));
+		exit(env_exit);
 	else if (command->argv[1] == NULL)
 		exit(0);
 	if (check_exit_arg(command))

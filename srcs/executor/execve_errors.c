@@ -57,7 +57,8 @@ int execve_process_error(char *command, int execve_errno)
 	exit_code = 126;
 	if (execve_errno != ENOEXEC)
 	{
-		exit_code = (execve_errno == ENOENT) ? 127 : 126; //127 command not found, 126 no exec
+		if (execve_errno == ENOENT)
+			exit_code = 127;
 		if (f_status & F_DIRECTORY)
 			return (code_print_custom_error(command, NULL, strerror(EISDIR), exit_code));
 		else if (!((f_status & F_EXEC) && !(f_status & F_DIRECTORY)))
@@ -69,20 +70,6 @@ int execve_process_error(char *command, int execve_errno)
 			errno = execve_errno;
 			return (code_print_custom_error(command, "cannot execute", "required file not found", exit_code));
 		}
-		else
-		{
-			//#if def bash script
-			// exec bash script ?
-			//bash stuff
-			//#endif
-		}
 	}
 	return (code_print_custom_error(command, NULL, strerror(execve_errno), exit_code));
-	/**
-	 * exec bash script ??
-	 * its exectubale
-	 * if file empty == SUCCESS
-	 * if is text execute as shell command
-	 * else return 126 internal error BINARY_FILE ERROR ": cannot execute binary file: %s" + strerror(i)
-	**/
 }

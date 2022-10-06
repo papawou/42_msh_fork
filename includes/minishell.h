@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:14:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 17:32:55 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 # define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
 # define SHELL_NAME "minishell"
 
+# include <signal.h>
+# include <stdio.h>
 # include <unistd.h>
 # include "libft.h"
 
 extern char	**environ;
+extern volatile sig_atomic_t env_exit;
 
 # define TMP_FILE "/tmp/.minishell.heredoc"
 

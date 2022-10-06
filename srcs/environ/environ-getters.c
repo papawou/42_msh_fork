@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ-getters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 15:13:27 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 16:57:27 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 17:39:30 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*get_env_value(t_list_el *env, char *key)
 	t_list_el		*entry;
 
 	entry = env;
+	if (ft_strcmp(key, "?") == 0)
+		return (ft_itoa(env_exit));
 	if (entry == NULL || key == NULL)
 		return (NULL);
 	tmp = get_environ_el(entry, key);

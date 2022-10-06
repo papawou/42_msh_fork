@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ-2d.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:11:03 by kmendes           #+#    #+#             */
-/*   Updated: 2022/10/01 17:26:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 15:10:23 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ char	**environ_el_to_char_2d(t_list_el *lst)
 	i = 0;
 	while (lst)
 	{
-		if (ft_strcmp("?", ((t_environ_el *)lst->content)->key) != 0)
-		{
-			dst[i] = ft_strjoin_and_free(
-				ft_strjoin(((t_environ_el *)lst->content)->key, "="),
-				ft_strdup(((t_environ_el *)lst->content)->value));	
-		}
+		dst[i] = ft_strjoin_and_free(
+			ft_strjoin(((t_environ_el *)lst->content)->key, "="),
+			ft_strdup(((t_environ_el *)lst->content)->value));
 		lst = lst->next;
 		if (dst[i] == NULL)
 			continue ;
