@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:14:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/07 09:45:49 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <sys/ioctl.h>
 
 /**
  * Prompt the user for the next command.
@@ -74,7 +75,7 @@ void	execute_heredoc(t_command *command)
 		line_read = prompt_heredoc(line_read);
 		if (!line_read)
 		{
-			ft_printf_fd(2, "%s: warning: here-document at line %d delimited by end-of-file (wanted `%s')",
+			ft_printf_fd(2, "%s: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
 				SHELL_NAME, no_line, command->heredoc);
 			break ;
 		}

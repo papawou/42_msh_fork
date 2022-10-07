@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:32:32 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:46:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 20:30:20 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int	execute_builtins(t_list_el **env, t_command *command)
 	if (ft_strcmp(command->bin, "env") == 0)
 		return (execute_env(env));
 	if (ft_strcmp(command->bin, "exit") == 0)
-		return (execute_exit(command, env));
+		return (execute_exit(command));
 	return (-1);
 }

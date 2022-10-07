@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/06 17:33:24 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/06 22:21:13 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ volatile sig_atomic_t env_exit = 0;
 void	print_usage(void)
 {
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
+	env_exit = 2;
 }
 
 static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
@@ -88,4 +89,6 @@ int	main(int argc, __attribute__((unused)) char **argv)
 	print_welcome_message();
 	run_prompt(&env);
 	ft_lstclear(&env, &destroy_environ_el);
+	printf("exit\n");
+	return (env_exit);
 }

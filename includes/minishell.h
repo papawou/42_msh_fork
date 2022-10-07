@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/06 17:32:55 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/06 23:35:18 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ unsigned int		execute_pwd(void);
 unsigned int		execute_export(t_list_el **env, t_command *command);
 unsigned int		execute_unset(t_list_el **env, t_command *command);
 unsigned int		execute_env(t_list_el **env);
-unsigned int		execute_exit(t_command *command, t_list_el **env);
+unsigned int		execute_exit(t_command *command);
 
 //execve_errros.c
 int execve_process_error(char *command, int execve_errno);
