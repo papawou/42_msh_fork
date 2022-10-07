@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/07 09:45:49 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/07 10:15:07 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,7 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 	return (true);
 }
 
-/**
- *
- * Prompt for heredoc and write it to a tmp file
- *
- * @param {t_command *} command
- */
-void	execute_heredoc(t_command *command)
+void	execute_heredoc(char *heredoc, int tmp_file_fd)
 {
 	char	*line_read;
 	int		tmp_file_fd;
@@ -68,7 +62,6 @@ void	execute_heredoc(t_command *command)
 
 	no_line = 0;
 	line_read = NULL;
-	open_tmp_file(&tmp_file_fd);
 	while (42)
 	{
 		++no_line;
@@ -79,10 +72,30 @@ void	execute_heredoc(t_command *command)
 				SHELL_NAME, no_line, command->heredoc);
 			break ;
 		}
-		if (ft_strcmp(line_read, command->heredoc) == 0)
+		if (ft_strcmp(line_read, (char *)heredoc) == 0)
 			break ;
 		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
 	}
 	free(line_read);
+}
+
+/**
+ *
+ * Prompt for heredoc and write it to a tmp file
+ *
+ * @param {t_command *} command
+ */
+void	execute_heredocs(t_command *command)
+{
+	int			tmp_file_fd;
+	t_list_el	*current_el;
+
+	current_el = command->heredoc;
+	while (current_el)
+	{
+		open_tmp_file(&tmp_file_fd);
+		execute_heredoc(current_el->content, tmp_file_fd);
+		current_el = current_el->next;
+	}
 	close(tmp_file_fd);
 }

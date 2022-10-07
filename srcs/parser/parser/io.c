@@ -57,7 +57,7 @@ void	parse_io_token(
 		value = ((t_token *)current_el->next->content)->value;
 		if (token->type == I_HEREDOC_OP)
 		{
-			command->heredoc = ft_strdup(value);
+			ft_lstadd_back(&command->heredoc, ft_lstnew(ft_strdup(value)));
 			file_redirect = init_file_redirect(TMP_FILE);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/06 23:35:18 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/07 10:15:06 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_command {
 	t_list_el		*out;
 	char			*bin;
 	char			**argv;
-	char			*heredoc;
+	t_list_el		*heredoc;
 	t_list_el		*tokens;
 	int				return_value;
 }	t_command;
@@ -208,7 +208,7 @@ void				route_back_command_io(t_command *command);
 t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
-void				execute_heredoc(t_command *command);
+void				execute_heredocs(t_command *command);
 
 char				*get_program_path(t_list_el *env, t_command *command);
 

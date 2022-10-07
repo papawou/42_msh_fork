@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/07 09:33:11 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/07 10:13:38 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
 		{
-			execute_heredoc(execution_plan->commands[i]);
+			execute_heredocs(execution_plan->commands[i]);
 		}
 		last_pid = fork();
 		if (last_pid == -1)
@@ -88,7 +88,7 @@ int	create_shellscript(t_execution_plan *execution_plan, int **pipes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
 		{
-			execute_heredoc(execution_plan->commands[i]);
+			execute_heredocs(execution_plan->commands[i]);
 		}
 		cmd_ret = execute_command(execution_plan, pipes, i);
 		i++;
