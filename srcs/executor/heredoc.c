@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/07 10:18:03 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/08 01:50:24 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,23 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <sys/ioctl.h>
+#include <errno.h>
+#include <signal.h>
+
+static	void heredoc_sigint_handler(int status __attribute__((unused)))
+{
+	write(1, "\n", 1);
+	exit(130);
+}
+
+void	set_heredoc_signals()
+{
+	static struct sigaction act_sigint = {.sa_handler = heredoc_sigint_handler, .sa_flags = SA_RESTART};
+	
+	signal(SIGQUIT, SIG_IGN);
+	sigfillset(&act_sigint.sa_mask);
+	sigaction(SIGINT, &act_sigint, NULL);
+}
 
 /**
  * Prompt the user for the next command.
@@ -27,7 +44,7 @@
  *
  * @return {char *} line_read
  */
-char	*prompt_heredoc(char *line_read)
+static char	*prompt_heredoc(char *line_read)
 {
 	char	*prompt_name;
 
@@ -40,18 +57,6 @@ char	*prompt_heredoc(char *line_read)
 	line_read = readline(prompt_name);
 	free(prompt_name);
 	return (line_read);
-}
-
-_Bool	open_tmp_file(int *tmp_file_fd)
-{
-	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
-	if (*tmp_file_fd < 1)
-	{
-		print_custom_error("heredoc", NULL, "Could not create temp file");
-		return (false);
-	}
-	ft_printf_fd(*tmp_file_fd, "");
-	return (true);
 }
 
 void	execute_heredoc(char *heredoc, int tmp_file_fd)
@@ -76,25 +81,4 @@ void	execute_heredoc(char *heredoc, int tmp_file_fd)
 		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
 	}
 	free(line_read);
-}
-
-/**
- *
- * Prompt for heredoc and write it to a tmp file
- *
- * @param {t_command *} command
- */
-void	execute_heredocs(t_command *command)
-{
-	int			tmp_file_fd;
-	t_list_el	*current_el;
-
-	current_el = command->heredoc;
-	while (current_el)
-	{
-		open_tmp_file(&tmp_file_fd);
-		execute_heredoc(current_el->content, tmp_file_fd);
-		current_el = current_el->next;
-	}
-	close(tmp_file_fd);
 }

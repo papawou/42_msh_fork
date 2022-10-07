@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:16:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 01:41:51 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,13 @@ int	execute_command(
 	return (2);
 }
 
-int	wait_execute_plan(t_execution_plan *plan, int last_pid)
+int	wait_execute_plan(int last_pid)
 {
 	int	code;
 	int wait_ret;
 	int	wait_stat;
 
-	(void) plan;
-	(void) last_pid;
+	code = 0;
 	while (1)
 	{
 		wait_ret = wait(&wait_stat);
@@ -108,16 +107,14 @@ int	wait_execute_plan(t_execution_plan *plan, int last_pid)
 		{
 			if (errno == ECHILD)
 				break ;
-			break ;
+			print_custom_error("wait_execute_plan", "wait", strerror(errno));
 		}
-		if (last_pid == wait_ret)
+		else if (last_pid == wait_ret)
 		{
 			if (WIFSIGNALED(wait_stat))
 				code = (128 + WTERMSIG(wait_stat));
 			else if (WIFEXITED(wait_stat))
 				code = (WEXITSTATUS(wait_stat));
-			else
-				code = 3;
 		}
 	}
 	return (code);
@@ -146,7 +143,7 @@ int	execute_plan(t_execution_plan *execution_plan)
 		last_exit = create_shellscript(execution_plan, pipes);
 	close_pipes_in_main_process(pipes, execution_plan->number_of_commands);
 	if (execution_plan->need_to_fork)
-		last_exit = wait_execute_plan(execution_plan, last_pid);
+		last_exit = wait_execute_plan(last_pid);
 	destroy_pipes(execution_plan->number_of_commands, pipes);
 	return (last_exit);
 }

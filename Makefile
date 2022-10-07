@@ -6,7 +6,7 @@
 #    By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 10:27:38 by fvarrin           #+#    #+#              #
-#    Updated: 2022/10/06 14:52:12 by kmendes          ###   ########.fr        #
+#    Updated: 2022/10/08 01:43:32 by kmendes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c parser/tokenizer/pipe.c \
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c parser/parser/builtins.c \
-				executor/executor.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c executor/path.c executor/file-redirect.c \
+				executor/executor.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c executor/heredoc_parent.c executor/path.c executor/file-redirect.c \
 				executor/builtins.c executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c executor/builtins/export.c \
 				executor/builtins/unset.c executor/builtins/env.c executor/builtins/exit.c \
 				executor/execve_errors.c \
