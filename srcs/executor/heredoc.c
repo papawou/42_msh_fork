@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/07 10:15:07 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/07 10:18:03 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 void	execute_heredoc(char *heredoc, int tmp_file_fd)
 {
 	char	*line_read;
-	int		tmp_file_fd;
 	int		no_line;
 
 	no_line = 0;
@@ -69,7 +68,7 @@ void	execute_heredoc(char *heredoc, int tmp_file_fd)
 		if (!line_read)
 		{
 			ft_printf_fd(2, "%s: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
-				SHELL_NAME, no_line, command->heredoc);
+				SHELL_NAME, no_line, heredoc);
 			break ;
 		}
 		if (ft_strcmp(line_read, (char *)heredoc) == 0)
