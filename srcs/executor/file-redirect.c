@@ -15,6 +15,12 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+/**
+ *
+ * @param {char *} file
+ *
+ * @return {t_file_redirect *}
+ */
 t_file_redirect	*init_file_redirect(char *file)
 {
 	t_file_redirect	*file_redirect;
@@ -27,6 +33,10 @@ t_file_redirect	*init_file_redirect(char *file)
 	return (file_redirect);
 }
 
+/**
+ *
+ * @param {void *} file_redirect_arg
+ */
 void	destroy_file_redirect(void *file_redirect_arg)
 {
 	t_file_redirect	*file_redirect;

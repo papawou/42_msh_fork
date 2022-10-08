@@ -16,6 +16,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+ *
+ * @param {char *} bin
+ *
+ * @return {_Bool}
+ */
 _Bool	is_a_builtins(char *bin)
 {
 	if (ft_strcmp(bin, "echo") == 0)

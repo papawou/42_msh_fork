@@ -6,13 +6,19 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:21:28 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:26:46 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:13:35 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "minishell.h"
 
+/**
+ *
+ * @param {t_list_el **} env
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_env(t_list_el **env)
 {
 	char	**environ_char_2d;

@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:03:26 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 16:03:34 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	run_prompt(t_list_el **env)
 	char				*line_read;
 
 	line_read = NULL;
-	while (42)
+	while (FOREVER)
 	{
 		line_read = prompt(line_read);
 		if (line_read == NULL)

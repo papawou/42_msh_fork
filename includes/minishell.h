@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:44:44 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:44:08 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define FILE_PERMISSION_IF_CREATED 0664
 # define SHELL_NAME "minishell"
+# define FOREVER 42
 
 # include <signal.h>
 # include <stdio.h>
@@ -198,8 +199,8 @@ void				destroy_pipes(int number_of_child_processes, int **pipes);
 
 int					create_processes(t_execution_plan *execution_plan,
 						int **pipes);
-int					create_shellscript(t_execution_plan *execution_plan,
-						int **pipes);
+int					execute_single_without_fork(
+						t_execution_plan *execution_plan, int **pipes);
 int					count_total_process(int number_of_child_processes);
 
 void				route_command_io(
@@ -213,6 +214,7 @@ void				route_back_command_io(t_command *command);
 t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
+_Bool				open_tmp_file(int *tmp_file_fd);
 void				execute_heredocs(t_command *command);
 void				execute_heredoc(char *delimiter, int tmp_file_fd);
 void				set_heredoc_signals(void);
@@ -228,7 +230,7 @@ int					clear_if_exec_fail(
 						char *program_path,
 						char **environ_as_arr
 						);
-int					handle_builtins(
+int					handle_builtins_execution(
 						t_execution_plan *execution_plan,
 						t_command *command
 						);

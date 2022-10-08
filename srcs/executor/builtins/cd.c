@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:23:36 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:42:34 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,28 @@
 #include <stdlib.h>
 #include <errno.h>
 
+/**
+ *
+ * Helper that print error message for cd and return the given error_number
+ *
+ * @param {char *} message
+ * @param {int} error_number
+ *
+ * @return {int}
+ */
 int	print_cd_error(char *message, int error_number)
 {
 	print_custom_error("cd", NULL, message);
 	return (error_number);
 }
 
+/**
+ *
+ * @param {t_list_el *} env
+ * @param {t_command *} command
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
 	int		status;
@@ -41,7 +57,7 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 		return (print_cd_error("HOME not set", 1));
 	status = chdir(path);
 	if (status == -1)
-		print_cd_error(strerror(errno), 1);
+		return (print_cd_error(strerror(errno), 1));
 	free(path);
-	return (1);
+	return (0);
 }

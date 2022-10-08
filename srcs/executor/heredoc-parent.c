@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:18:11 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:38:53 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 #include <stdlib.h>
 #include "minishell.h"
 
+/**
+ *
+ * Open the tmp file clear it and set the file descriptor, return false in case
+ * of error
+ *
+ * @param {int}tmp_file_fd
+ *
+ * @return {_Bool`}
+ */
 _Bool	open_tmp_file(int *tmp_file_fd)
 {
 	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
@@ -30,11 +39,14 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 	return (true);
 }
 
+/**
+ * @param {pid_t} pid_child
+ */
 void	heredoc_parent_wait(pid_t pid_child)
 {
 	int	wait_stat;
 
-	while (1)
+	while (FOREVER)
 	{
 		if (waitpid(pid_child, &wait_stat, 0) == -1)
 		{
@@ -52,7 +64,7 @@ void	heredoc_parent_wait(pid_t pid_child)
 
 /**
  *
- * Prompt for heredoc and write it to a tmp file
+ * Prompt for each heredocs and write it to a tmp file
  *
  * @param {t_command *} command
  */

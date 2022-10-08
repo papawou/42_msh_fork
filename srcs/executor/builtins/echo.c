@@ -15,6 +15,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+/**
+ *
+ * @param {t_command} command
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_echo(t_command *command)
 {
 	_Bool	without_line_break;

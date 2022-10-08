@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:15:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 19:39:58 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:10:30 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,17 @@ _Bool	is_valid_key_value_env(char *key_value)
 	return (true);
 }
 
+/**
+ *
+ * Extract key and value from char *key_value and set it in char
+ * **key and char **value return false if an error occurred
+ *
+ * @param {char *} key_value
+ * @param {char **} key
+ * @param {char **} value
+ *
+ * @return {_Bool}
+ */
 _Bool	extract_key_value(char *key_value, char **key, char **value)
 {
 	char	*eq_ptr;

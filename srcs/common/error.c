@@ -16,6 +16,12 @@
 #include <stdlib.h>
 #include <errno.h>
 
+/**
+ *
+ * @param {char *} prefix
+ * @param {char *} attribute
+ * @param {char *} message
+ */
 void	print_custom_error(char *prefix, char *attribute, char *message)
 {
 	if (prefix && attribute && message)

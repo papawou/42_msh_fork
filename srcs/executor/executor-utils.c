@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:56:14 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 15:58:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:21:07 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/**
+ *
+ * Clear everything in case the execve call has failed and return the exit code
+ * of the execve call
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @param {int **} pipes
+ * @param {char *} program_path
+ * @param {char **} environ_as_arr
+ *
+ * @return {int}
+ */
 int	clear_if_exec_fail(
 		t_execution_plan *execution_plan,
 		int **pipes,
@@ -33,7 +45,20 @@ int	clear_if_exec_fail(
 	return (exit_code);
 }
 
-int	handle_builtins(t_execution_plan *execution_plan, t_command *command)
+/**
+ *
+ * Handle the builtin execution dans return the status code of the builtin
+ * executed
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @param {t_command *} command
+ *
+ * @return {int}
+ */
+int	handle_builtins_execution(
+		t_execution_plan *execution_plan,
+		t_command *command
+	)
 {
 	int	builtin_result;
 
@@ -44,6 +69,16 @@ int	handle_builtins(t_execution_plan *execution_plan, t_command *command)
 	return (builtin_result);
 }
 
+/**
+ *
+ * Find a program path for a command, with a absolute path if has / or from
+ * the PATH env variable
+ *
+ * @param {t_command *} execution_plan
+ * @param {t_command *} command
+ *
+ * @return {char *}
+ */
 char	*find_program_path(t_execution_plan *execution_plan, t_command *command)
 {
 	char	*program_path;

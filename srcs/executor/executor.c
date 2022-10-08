@@ -6,17 +6,15 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 15:55:38 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:19:09 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <errno.h>
 
 /**
@@ -45,7 +43,7 @@ int	execute_command(
 		return (0);
 	}
 	if (is_a_builtins(command->bin))
-		return (handle_builtins(execution_plan, command));
+		return (handle_builtins_execution(execution_plan, command));
 	program_path = find_program_path(execution_plan, command);
 	if (program_path == NULL)
 		return (127);
@@ -56,14 +54,23 @@ int	execute_command(
 	return (2);
 }
 
+/**
+ *
+ * Wait until last_pid process is finished and return
+ * the status code of the last process
+ *
+ * @param last_pid
+ *
+ * @return {int} status_code
+ */
 int	wait_execute_plan(int last_pid)
 {
-	int	code;
+	int	status_code;
 	int	wait_ret;
 	int	wait_stat;
 
-	code = 0;
-	while (1)
+	status_code = 0;
+	while (FOREVER)
 	{
 		wait_ret = wait(&wait_stat);
 		if (wait_ret == -1)
@@ -75,12 +82,12 @@ int	wait_execute_plan(int last_pid)
 		else if (last_pid == wait_ret)
 		{
 			if (WIFSIGNALED(wait_stat))
-				code = (128 + WTERMSIG(wait_stat));
+				status_code = (128 + WTERMSIG(wait_stat));
 			else if (WIFEXITED(wait_stat))
-				code = (WEXITSTATUS(wait_stat));
+				status_code = (WEXITSTATUS(wait_stat));
 		}
 	}
-	return (code);
+	return (status_code);
 }
 
 /**
@@ -103,7 +110,7 @@ int	execute_plan(t_execution_plan *execution_plan)
 	if (execution_plan->need_to_fork)
 		last_pid = create_processes(execution_plan, pipes);
 	else
-		last_exit = create_shellscript(execution_plan, pipes);
+		last_exit = execute_single_without_fork(execution_plan, pipes);
 	close_pipes_in_main_process(pipes, execution_plan->number_of_commands);
 	if (execution_plan->need_to_fork)
 		last_exit = wait_execute_plan(last_pid);

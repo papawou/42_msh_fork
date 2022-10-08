@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:17:04 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:37:31 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,19 @@
 #include <errno.h>
 #include <signal.h>
 
+/**
+ *
+ * Write a line break, clear the tmp file and exit with right status code
+ *
+ * @param {int} status unused
+ */
 static	void	heredoc_sigint_handler(int status __attribute__((unused)))
 {
+	int		tmp_file_fd;
+
 	write(1, "\n", 1);
+	if (open_tmp_file(&tmp_file_fd))
+		close(tmp_file_fd);
 	exit(130);
 }
 
@@ -60,6 +70,11 @@ static char	*prompt_heredoc(char *line_read)
 	return (line_read);
 }
 
+/**
+ *
+ * @param {char *} delimiter
+ * @param {int} tmp_file_fd
+ */
 void	execute_heredoc(char *delimiter, int tmp_file_fd)
 {
 	char	*line_read;
@@ -67,7 +82,7 @@ void	execute_heredoc(char *delimiter, int tmp_file_fd)
 
 	line_number = 0;
 	line_read = NULL;
-	while (42)
+	while (FOREVER)
 	{
 		++line_number;
 		line_read = prompt_heredoc(line_read);

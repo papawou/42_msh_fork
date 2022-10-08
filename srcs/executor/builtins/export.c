@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:12:26 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:24:55 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:13:26 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ *
+ * @param {t_list_el **} env
+ * @param {t_command *} command
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_export(t_list_el **env, t_command *command)
 {
 	int		i;

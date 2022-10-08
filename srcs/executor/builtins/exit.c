@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:37:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:25:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:06:32 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 #include <stdlib.h>
 
 /**
- * check if argument is an int, return 0 if success
- **/
-static int	check_exit_arg(t_command *command)
+ * check if argument is an int, return true if success
+  *
+  * @param {t_command *} command
+  *
+  * @return {int}
+ */
+static _Bool	check_exit_arg(t_command *command)
 {
 	int	i;
 
@@ -30,6 +34,12 @@ static int	check_exit_arg(t_command *command)
 	return (command->argv[1][i] != '\0');
 }
 
+/**
+ *
+ * @param {t_command *} command
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_exit(t_command *command)
 {
 	int		exit_status;
@@ -48,6 +58,6 @@ unsigned int	execute_exit(t_command *command)
 		print_custom_error("exit", NULL, "too many arguments");
 		return (1);
 	}
-	exit_status = ft_atoi(command->argv[1]);
+	exit_status = (int)ft_atoi(command->argv[1]);
 	exit(exit_status % 256);
 }

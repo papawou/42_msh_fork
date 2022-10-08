@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/**
+ *
+ * @param {t_list_el **} env
+ * @param {t_command *} command
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_unset(t_list_el **env, t_command *command)
 {
 	int				i;
