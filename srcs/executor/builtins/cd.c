@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/28 18:28:41 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 16:23:36 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,31 @@
 #include <stdlib.h>
 #include <errno.h>
 
+int	print_cd_error(char *message, int error_number)
+{
+	print_custom_error("cd", NULL, message);
+	return (error_number);
+}
+
 unsigned int	execute_cd(t_list_el *env, t_command *command)
 {
 	int		status;
 	char	*path;
 
 	if (command->argv[1] != NULL && command->argv[2] != NULL)
-	{
-		print_custom_error("cd", NULL, "too many arguments");
-		return (1);
-	}
+		return (print_cd_error("too many arguments", 1));
 	if (command->argv[1])
 	{
 		status = chdir(command->argv[1]);
 		if (status == -1)
-			print_custom_error("cd", NULL, strerror(errno));
-		return (status == -1);
+			return (print_cd_error(strerror(errno), 1));
 	}
 	path = get_env_value(env, "HOME");
 	if (path == NULL)
-	{
-		print_custom_error("cd", NULL, "HOME not set");
-		return (1);
-	}
+		return (print_cd_error("HOME not set", 1));
 	status = chdir(path);
 	if (status == -1)
-		print_custom_error("cd", NULL, strerror(errno));
+		print_cd_error(strerror(errno), 1);
 	free(path);
-	return (status == -1);
+	return (1);
 }

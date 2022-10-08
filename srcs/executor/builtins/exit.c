@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:37:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/06 22:33:50 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/08 16:25:23 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /**
  * check if argument is an int, return 0 if success
  **/
-
 static int	check_exit_arg(t_command *command)
 {
 	int	i;
@@ -41,7 +39,8 @@ unsigned int	execute_exit(t_command *command)
 		exit(0);
 	if (check_exit_arg(command))
 	{
-		print_custom_error("exit", command->argv[1], "numeric argument required");
+		print_custom_error("exit", command->argv[1],
+			"numeric argument required");
 		exit(255);
 	}
 	if (command->argv[2])

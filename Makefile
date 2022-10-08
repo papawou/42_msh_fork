@@ -25,11 +25,12 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c parser/tokenizer/pipe.c \
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c parser/parser/builtins.c \
-				executor/executor.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c executor/heredoc_parent.c executor/path.c executor/file-redirect.c \
+				executor/executor.c executor/executor-utils.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c \
+				executor/heredoc-parent.c executor/path.c executor/file-redirect.c \
 				executor/builtins.c executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c executor/builtins/export.c \
 				executor/builtins/unset.c executor/builtins/env.c executor/builtins/exit.c \
-				executor/execve_errors.c \
-				prompter/prompt.c prompter/signal_handlers.c \
+				executor/execve-errors.c \
+				prompter/prompt.c prompter/signal-handlers.c \
 				environ/environ.c environ/environ-2d.c environ/environ-getters.c environ/environ-utils.c \
 				common/utils.c common/current-dir.c common/error.c)
 OBJ			= $(SRC:.c=.o)

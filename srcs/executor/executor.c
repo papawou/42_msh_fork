@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 01:41:51 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/08 15:55:38 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,6 @@
 #include <stdio.h>
 #include <errno.h>
 
-/*
-static void	clear_if_exec_fail(
-		t_execution_plan *execution_plan,
-		int **pipes,
-		char *program_path,
-		char **environ_as_arr
-	)
-{
-	destroy_pipes(execution_plan->number_of_commands, pipes);
-	free(program_path);
-	ft_lstclear(execution_plan->env, &destroy_environ_el);
-	free_environ_char_2d(environ_as_arr);
-	exit(127);
-}
-*/
 /**
  *
  * Take a command, set the io routing and execute it
@@ -51,52 +36,30 @@ int	execute_command(
 	char		*program_path;
 	t_command	*command;
 	char		**environ_as_arr;
-	int			builtin_result;
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
-	
 	if (command->bin == NULL)
 	{
 		route_back_command_io(command);
 		return (0);
 	}
 	if (is_a_builtins(command->bin))
-	{
-		builtin_result = execute_builtins(execution_plan->env, command);
-		if (execution_plan->need_to_fork)
-			exit(builtin_result);
-		route_back_command_io(command);
-		return (builtin_result);
-	}
-	
-	if (!ft_strchr(command->bin, '/')) //is a command
-	{
-		program_path = get_program_path(*execution_plan->env, command);
-		if (program_path == NULL)
-		{
-			print_custom_error(command->bin, NULL, "command not found");
-			return(127);
-		}
-	}
-	else
-		program_path = ft_strdup(command->bin);
+		return (handle_builtins(execution_plan, command));
+	program_path = find_program_path(execution_plan, command);
+	if (program_path == NULL)
+		return (127);
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
-	{
-		int	exit_code;
-		exit_code = execve_process_error(program_path, errno);
-		free(program_path);
-		free_environ_char_2d(environ_as_arr);
-		return(exit_code);
-	}
+		return (clear_if_exec_fail(
+				execution_plan, pipes, program_path, environ_as_arr));
 	return (2);
 }
 
 int	wait_execute_plan(int last_pid)
 {
 	int	code;
-	int wait_ret;
+	int	wait_ret;
 	int	wait_stat;
 
 	code = 0;

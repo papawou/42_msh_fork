@@ -51,11 +51,11 @@ char	*get_env_value(t_list_el *env, char *key)
 
 	entry = env;
 	if (ft_strcmp(key, "?") == 0)
-		return (ft_itoa(env_exit));
+		return (ft_itoa(g_env_exit));
 	if (entry == NULL || key == NULL)
 		return (NULL);
 	tmp = get_environ_el(entry, key);
 	if (tmp == NULL)
-		return (NULL); //prev. ft_strdup("")
+		return (NULL);
 	return (ft_strdup(tmp->value));
 }

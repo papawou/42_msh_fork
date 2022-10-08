@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/06 22:21:13 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/08 16:03:26 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 #include "libft.h"
 #include "minishell.h"
 
-volatile sig_atomic_t env_exit = 0;
+volatile sig_atomic_t	g_env_exit = 0;
 
 void	print_usage(void)
 {
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
-	env_exit = 2;
+	g_env_exit = 2;
 }
 
 static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
 {
 	execution_plan->env = env;
 	unset_parent_signals();
-	env_exit = execute_plan(execution_plan);
+	g_env_exit = execute_plan(execution_plan);
 	set_parent_signals();
 	destroy_execution_plan(execution_plan);
 }
@@ -69,7 +69,7 @@ int	config_env(t_list_el **env)
 	*env = parse_environ();
 	if (*env == NULL)
 		return (1);
-	env_exit = 0;
+	g_env_exit = 0;
 	return (0);
 }
 
@@ -90,5 +90,5 @@ int	main(int argc, __attribute__((unused)) char **argv)
 	run_prompt(&env);
 	ft_lstclear(&env, &destroy_environ_el);
 	printf("exit\n");
-	return (env_exit);
+	return (g_env_exit);
 }

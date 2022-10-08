@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc-parent.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/10/08 16:18:11 by fvarrin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
@@ -19,7 +30,7 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 	return (true);
 }
 
-void heredoc_parent_wait(pid_t pid_child)
+void	heredoc_parent_wait(pid_t pid_child)
 {
 	int	wait_stat;
 
@@ -28,13 +39,14 @@ void heredoc_parent_wait(pid_t pid_child)
 		if (waitpid(pid_child, &wait_stat, 0) == -1)
 		{
 			if (errno == ECHILD)
-				break;
-			print_custom_error("heredoc_parent_wait", "waitpid", strerror(errno));
+				break ;
+			print_custom_error("heredoc_parent_wait",
+				"waitpid", strerror(errno));
 		}
 		else if (WIFSIGNALED(wait_stat))
-			env_exit = (128 + WTERMSIG(wait_stat));
+			g_env_exit = (128 + WTERMSIG(wait_stat));
 		else if (WIFEXITED(wait_stat))
-			env_exit = (WEXITSTATUS(wait_stat));
+			g_env_exit = (WEXITSTATUS(wait_stat));
 	}
 }
 
@@ -49,7 +61,7 @@ void	execute_heredocs(t_command *command)
 	int			tmp_file_fd;
 	t_list_el	*current_el;
 	pid_t		pid_fork;
-	
+
 	current_el = command->heredoc;
 	while (current_el)
 	{

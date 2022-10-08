@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handlers.c                                  :+:      :+:    :+:   */
+/*   signal-handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 00:00:06 by kmendes           #+#    #+#             */
-/*   Updated: 2022/10/06 23:36:17 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/08 16:39:26 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	configure_termios(void)
  */
 static void	sigint_handler(int status __attribute__((unused)))
 {
-	env_exit = 130;
+	g_env_exit = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -54,7 +54,8 @@ static void	sigint_handler(int status __attribute__((unused)))
  */
 void	set_parent_signals(void)
 {
-	static struct sigaction	act_sigint = {.sa_handler = sigint_handler, .sa_flags = SA_RESTART};
+	static struct sigaction	act_sigint
+		= {.sa_handler = sigint_handler, .sa_flags = SA_RESTART};
 
 	signal(SIGQUIT, SIG_IGN);
 	sigfillset(&act_sigint.sa_mask);

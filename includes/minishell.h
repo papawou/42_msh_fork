@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 01:50:50 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/08 16:44:44 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # define FILE_PERMISSION_IF_CREATED 0664
-# define HEREDOC_EOF_WARNING "warning: here-document delimited by end-of-file"
 # define SHELL_NAME "minishell"
 
 # include <signal.h>
@@ -22,8 +21,8 @@
 # include <unistd.h>
 # include "libft.h"
 
-extern char	**environ;
-extern volatile sig_atomic_t env_exit;
+extern char						**environ;
+extern volatile sig_atomic_t	g_env_exit;
 
 # define TMP_FILE "/tmp/.minishell.heredoc"
 
@@ -96,8 +95,12 @@ char				*create_empty_str(void);
 
 char				*get_current_dir(void);
 
-void	print_erno_error(char *error, int arg_errno);
-void				print_custom_error(char *prefix, char *attribute, char *message);
+void				print_erno_error(char *error, int arg_errno);
+void				print_custom_error(
+						char *prefix,
+						char *attribute,
+						char *message
+						);
 
 /** Prompter **/
 void				print_welcome_message(void);
@@ -123,7 +126,6 @@ void				print_environ_char_2d(char **char_2d);
 _Bool				is_valid_key_value_env(char *key_value);
 _Bool				extract_key_value(char *key_value,
 						char **key, char **value);
-int					add_environ_el_exitcode(t_list_el **el, int	value);
 
 t_environ_el		*get_environ_el(t_list_el *entry, char *key);
 char				*get_env_value(t_list_el *env, char *key);
@@ -184,7 +186,7 @@ _Bool				check_if_need_to_fork(t_execution_plan *execution_plan);
 
 /** Executor **/
 int					execute_plan(t_execution_plan *execution_plan);
-int				execute_command(t_execution_plan *execution_plan,
+int					execute_command(t_execution_plan *execution_plan,
 						int **pipes, int index);
 
 int					**create_pipes(int number_of_child_processes);
@@ -194,7 +196,10 @@ void				close_pipes_in_main_process(
 						int **pipes, int number_of_child_processes);
 void				destroy_pipes(int number_of_child_processes, int **pipes);
 
-int					create_processes(t_execution_plan *execution_plan, int **pipes);
+int					create_processes(t_execution_plan *execution_plan,
+						int **pipes);
+int					create_shellscript(t_execution_plan *execution_plan,
+						int **pipes);
 int					count_total_process(int number_of_child_processes);
 
 void				route_command_io(
@@ -209,13 +214,28 @@ t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
 void				execute_heredocs(t_command *command);
-void				execute_heredoc(char *heredoc, int tmp_file_fd);
-void				set_heredoc_signals();
+void				execute_heredoc(char *delimiter, int tmp_file_fd);
+void				set_heredoc_signals(void);
 
 char				*get_program_path(t_list_el *env, t_command *command);
 
 _Bool				is_a_builtins(char *bin);
 int					execute_builtins(t_list_el **env, t_command *command);
+
+int					clear_if_exec_fail(
+						t_execution_plan *execution_plan,
+						int **pipes,
+						char *program_path,
+						char **environ_as_arr
+						);
+int					handle_builtins(
+						t_execution_plan *execution_plan,
+						t_command *command
+						);
+char				*find_program_path(
+						t_execution_plan *execution_plan,
+						t_command *command
+						);
 
 unsigned int		execute_echo(t_command *command);
 unsigned int		execute_cd(t_list_el *env, t_command *command);
@@ -225,8 +245,5 @@ unsigned int		execute_unset(t_list_el **env, t_command *command);
 unsigned int		execute_env(t_list_el **env);
 unsigned int		execute_exit(t_command *command);
 
-//execve_errros.c
-int execve_process_error(char *command, int execve_errno);
-int	create_shellscript(t_execution_plan *execution_plan, int **pipes);
-
+int					execve_process_error(char *command, int execve_errno);
 #endif
