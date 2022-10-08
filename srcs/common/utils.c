@@ -57,7 +57,7 @@ int	open_file(char *path, int flags)
  *
  * @return  {char *} str
  */
-char	*create_base_str(void)
+char	*create_empty_str(void)
 {
 	char	*str;
 

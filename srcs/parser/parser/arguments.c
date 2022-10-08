@@ -79,7 +79,7 @@ void	set_next_argv_str(t_command *command, char **str, int *i)
 	if (*(str)[0] != '\0')
 	{
 		command->argv[(*i)++] = *str;
-		*str = create_base_str();
+		*str = create_empty_str();
 	}
 }
 

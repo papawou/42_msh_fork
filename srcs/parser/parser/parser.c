@@ -90,7 +90,7 @@ t_command	*parse_command_tokens(t_command *command, t_list_el **tokens)
 	set_io_from_tokens(command);
 	command->argv = malloc(sizeof(char *)
 			* (count_argv(command) + 1));
-	str = create_base_str();
+	str = create_empty_str();
 	set_argv_from_tokens(command, &str);
 	if (command->argv[0])
 		command->bin

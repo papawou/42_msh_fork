@@ -92,7 +92,7 @@ typedef struct s_env_variable {
 /** Utils **/
 char				*trim_space(char *source);
 int					open_file(char *path, int flags);
-char				*create_base_str(void);
+char				*create_empty_str(void);
 
 char				*get_current_dir(void);
 
