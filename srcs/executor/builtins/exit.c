@@ -41,7 +41,7 @@ unsigned int	execute_exit(t_command *command)
 	{
 		print_custom_error("exit", command->argv[1],
 			"numeric argument required");
-		exit(255);
+		exit(2);
 	}
 	if (command->argv[2])
 	{
