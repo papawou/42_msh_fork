@@ -57,12 +57,12 @@ unset T1 2T T3
 
 - [ ] Get from stdin other syntax
 ```
-cat -n << EOF
+cat -n << EOF1 << EOF2
 ```
 
-- [ ] Test multiple redirections, should create all three out file and add the content of << in out3
+- [ ] Test multiple redirections, should create all three out file and add the content of second << in out3
 ```
-< /etc/passwd << EOF > /tmp/out1 cat -n > /tmp/out2 >/tmp/out3
+< /etc/passwd << EOF > /tmp/out1 cat -n > /tmp/out2 >/tmp/out3 << EOF
 ```
 
 - [ ] Change directory
