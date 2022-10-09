@@ -3,34 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 14:16:22 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:19:09 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdio.h>
-
-static void	clear_if_exec_fail(
-		t_execution_plan *execution_plan,
-		int **pipes,
-		char *program_path,
-		char **environ_as_arr
-	)
-{
-	destroy_pipes(execution_plan->number_of_commands, pipes);
-	free(program_path);
-	ft_lstclear(execution_plan->env, &destroy_environ_el);
-	free_environ_char_2d(environ_as_arr);
-	exit(127);
-}
+#include <errno.h>
 
 /**
  *
@@ -40,7 +25,7 @@ static void	clear_if_exec_fail(
  * @param {int **} pipes
  * @param {int} index
  */
-void	execute_command(
+int	execute_command(
 			t_execution_plan *execution_plan,
 			int **pipes,
 			int index
@@ -49,28 +34,60 @@ void	execute_command(
 	char		*program_path;
 	t_command	*command;
 	char		**environ_as_arr;
-	int			builtin_result;
 
 	command = execution_plan->commands[index];
 	route_command_io(command, pipes, index, execution_plan->number_of_commands);
 	if (command->bin == NULL)
-		return (route_back_command_io(command));
+	{
+		route_back_command_io(command);
+		return (0);
+	}
 	if (is_a_builtins(command->bin))
-	{
-		builtin_result = execute_builtins(execution_plan->env, command);
-		if (execution_plan->need_to_fork)
-			exit(builtin_result);
-		return (route_back_command_io(command));
-	}
-	program_path = get_program_path(*execution_plan->env, command);
+		return (handle_builtins_execution(execution_plan, command));
+	program_path = find_program_path(execution_plan, command);
 	if (program_path == NULL)
-	{
-		print_custom_error(command->bin, "No such file or directory");
-		exit(127);
-	}
+		return (127);
 	environ_as_arr = environ_el_to_char_2d(*execution_plan->env);
 	if (execve(program_path, command->argv, environ_as_arr) == -1)
-		clear_if_exec_fail(execution_plan, pipes, program_path, environ_as_arr);
+		return (clear_if_exec_fail(
+				execution_plan, pipes, program_path, environ_as_arr));
+	return (2);
+}
+
+/**
+ *
+ * Wait until last_pid process is finished and return
+ * the status code of the last process
+ *
+ * @param last_pid
+ *
+ * @return {int} status_code
+ */
+int	wait_execute_plan(int last_pid)
+{
+	int	status_code;
+	int	wait_ret;
+	int	wait_stat;
+
+	status_code = 0;
+	while (FOREVER)
+	{
+		wait_ret = wait(&wait_stat);
+		if (wait_ret == -1)
+		{
+			if (errno == ECHILD)
+				break ;
+			print_custom_error("wait_execute_plan", "wait", strerror(errno));
+		}
+		else if (last_pid == wait_ret)
+		{
+			if (WIFSIGNALED(wait_stat))
+				status_code = (128 + WTERMSIG(wait_stat));
+			else if (WIFEXITED(wait_stat))
+				status_code = (WEXITSTATUS(wait_stat));
+		}
+	}
+	return (status_code);
 }
 
 /**
@@ -83,26 +100,20 @@ void	execute_command(
  */
 int	execute_plan(t_execution_plan *execution_plan)
 {
-	int			i;
-	int			*pids;
+	int			last_exit;
+	int			last_pid;
 	int			**pipes;
-	int			number_of_child_processes;
 
-	number_of_child_processes = execution_plan->number_of_commands;
-	pipes = NULL;
-	pids = NULL;
-	pipes = create_pipes(number_of_child_processes, pipes);
-	pids = create_processes(execution_plan, pids, pipes);
-	i = 0;
-	close_pipes_in_main_process(pipes, number_of_child_processes);
-	while (i < number_of_child_processes)
-	{
-		waitpid(pids[i], &(execution_plan->commands[i]->return_value), 0);
-		if (WEXITSTATUS(execution_plan->commands[i]->return_value) != 0)
-			exit(WEXITSTATUS(execution_plan->commands[i]->return_value));
-		i++;
-	}
-	destroy_pipes(number_of_child_processes, pipes);
-	free(pids);
-	return (0);
+	pipes = create_pipes(execution_plan->number_of_commands);
+	if (pipes == NULL)
+		return (2);
+	if (execution_plan->need_to_fork)
+		last_pid = create_processes(execution_plan, pipes);
+	else
+		last_exit = execute_single_without_fork(execution_plan, pipes);
+	close_pipes_in_main_process(pipes, execution_plan->number_of_commands);
+	if (execution_plan->need_to_fork)
+		last_exit = wait_execute_plan(last_pid);
+	destroy_pipes(execution_plan->number_of_commands, pipes);
+	return (last_exit);
 }

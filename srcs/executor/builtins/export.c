@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 16:12:26 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:01:19 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:13:26 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-void	print_export_error(char *identifier)
-{
-	ft_printf_fd(
-		STDERR_FILENO,
-		"%s: export: `%s`: not a valid identifier\n",
-		SHELL_NAME,
-		identifier
-		);
-}
-
-static void	add_or_modify_environ_el(t_list_el **env, char *key_value)
-{
-	char			*key;
-	char			*value;
-	t_environ_el	*el;
-
-	extract_key_value(key_value, &key, &value);
-	el = get_environ_el(*env, key);
-	if (el)
-	{
-		free(el->value);
-		el->value = ft_strdup(value);
-	}
-	else
-		add_environ_el(env, key_value);
-	free(value);
-	free(key);
-}
-
+/**
+ *
+ * @param {t_list_el **} env
+ * @param {t_command *} command
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_export(t_list_el **env, t_command *command)
 {
 	int		i;
@@ -56,10 +34,12 @@ unsigned int	execute_export(t_list_el **env, t_command *command)
 		if (!is_valid_key_value_env(command->argv[i]))
 		{
 			has_an_error = true;
-			print_export_error(command->argv[i++]);
-			continue ;
+			print_custom_error("export",
+				command->argv[i], "not a valid identifier");
 		}
-		add_or_modify_environ_el(env, command->argv[i++]);
+		else
+			add_environ_el(env, command->argv[i]);
+		++i;
 	}
 	if (has_an_error)
 		return (1);

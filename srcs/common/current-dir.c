@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include <errno.h>
 
 /**
  *
@@ -29,10 +30,10 @@ char	*get_current_dir(void)
 	current_dir = malloc(sizeof(char) * PATH_MAX);
 	if (current_dir == NULL)
 		return (NULL);
-	getcwd(current_dir, PATH_MAX);
-	if (current_dir == NULL)
+	if (getcwd(current_dir, PATH_MAX) == NULL)
 	{
-		print_erno_error(NULL);
+		print_custom_error(NULL, NULL, strerror(errno));
+		free(current_dir);
 		return (NULL);
 	}
 	return (current_dir);

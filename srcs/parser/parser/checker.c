@@ -27,7 +27,7 @@ _Bool	unexpected_token(char *value)
 {
 	if (value == NULL)
 		value = "End of line";
-	printf("Unexpected token near \"%s\"\n", value);
+	printf("%s: Unexpected token near \"%s\"\n", SHELL_NAME, value);
 	return (false);
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kmendes <kmendes@student.42lausanne.ch>    +#+  +:+       +#+         #
+#    By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 10:27:38 by fvarrin           #+#    #+#              #
-#    Updated: 2022/09/23 19:58:12 by kmendes          ###   ########.fr        #
+#    Updated: 2022/10/08 01:43:32 by kmendes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,12 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
  				parser/tokenizer/delimiter.c parser/tokenizer/operator.c parser/tokenizer/operator-utils.c parser/tokenizer/pipe.c \
  				parser/parser/parser.c parser/parser/command.c parser/parser/io.c parser/parser/arguments.c \
  				parser/parser/checker.c parser/parser/env-vars.c parser/parser/env-vars-utils.c parser/parser/builtins.c \
-				executor/executor.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c executor/path.c executor/file-redirect.c \
+				executor/executor.c executor/executor-utils.c executor/pipes.c executor/processes.c executor/io.c executor/heredoc.c \
+				executor/heredoc-parent.c executor/path.c executor/file-redirect.c \
 				executor/builtins.c executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c executor/builtins/export.c \
 				executor/builtins/unset.c executor/builtins/env.c executor/builtins/exit.c \
-				prompter/prompt.c prompter/signal_handlers.c \
+				executor/execve-errors.c \
+				prompter/prompt.c prompter/signal-handlers.c \
 				environ/environ.c environ/environ-2d.c environ/environ-getters.c environ/environ-utils.c \
 				common/utils.c common/current-dir.c common/error.c)
 OBJ			= $(SRC:.c=.o)
@@ -37,9 +39,9 @@ NORM_BIN	= norminette
 NORM_FLAGS	= -RCheckForbiddenSourceHeader -RCheckDefine
 RM			= rm -f
 MACROFLAGS	= -D BIN_NAME=\"${NAME}\"
-CFLAGS		= -Wall -Wextra -Werror -I${HEADER_DIR} -I${LIBFT_DIR}includes ${MACROFLAGS} -g -O0
+CFLAGS		= -Wall -Wextra -Werror -I${HEADER_DIR} -I${LIBFT_DIR}includes -I$(HOME)/.brew/Cellar/readline/8.1.2/include ${MACROFLAGS} -g -O0
 LIBFT_FLAGS	= -L${LIBFT_DIR} -lft
-LIB_FLAGS	= -lreadline ${LIBFT_FLAGS}
+LIB_FLAGS	= -L$(HOME)/.brew/Cellar/readline/8.1.2/lib -lreadline ${LIBFT_FLAGS}
 BUFFER_SIZE	= 1024
 CC			= gcc
 

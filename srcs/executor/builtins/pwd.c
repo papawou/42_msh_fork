@@ -16,6 +16,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/**
+ *
+ * @return {unsigned int}
+ */
 unsigned int	execute_pwd(void)
 {
 	char			*current_dir;

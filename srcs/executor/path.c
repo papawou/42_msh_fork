@@ -26,6 +26,8 @@ static char	**get_env_paths(t_list_el *env)
 	char	*path_value;
 
 	path_value = get_env_value(env, "PATH");
+	if (path_value == NULL && env)
+		path_value = create_empty_str();
 	paths = ft_split(path_value, ':');
 	free(path_value);
 	return (paths);
@@ -82,7 +84,7 @@ char	*get_program_path(t_list_el *env, t_command *command)
 	if (command->bin[0] == '/' || command->bin[0] == '.')
 	{
 		if (access(command->bin, X_OK) == F_OK)
-			return (command->bin);
+			return (ft_strdup(command->bin));
 		else
 			return (NULL);
 	}

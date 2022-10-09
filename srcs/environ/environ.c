@@ -38,12 +38,22 @@ void	destroy_environ_el(void *el)
 void	add_environ_el(t_list_el **entry, char *key_value)
 {
 	t_environ_el	*el;
+	t_environ_el	*tmp;
 
 	if (entry == NULL || key_value == NULL)
 		return ;
 	el = init_environ_el(key_value);
 	if (el == NULL)
 		return ;
+	tmp = get_environ_el(*entry, el->key);
+	if (tmp != NULL)
+	{
+		free(tmp->value);
+		tmp->value = el->value;
+		free(el->key);
+		free(el);
+		return ;
+	}
 	ft_lstadd_front(entry, ft_lstnew(el));
 }
 

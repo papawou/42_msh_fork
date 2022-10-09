@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 11:45:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 22:17:55 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 
 	if (check_quote_closed(line) == false)
 	{
-		printf("Syntax error, unclosed quote\n");
+		print_custom_error(NULL, NULL, "Syntax error, unclosed quote");
 		free(line);
 		return (NULL);
 	}

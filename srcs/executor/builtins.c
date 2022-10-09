@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:32:32 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:46:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/06 20:30:20 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+ *
+ * @param {char *} bin
+ *
+ * @return {_Bool}
+ */
 _Bool	is_a_builtins(char *bin)
 {
 	if (ft_strcmp(bin, "echo") == 0)
