@@ -50,6 +50,12 @@ export T1=42 2T=42 T3=42
 unset T1 2T T3
 ```
 
+- [ ] Should print `$HOME`
+```
+export 'T1=$HO' T2=ME
+echo $T1$T2
+```
+
 - [ ] Get from stdin
 ```
 << EOF cat -n
