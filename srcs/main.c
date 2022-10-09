@@ -6,15 +6,14 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 16:03:34 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 15:19:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <signal.h>
 
-#include <termios.h>
-#include <stdlib.h>
+#include <stdbool.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -27,6 +26,11 @@ void	print_usage(void)
 	g_env_exit = 2;
 }
 
+/**
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @param {t_list_el *} env
+ */
 static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
 {
 	execution_plan->env = env;
@@ -37,11 +41,8 @@ static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
 }
 
 /**
- *
- * @param {char **} str
- * @param {t_token *} token
+ * @param {t_list_el **} env
  */
-
 void	run_prompt(t_list_el **env)
 {
 	t_execution_plan	*execution_plan;
@@ -64,13 +65,20 @@ void	run_prompt(t_list_el **env)
 	}
 }
 
-int	config_env(t_list_el **env)
+/**
+ *
+ * Return false if error
+ *
+ * @param {t_list_el **} env
+ * @return {_Bool}
+ */
+_Bool	config_env(t_list_el **env)
 {
 	*env = parse_environ();
 	if (*env == NULL)
-		return (1);
+		return (false);
 	g_env_exit = 0;
-	return (0);
+	return (true);
 }
 
 int	main(int argc, __attribute__((unused)) char **argv)
@@ -82,7 +90,7 @@ int	main(int argc, __attribute__((unused)) char **argv)
 		print_usage();
 		return (-3);
 	}
-	if (config_env(&env))
+	if (!config_env(&env))
 		return (1);
 	configure_termios();
 	set_parent_signals();
