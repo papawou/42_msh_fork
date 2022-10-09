@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:01:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/09 14:33:27 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 14:52:28 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	count_number_of_env_variable(const char *str)
 	number = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && ft_isalnum(str[i + 1]))
+		if (str[i] == '$' && (ft_isalnum(str[i + 1]) || str[i + 1] == '?'))
 			number++;
 		i++;
 	}
