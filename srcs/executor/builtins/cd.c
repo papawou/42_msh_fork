@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 16:32:54 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:42:34 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/08 17:42:52 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 		status = chdir(command->argv[1]);
 		if (status == -1)
 			return (print_cd_error(strerror(errno), 1));
+		return (0);
 	}
 	path = get_env_value(env, "HOME");
 	if (path == NULL)
