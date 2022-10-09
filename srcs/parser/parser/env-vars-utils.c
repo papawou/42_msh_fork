@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:01:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:07:31 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 11:47:28 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  *
  * @return {_Bool}
  */
-_Bool	str_has_env_variable(char *str)
+_Bool	string_has_env_variable(const char *str)
 {
 	int		i;
 

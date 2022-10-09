@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 14:41:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 12:09:58 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 11:58:21 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  *
  * @return {t_env_variable *}
  */
-t_env_variable	*get_env_variable(t_list_el *env, char *token_value)
+t_env_variable	*init_env_variable(t_list_el *env, char *token_value)
 {
 	t_env_variable	*env_variable;
 
@@ -52,37 +52,58 @@ t_env_variable	*destroy_env_variable(t_env_variable *env_variable)
 
 /**
  *
- * Expend the env variable in the token value, only token with env variable
- * need to be pass to this function
+ * Expend the env variable once (need to be called in a
+ * loop with str_has_env_variable()), only string with env variable
+ * need to be passed to this function
+ *
+ * @param {t_list_el *} env
+ * @param {char *} value
+ *
+ * @return {char *}
+ */
+char	*expand_env_variable_string(t_list_el *env, char *value)
+{
+	int				i;
+	int				y;
+	int				z;
+	t_env_variable	*env_variable;
+	char			*expanded_value;
+
+	env_variable = init_env_variable(env, value);
+	if (env_variable == NULL)
+		return (NULL);
+	expanded_value = ft_calloc(
+			calculate_env_variable_expanded_length(env_variable), sizeof(char));
+	i = 0;
+	y = 0;
+	while (value[i] && value[i] != '$')
+		expanded_value[y++] = value[i++];
+	z = 0;
+	while (env_variable->value[z])
+		expanded_value[y++] = env_variable->value[z++];
+	i += (env_variable->key_length + 1);
+	while (value[i])
+		expanded_value[y++] = value[i++];
+	destroy_env_variable(env_variable);
+	free(value);
+	return (expanded_value);
+}
+
+/**
+ *
+ * Expend the env variables (0 to n) in the token value
  *
  * @param {t_token *} token
  */
 void	expend_env_variable(t_list_el *env, t_token *token)
 {
-	int				i;
-	int				y;
-	int				z;
-	char			*expanded_value;
-	t_env_variable	*env_variable;
+	char	*value;
 
-	env_variable = get_env_variable(env, token->value);
-	if (env_variable == NULL)
-		return ;
-	expanded_value = ft_calloc(
-			calculate_env_variable_expanded_length(env_variable), sizeof(char));
-	i = 0;
-	y = 0;
-	while (token->value[i] && token->value[i] != '$')
-		expanded_value[y++] = token->value[i++];
-	z = 0;
-	while (env_variable->value[z])
-		expanded_value[y++] = env_variable->value[z++];
-	i += (env_variable->key_length + 1);
-	while (token->value[i])
-		expanded_value[y++] = token->value[i++];
-	destroy_env_variable(env_variable);
-	free(token->value);
-	token->value = expanded_value;
+	while (string_has_env_variable(token->value))
+	{
+		value = expand_env_variable_string(env, token->value);
+		token->value = value;
+	}
 }
 
 /**
@@ -100,8 +121,7 @@ void	parse_env_variables(t_list_el *env, t_list_el *tokens)
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
-		while (token->type == WORD_W_ENV_EXP
-			&& str_has_env_variable(token->value))
+		if (token->type == WORD_W_ENV_EXP)
 			expend_env_variable(env, token);
 		current_el = current_el->next;
 	}

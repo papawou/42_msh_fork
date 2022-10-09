@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:37:31 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 11:50:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	*prompt_heredoc(char *line_read)
  * @param {char *} delimiter
  * @param {int} tmp_file_fd
  */
-void	execute_heredoc(char *delimiter, int tmp_file_fd)
+void	execute_heredoc(t_list_el *env, char *delimiter, int tmp_file_fd)
 {
 	char	*line_read;
 	int		line_number;
@@ -96,6 +96,8 @@ void	execute_heredoc(char *delimiter, int tmp_file_fd)
 		}
 		if (ft_strcmp(line_read, delimiter) == 0)
 			break ;
+		while (string_has_env_variable(line_read))
+			line_read = expand_env_variable_string(env, line_read);
 		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
 	}
 	free(line_read);

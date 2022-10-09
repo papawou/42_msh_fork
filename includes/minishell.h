@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:44:08 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 11:50:12 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,8 @@ t_execution_plan	*parse_all_tokens(t_list_el *tokens);
 _Bool				verify_tokens(t_list_el *tokens);
 
 void				parse_env_variables(t_list_el *env, t_list_el *tokens);
-_Bool				str_has_env_variable(char *str);
+_Bool				string_has_env_variable(const char *str);
+char				*expand_env_variable_string(t_list_el *env, char *value);
 char				*extract_env_variable_key_from_str(char *str);
 int					calculate_env_variable_expanded_length(
 						t_env_variable *env_variable);
@@ -215,8 +216,12 @@ t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
 _Bool				open_tmp_file(int *tmp_file_fd);
-void				execute_heredocs(t_command *command);
-void				execute_heredoc(char *delimiter, int tmp_file_fd);
+void				execute_heredocs(t_list_el *env, t_command *command);
+void				execute_heredoc(
+						t_list_el *env,
+						char *delimiter,
+						int tmp_file_fd
+					);
 void				set_heredoc_signals(void);
 
 char				*get_program_path(t_list_el *env, t_command *command);
