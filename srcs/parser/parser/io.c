@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 23:59:25 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void	parse_io_token(
 		if (token->type == I_HEREDOC_OP)
 		{
 			ft_lstadd_back(&command->heredoc, ft_lstnew(ft_strdup(value)));
-			file_redirect = init_file_redirect(TMP_FILE);
+			file_redirect = init_file_redirect(
+					ft_strjoin_and_free(ft_strdup(TMP_FILE),
+						ft_itoa(command->idx)));
 		}
 		else
 			file_redirect = init_file_redirect(value);

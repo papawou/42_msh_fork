@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc-parent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 18:41:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 23:47:25 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,26 @@
  *
  * Open the tmp file clear it and set the file descriptor, return false in case
  * of error
- *
+ * keep a track of last idx_cmd passed if != -1, this used when child heredoc
  * @param {int}tmp_file_fd
  *
  * @return {_Bool`}
  */
-_Bool	open_tmp_file(int *tmp_file_fd)
+_Bool	open_tmp_file(int *tmp_file_fd, int idx_cmd)
 {
-	*tmp_file_fd = open_file(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC);
+	static int	last_idx_cmd = -1;
+	char		*tmp_file_path;
+	char		*suffix_idx;
+
+	suffix_idx = NULL;
+	if (idx_cmd != -1)
+		last_idx_cmd = idx_cmd;
+	if (last_idx_cmd != -1)
+		suffix_idx = ft_itoa(last_idx_cmd);
+	tmp_file_path = ft_strjoin(TMP_FILE, suffix_idx);
+	free(suffix_idx);
+	*tmp_file_fd = open_file(tmp_file_path, O_WRONLY | O_CREAT | O_TRUNC);
+	free(tmp_file_path);
 	if (*tmp_file_fd < 1)
 	{
 		print_custom_error("open_tmp_file", "open_file", strerror(errno));
@@ -90,7 +102,7 @@ int	execute_heredocs(t_list_el *env, t_command *command)
 	current_el = command->heredoc;
 	while (current_el && exit_code == 0)
 	{
-		open_tmp_file(&tmp_file_fd);
+		open_tmp_file(&tmp_file_fd, command->idx);
 		pid_fork = fork();
 		if (pid_fork == -1)
 		{
