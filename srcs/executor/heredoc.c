@@ -96,7 +96,7 @@ void	execute_heredoc(t_list_el *env, char *delimiter, int tmp_file_fd)
 		}
 		if (ft_strcmp(line_read, delimiter) == 0)
 			break ;
-		while (string_has_env_variable(line_read))
+		if (string_has_env_variable(line_read))
 			line_read = expand_env_variables_string(env, line_read);
 		ft_printf_fd(tmp_file_fd, "%s\n", line_read);
 	}
