@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:38:53 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 11:49:51 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	heredoc_parent_wait(pid_t pid_child)
  *
  * @param {t_command *} command
  */
-void	execute_heredocs(t_command *command)
+void	execute_heredocs(t_list_el *env, t_command *command)
 {
 	int			tmp_file_fd;
 	t_list_el	*current_el;
@@ -84,7 +84,7 @@ void	execute_heredocs(t_command *command)
 		else if (pid_fork == 0)
 		{
 			set_heredoc_signals();
-			execute_heredoc(current_el->content, tmp_file_fd);
+			execute_heredoc(env, current_el->content, tmp_file_fd);
 			close(tmp_file_fd);
 			exit(0);
 		}

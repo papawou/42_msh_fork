@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:45:15 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 11:54:55 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 	while (i < number_of_child_processes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
-			execute_heredocs(execution_plan->commands[i]);
+			execute_heredocs(*execution_plan->env, execution_plan->commands[i]);
 		last_pid = fork();
 		if (last_pid == -1)
 			break ;
@@ -95,6 +95,6 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 int	execute_single_without_fork(t_execution_plan *execution_plan, int **pipes)
 {
 	if (execution_plan->commands[0]->heredoc != NULL)
-		execute_heredocs(execution_plan->commands[0]);
+		execute_heredocs(*execution_plan->env, execution_plan->commands[0]);
 	return (execute_command(execution_plan, pipes, 0));
 }

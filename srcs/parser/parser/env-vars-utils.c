@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:01:56 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/09/18 15:07:31 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 14:52:28 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+
+int	count_number_of_env_variable(const char *str)
+{
+	int		i;
+	int		number;
+
+	i = 0;
+	number = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && (ft_isalnum(str[i + 1]) || str[i + 1] == '?'))
+			number++;
+		i++;
+	}
+	return (number);
+}
 
 /**
  *
@@ -23,36 +39,34 @@
  *
  * @return {_Bool}
  */
-_Bool	str_has_env_variable(char *str)
+_Bool	string_has_env_variable(const char *str)
 {
-	int		i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i++] == '$')
-			return (true);
-	}
-	return (false);
+	return (count_number_of_env_variable(str) > 0);
 }
 
 /**
  *
- * Extract the env variable from a str
+ * Extract the env variable from a cursor, set the start_env_variable
+ * and set the cursor after the env variable
  *
- * @param {char *} str
+ * @param {char *} cursor
  *
  * @return {char *} env_variable_key
  */
-char	*extract_env_variable_key_from_str(char *str)
+char	*extract_env_variable_key_from_str(
+			t_env_variable *env_variable,
+			char **cursor
+		)
 {
 	int		i;
 	int		length;
 	char	*start_pos;
+	char	*str;
 
 	i = 0;
 	length = 0;
 	start_pos = NULL;
+	str = *cursor;
 	while (str[i])
 	{
 		if (length > 0 && !ft_isalnum(str[i]))
@@ -63,6 +77,8 @@ char	*extract_env_variable_key_from_str(char *str)
 			length++;
 		i++;
 	}
+	*cursor = start_pos + length;
+	env_variable->start_of_variable = start_pos;
 	return (ft_strndup(start_pos, length));
 }
 

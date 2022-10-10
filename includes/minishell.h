@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:44:08 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 14:51:20 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_environ_el {
 typedef struct s_env_variable {
 	char	*token_value;
 	int		token_value_length;
+	char	*start_of_variable;
 	char	*key;
 	int		key_length;
 	char	*value;
@@ -170,9 +171,16 @@ t_execution_plan	*parse_all_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
 
+t_env_variable		**init_env_variables(t_list_el *env, char *token_value);
 void				parse_env_variables(t_list_el *env, t_list_el *tokens);
-_Bool				str_has_env_variable(char *str);
-char				*extract_env_variable_key_from_str(char *str);
+t_env_variable		*destroy_env_variable(t_env_variable *env_variable);
+int					count_number_of_env_variable(const char *str);
+_Bool				string_has_env_variable(const char *str);
+char				*expand_env_variables_string(t_list_el *env, char *value);
+char				*extract_env_variable_key_from_str(
+						t_env_variable *env_variable,
+						char **cursor
+						);
 int					calculate_env_variable_expanded_length(
 						t_env_variable *env_variable);
 
@@ -215,8 +223,12 @@ t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
 _Bool				open_tmp_file(int *tmp_file_fd);
-void				execute_heredocs(t_command *command);
-void				execute_heredoc(char *delimiter, int tmp_file_fd);
+void				execute_heredocs(t_list_el *env, t_command *command);
+void				execute_heredoc(
+						t_list_el *env,
+						char *delimiter,
+						int tmp_file_fd
+						);
 void				set_heredoc_signals(void);
 
 char				*get_program_path(t_list_el *env, t_command *command);
