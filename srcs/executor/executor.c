@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:10 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 13:45:12 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:18:23 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,6 @@ int	execute_plan(t_execution_plan *execution_plan)
 		last_exit = wait_execute_plan(last_pid);
 	destroy_pipes(execution_plan->number_of_commands, pipes);
 	if (execution_plan->need_to_fork && last_pid == -1)
-		last_exit = g_env_exit; //redudant but fck it, this undo last_exit being override by wait_execute_plan
+		last_exit = g_env_exit;
 	return (last_exit);
 }

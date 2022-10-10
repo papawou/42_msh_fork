@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 13:48:44 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:27:08 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,14 @@ int	heredoc_parent_wait(pid_t pid_child)
 	return (exit_code);
 }
 
+int	exec_heredoc_child(t_list_el *env, t_list_el *current_el, int tmp_file_fd)
+{
+	set_heredoc_signals();
+	execute_heredoc(env, current_el->content, tmp_file_fd);
+	close(tmp_file_fd);
+	exit(0);
+}
+
 /**
  *
  * Prompt for each heredocs and write it to a tmp file
@@ -86,17 +94,11 @@ int	execute_heredocs(t_list_el *env, t_command *command)
 		pid_fork = fork();
 		if (pid_fork == -1)
 		{
-			print_custom_error("execute_heredocs", "fork", strerror(errno));
 			close(tmp_file_fd);
 			return (1);
 		}
 		else if (pid_fork == 0)
-		{
-			set_heredoc_signals();
-			execute_heredoc(env, current_el->content, tmp_file_fd);
-			close(tmp_file_fd);
-			exit(0);
-		}
+			exec_heredoc_child(env, current_el, tmp_file_fd);
 		else
 			exit_code = heredoc_parent_wait(pid_fork);
 		current_el = current_el->next;
