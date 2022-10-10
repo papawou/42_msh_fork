@@ -36,7 +36,9 @@ int	execute_command(
 	char		**environ_as_arr;
 
 	command = execution_plan->commands[index];
-	route_command_io(command, pipes, index, execution_plan->number_of_commands);
+	if (!route_command_io(
+			command, pipes, index, execution_plan->number_of_commands))
+		return (1);
 	if (command->bin == NULL)
 	{
 		route_back_command_io(command);

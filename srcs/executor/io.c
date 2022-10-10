@@ -6,13 +6,14 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 17:17:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:42:21 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include <unistd.h>
+#include <stdbool.h>
 
 /**
  *
@@ -52,7 +53,7 @@ void	route_back_command_io(t_command *command)
  * @param {t_list_el **} current_el
  * @param {int} stdstream_fd
  */
-void	route_file_redirect(t_list_el **current_el, int stdstream_fd)
+_Bool	route_file_redirect(t_list_el **current_el, int stdstream_fd)
 {
 	t_file_redirect		*file_redirect;
 	t_list_el			*lst_el;
@@ -61,6 +62,11 @@ void	route_file_redirect(t_list_el **current_el, int stdstream_fd)
 	file_redirect = (t_file_redirect *)lst_el->content;
 	file_redirect->file_fd
 		= open_file(file_redirect->file, file_redirect->mode);
+	if (file_redirect->file_fd < 0)
+	{
+		*current_el = lst_el->next;
+		return (false);
+	}
 	if (lst_el->next == NULL)
 	{
 		file_redirect->std_copy = dup(stdstream_fd);
@@ -69,6 +75,17 @@ void	route_file_redirect(t_list_el **current_el, int stdstream_fd)
 	else
 		close(file_redirect->file_fd);
 	*current_el = lst_el->next;
+	return (true);
+}
+
+_Bool	route_io_linked_list(t_list_el **current_el, int stdstream_fd)
+{
+	while (*current_el)
+	{
+		if (!route_file_redirect(current_el, stdstream_fd))
+			return (false);
+	}
+	return (true);
 }
 
 /**
@@ -79,7 +96,7 @@ void	route_file_redirect(t_list_el **current_el, int stdstream_fd)
  * @param {int **} pipes
  * @param {int} index
  */
-void	route_command_io(
+_Bool	route_command_io(
 		t_command *command,
 		int **pipes,
 		int index,
@@ -91,8 +108,8 @@ void	route_command_io(
 	if (command->in != NULL)
 	{
 		current_el = command->in;
-		while (current_el)
-			route_file_redirect(&current_el, STDIN_FILENO);
+		if (!route_io_linked_list(&current_el, STDIN_FILENO))
+			return (false);
 	}
 	else if (index != 0)
 		dup2(pipes[index][0], STDIN_FILENO);
@@ -100,10 +117,11 @@ void	route_command_io(
 	if (command->out != NULL)
 	{
 		current_el = command->out;
-		while (current_el)
-			route_file_redirect(&current_el, STDOUT_FILENO);
+		if (!route_io_linked_list(&current_el, STDOUT_FILENO))
+			return (false);
 	}
 	else if (index != number_of_commands - 1)
 		dup2(pipes[index + 1][1], STDOUT_FILENO);
 	close(pipes[index + 1][1]);
+	return (true);
 }

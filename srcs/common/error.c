@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 13:06:01 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/07 10:15:06 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <stdbool.h>
 
 /**
  *
@@ -33,4 +34,23 @@ void	print_custom_error(char *prefix, char *attribute, char *message)
 	else if (message)
 		ft_printf_fd(STDERR_FILENO, "%s: %s\n",
 			SHELL_NAME, message);
+}
+
+/**
+ *
+ * Display error message and return false for the calling function
+ *
+ * @param {char *} value
+ *
+ * @return {_Bool} always false
+ */
+_Bool	unexpected_token(char *value)
+{
+	if (value == NULL)
+		value = "End of line";
+	printf(
+		"%s: syntax error near unexpected token  `%s`\n",
+		SHELL_NAME, value);
+	g_env_exit = 2;
+	return (false);
 }
