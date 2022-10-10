@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 17:21:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 23:57:12 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/11 00:08:57 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@
  */
 static	void	heredoc_sigint_handler(int status __attribute__((unused)))
 {
-//	int		tmp_file_fd;
+	/*
+	int	tmp_file_fd;
 
-//	if (open_tmp_file(&tmp_file_fd, -1))
-//		close(tmp_file_fd);
+	if (open_tmp_file(&tmp_file_fd, -1))
+		close(tmp_file_fd);
+	*/
 	write(1, "\n", 1);
 	exit(130);
 }

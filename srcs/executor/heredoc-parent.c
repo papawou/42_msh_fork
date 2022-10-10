@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 23:47:25 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/11 00:06:43 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,13 @@ _Bool	open_tmp_file(int *tmp_file_fd, int idx_cmd)
 {
 	static int	last_idx_cmd = -1;
 	char		*tmp_file_path;
-	char		*suffix_idx;
 
-	suffix_idx = NULL;
+	tmp_file_path = NULL;
 	if (idx_cmd != -1)
 		last_idx_cmd = idx_cmd;
 	if (last_idx_cmd != -1)
-		suffix_idx = ft_itoa(last_idx_cmd);
-	tmp_file_path = ft_strjoin(TMP_FILE, suffix_idx);
-	free(suffix_idx);
+		tmp_file_path = ft_strjoin_and_free(ft_strdup(TMP_FILE),
+				ft_itoa(last_idx_cmd));
 	*tmp_file_fd = open_file(tmp_file_path, O_WRONLY | O_CREAT | O_TRUNC);
 	free(tmp_file_path);
 	if (*tmp_file_fd < 1)
