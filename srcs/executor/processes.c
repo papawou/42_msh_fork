@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/09 11:54:55 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 13:45:51 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 	while (i < number_of_child_processes)
 	{
 		if (execution_plan->commands[i]->heredoc != NULL)
-			execute_heredocs(*execution_plan->env, execution_plan->commands[i]);
+		{
+			g_env_exit = execute_heredocs(*execution_plan->env, execution_plan->commands[i]);
+			if (g_env_exit)
+				return (-1);
+		}
 		last_pid = fork();
 		if (last_pid == -1)
 			break ;
@@ -94,7 +98,12 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
  */
 int	execute_single_without_fork(t_execution_plan *execution_plan, int **pipes)
 {
+	int	exit_code;
+
+	exit_code = 0;
 	if (execution_plan->commands[0]->heredoc != NULL)
-		execute_heredocs(*execution_plan->env, execution_plan->commands[0]);
+		exit_code = execute_heredocs(*execution_plan->env, execution_plan->commands[0]);
+	if (exit_code)
+		return (exit_code);
 	return (execute_command(execution_plan, pipes, 0));
 }

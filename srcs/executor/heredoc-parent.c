@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc-parent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:17:43 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/09 11:49:51 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 13:48:44 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ _Bool	open_tmp_file(int *tmp_file_fd)
 /**
  * @param {pid_t} pid_child
  */
-void	heredoc_parent_wait(pid_t pid_child)
+int	heredoc_parent_wait(pid_t pid_child)
 {
 	int	wait_stat;
+	int	exit_code;
 
+	exit_code = 0;
 	while (FOREVER)
 	{
 		if (waitpid(pid_child, &wait_stat, 0) == -1)
@@ -56,10 +58,11 @@ void	heredoc_parent_wait(pid_t pid_child)
 				"waitpid", strerror(errno));
 		}
 		else if (WIFSIGNALED(wait_stat))
-			g_env_exit = (128 + WTERMSIG(wait_stat));
+			exit_code = (128 + WTERMSIG(wait_stat));
 		else if (WIFEXITED(wait_stat))
-			g_env_exit = (WEXITSTATUS(wait_stat));
+			exit_code = (WEXITSTATUS(wait_stat));
 	}
+	return (exit_code);
 }
 
 /**
@@ -68,19 +71,25 @@ void	heredoc_parent_wait(pid_t pid_child)
  *
  * @param {t_command *} command
  */
-void	execute_heredocs(t_list_el *env, t_command *command)
+int	execute_heredocs(t_list_el *env, t_command *command)
 {
 	int			tmp_file_fd;
 	t_list_el	*current_el;
 	pid_t		pid_fork;
+	int			exit_code;
 
+	exit_code = 0;
 	current_el = command->heredoc;
-	while (current_el)
+	while (current_el && exit_code == 0)
 	{
 		open_tmp_file(&tmp_file_fd);
 		pid_fork = fork();
 		if (pid_fork == -1)
+		{
 			print_custom_error("execute_heredocs", "fork", strerror(errno));
+			close(tmp_file_fd);
+			return (1);
+		}
 		else if (pid_fork == 0)
 		{
 			set_heredoc_signals();
@@ -89,8 +98,9 @@ void	execute_heredocs(t_list_el *env, t_command *command)
 			exit(0);
 		}
 		else
-			heredoc_parent_wait(pid_fork);
+			exit_code = heredoc_parent_wait(pid_fork);
 		current_el = current_el->next;
 		close(tmp_file_fd);
 	}
+	return (exit_code != 0);
 }
