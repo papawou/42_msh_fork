@@ -6,13 +6,28 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:35:48 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:12:55 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include <stdlib.h>
+
+static void	handle_pipe_token(
+		t_list_el **current_el,
+		t_list_el *last_el,
+		t_command *command,
+		t_list_el **tokens
+	)
+{
+	if (last_el != NULL)
+		last_el->next = NULL;
+	else
+		command->tokens = NULL;
+	*tokens = (*current_el)->next;
+	ft_lstremove(current_el, *current_el, destroy_token);
+}
 
 /**
  *
@@ -32,14 +47,13 @@ t_command	*set_tokens_for_command(t_list_el **tokens)
 	command = init_command();
 	command->tokens = *tokens;
 	current_el = *tokens;
+	last_el = NULL;
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
 		if (token->type == PIPE)
 		{
-			last_el->next = NULL;
-			*tokens = current_el->next;
-			ft_lstremove(&current_el, current_el, destroy_token);
+			handle_pipe_token(&current_el, last_el, command, tokens);
 			break ;
 		}
 		last_el = current_el;
@@ -84,6 +98,8 @@ t_command	*parse_command_tokens(t_command *command, t_list_el **tokens)
 {
 	char		*str;
 
+	if (!verify_first_is_not_pipe(*tokens))
+		return (NULL);
 	command = set_tokens_for_command(tokens);
 	if (!verify_tokens(command->tokens))
 		return (NULL);
@@ -123,6 +139,7 @@ t_execution_plan	*parse_all_tokens(t_list_el *tokens)
 			= parse_command_tokens(execution_plan->commands[i], &tokens);
 		if (execution_plan->commands[i] == NULL)
 		{
+			ft_lstclear(&tokens, destroy_token);
 			destroy_execution_plan(execution_plan);
 			return (NULL);
 		}

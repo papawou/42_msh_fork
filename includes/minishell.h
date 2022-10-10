@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 13:45:09 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:40:55 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ char				*create_empty_str(void);
 
 char				*get_current_dir(void);
 
-void				print_erno_error(char *error, int arg_errno);
 void				print_custom_error(
 						char *prefix,
 						char *attribute,
 						char *message
 						);
+_Bool				unexpected_token(char *value);
 
 /** Prompter **/
 void				print_welcome_message(void);
@@ -159,6 +159,12 @@ _Bool				is_an_operator(char *str);
 _Bool				is_operator_symbol(char c);
 void				set_operator(char **str, t_token *token);
 
+void				eat_operator(
+						char **str,
+						char operator,
+						int number_of_operator
+						);
+
 _Bool				is_a_pipe(char *str);
 void				set_pipe(char **str, t_token *token);
 
@@ -170,6 +176,7 @@ void				destroy_token(void *token);
 t_execution_plan	*parse_all_tokens(t_list_el *tokens);
 
 _Bool				verify_tokens(t_list_el *tokens);
+_Bool				verify_first_is_not_pipe(t_list_el *tokens);
 
 t_env_variable		**init_env_variables(t_list_el *env, char *token_value);
 void				parse_env_variables(t_list_el *env, t_list_el *tokens);
@@ -211,7 +218,7 @@ int					execute_single_without_fork(
 						t_execution_plan *execution_plan, int **pipes);
 int					count_total_process(int number_of_child_processes);
 
-void				route_command_io(
+_Bool				route_command_io(
 						t_command *command,
 						int **pipes,
 						int index,

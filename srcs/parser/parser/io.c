@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:02:35 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 14:39:24 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ _Bool	is_io_token(t_token *token)
 	return (false);
 }
 
+char	*get_io_value(t_list_el *current_el)
+{
+	t_token		*token;
+
+	while (current_el)
+	{
+		token = (t_token *)current_el->content;
+		if (token->type != SPACE_DELIMITER)
+			return (token->value);
+		current_el = current_el->next;
+	}
+	return (NULL);
+}
+
 /**
  *
  * Set the in and out for the command according to the token type
@@ -54,7 +68,7 @@ void	parse_io_token(
 
 	if (is_io_token(token))
 	{
-		value = ((t_token *)current_el->next->content)->value;
+		value = get_io_value(current_el->next);
 		if (token->type == I_HEREDOC_OP)
 		{
 			ft_lstadd_back(&command->heredoc, ft_lstnew(ft_strdup(value)));

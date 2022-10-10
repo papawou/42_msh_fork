@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 14:21:02 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 12:33:34 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:07:06 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,6 @@
 #include <stdbool.h>
 
 #include "minishell.h"
-
-/**
- *
- * Display error message and return false for the calling function
- *
- * @param {char *} value
- *
- * @return {_Bool} always false
- */
-_Bool	unexpected_token(char *value)
-{
-	if (value == NULL)
-		value = "End of line";
-	printf("%s: Unexpected token near \"%s\"\n", SHELL_NAME, value);
-	return (false);
-}
 
 /**
  *
@@ -97,6 +81,25 @@ static _Bool	verify_has_non_space_tokens(t_list_el *tokens)
 	}
 	unexpected_token(token->value);
 	return (false);
+}
+
+_Bool	verify_first_is_not_pipe(t_list_el *tokens)
+{
+	t_list_el	*current_el;
+	t_token		*token;
+
+	current_el = tokens;
+	while (current_el)
+	{
+		token = current_el->content;
+		if (token->type == PIPE)
+			return (unexpected_token(token->value));
+		else if (token->type == SPACE_DELIMITER)
+			current_el = current_el->next;
+		else
+			break ;
+	}
+	return (true);
 }
 
 /**

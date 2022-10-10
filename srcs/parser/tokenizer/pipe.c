@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 15:02:51 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 15:06:52 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ _Bool	is_a_pipe(char *str)
  */
 static void	eat_pipe(char **str)
 {
-	while (**str == '|' || **str == ' ')
-		*str = &((*str)[1]);
+	eat_operator(str, '|', 1);
 }
 
 /**
@@ -47,5 +46,6 @@ static void	eat_pipe(char **str)
 void	set_pipe(char **str, t_token *token)
 {
 	token->type = PIPE;
+	token->value = ft_strdup("|");
 	eat_pipe(str);
 }

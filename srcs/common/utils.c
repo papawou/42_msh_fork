@@ -6,12 +6,13 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:14:09 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 11:46:58 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "minishell.h"
@@ -47,7 +48,7 @@ int	open_file(char *path, int flags)
 
 	fd = open(path, flags, FILE_PERMISSION_IF_CREATED);
 	if (fd < 0)
-		exit(ERR_OPENING_FILE);
+		print_custom_error(path, NULL, strerror(errno));
 	return (fd);
 }
 
