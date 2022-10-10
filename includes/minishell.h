@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/09 14:51:20 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 13:45:09 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ t_file_redirect		*init_file_redirect(char *file);
 void				destroy_file_redirect(void *file_redirect_arg);
 
 _Bool				open_tmp_file(int *tmp_file_fd);
-void				execute_heredocs(t_list_el *env, t_command *command);
+int					execute_heredocs(t_list_el *env, t_command *command);
 void				execute_heredoc(
 						t_list_el *env,
 						char *delimiter,
