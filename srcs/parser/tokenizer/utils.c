@@ -28,3 +28,10 @@ _Bool	has_more_tokens(char *str)
 		return (false);
 	return (true);
 }
+
+_Bool	is_quote(char c)
+{
+	if (c == '"' || c == '\'')
+		return (true);
+	return (false);
+}

@@ -170,6 +170,7 @@ _Bool				is_a_pipe(char *str);
 void				set_pipe(char **str, t_token *token);
 
 _Bool				has_more_tokens(char *str);
+_Bool				is_quote(char c);
 
 void				destroy_token(void *token);
 
