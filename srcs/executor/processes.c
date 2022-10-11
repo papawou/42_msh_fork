@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 02:23:24 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/11 11:43:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ void	handle_child_process_execution(
 	set_child_signals();
 	close_pipes_in_child_process(pipes, number_of_child_processes, index);
 	cmd_ret = execute_command(execution_plan, pipes, index);
-	destroy_pipes(number_of_child_processes, pipes);
-	destroy_execution_plan(execution_plan);
-	ft_lstclear(execution_plan->env, &destroy_environ_el);
 	exit(cmd_ret);
 }
 
