@@ -51,6 +51,6 @@ _Bool	unexpected_token(char *value)
 	printf(
 		"%s: syntax error near unexpected token `%s`\n",
 		SHELL_NAME, value);
-	g_env_exit = 2;
+	g_env_exit = 258;
 	return (false);
 }

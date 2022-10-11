@@ -50,7 +50,7 @@ t_execution_plan	*parse_line(t_list_el *env, char *line)
 
 	if (check_quote_closed(line) == false)
 	{
-		print_custom_error(NULL, NULL, "Syntax error, unclosed quote");
+		unexpected_token(NULL);
 		free(line);
 		return (NULL);
 	}
