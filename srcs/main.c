@@ -3,46 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:36:29 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:23:30 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/09 15:19:43 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <signal.h>
+
+#include <stdbool.h>
 
 #include "libft.h"
 #include "minishell.h"
 
+volatile sig_atomic_t	g_env_exit = 0;
+
 void	print_usage(void)
 {
 	printf("%s only work in interactive mode without any arguments\n", BIN_NAME);
+	g_env_exit = 2;
+}
+
+/**
+ *
+ * @param {t_execution_plan *} execution_plan
+ * @param {t_list_el *} env
+ */
+static void	exec_run_prompt(t_execution_plan *execution_plan, t_list_el **env)
+{
+	execution_plan->env = env;
+	unset_parent_signals();
+	g_env_exit = execute_plan(execution_plan);
+	set_parent_signals();
+	destroy_execution_plan(execution_plan);
+}
+
+/**
+ * @param {t_list_el **} env
+ */
+void	run_prompt(t_list_el **env)
+{
+	t_execution_plan	*execution_plan;
+	char				*line_read;
+
+	line_read = NULL;
+	while (FOREVER)
+	{
+		line_read = prompt(line_read);
+		if (line_read == NULL)
+			break ;
+		line_read = trim_space(line_read);
+		if (line_read == NULL || (line_read && line_read[0] == '\0' ))
+			continue ;
+		execution_plan = parse_line(*env, line_read);
+		line_read = NULL;
+		if (execution_plan == NULL)
+			continue ;
+		exec_run_prompt(execution_plan, env);
+	}
+}
+
+/**
+ *
+ * Return false if error
+ *
+ * @param {t_list_el **} env
+ * @return {_Bool}
+ */
+_Bool	config_env(t_list_el **env)
+{
+	*env = parse_environ();
+	if (*env == NULL)
+		return (false);
+	g_env_exit = 0;
+	return (true);
 }
 
 int	main(int argc, __attribute__((unused)) char **argv)
 {
-	char				*line_read;
-	t_execution_plan	*execution_plan;
+	t_list_el	*env;
 
 	if (argc != 1)
 	{
 		print_usage();
 		return (-3);
 	}
-	line_read = NULL;
+	if (!config_env(&env))
+		return (1);
+	configure_termios();
+	set_parent_signals();
 	print_welcome_message();
-	while (42)
-	{
-		line_read = prompt(line_read);
-		line_read = trim_space(line_read);
-		if (line_read == NULL)
-			break ;
-		if (*line_read)
-		{
-			execution_plan = parse_line(line_read);
-			execute_plan(execution_plan);
-			destroy_execution_plan(execution_plan);
-		}
-	}
+	run_prompt(&env);
+	ft_lstclear(&env, &destroy_environ_el);
+	printf("exit\n");
+	return (g_env_exit);
 }

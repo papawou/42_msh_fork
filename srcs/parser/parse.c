@@ -3,82 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/29 15:32:30 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:05:32 by fvarrin          ###   ########.fr       */
+/*   Created: 2022/07/09 15:52:45 by fvarrin           #+#    #+#             */
+/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-#include "libft.h"
 #include "minishell.h"
 
-/**
- * Count the number of command there is in the commands_as_str argument
- *
- * @param {char **} commands_as_str
- *
- * @return {int} number_of_commands
- */
-int	count_number_of_commands(char **commands_as_str)
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+void	set_exactly_one_space_padding(char **line)
 {
+	char	*str;
+	char	*tmp;
 	int		i;
+	int		y;
 
+	str = *line;
+	tmp = trim_space(str);
+	str = malloc((ft_strlen(tmp) + 3) * sizeof(char));
 	i = 0;
-	while (commands_as_str[i])
-		i++;
-	return (i);
+	y = 0;
+	str[y++] = ' ';
+	while (tmp[i])
+		str[y++] = tmp[i++];
+	str[y++] = ' ';
+	str[y] = '\0';
+	free(tmp);
+	*line = str;
 }
 
 /**
- * Parse a command as string and return an allocated command
- *
- * @param {char *} command_as_str
- *
- * @return {t_command *} command
- */
-t_command	*parse_command(char *command_as_str)
-{
-	char		**arguments;
-	t_command	*command;
-
-	command = init_command();
-	command_as_str = trim_space(command_as_str);
-	arguments = ft_split(command_as_str, ' ');
-	arguments = get_io_from_beginning(arguments, command);
-	arguments = get_io_from_end(arguments, command);
-	command->return_value = 0;
-	command->bin = ft_strdup(arguments[0]);
-	command = init_command_argv(command, arguments);
-	free(command_as_str);
-	return (command);
-}
-
-/**
- * Parse an entire line and return an allocated execution plan
  *
  * @param {char *} line
  *
- * @return {t_execution_plan *} execution_plan
+ * @return {t_execution_plan *}
  */
-t_execution_plan	*parse_line(char *line)
+t_execution_plan	*parse_line(t_list_el *env, char *line)
 {
-	int					i;
 	t_execution_plan	*execution_plan;
-	char				**commands_as_str;
-	int					number_of_commands;
+	t_list_el			*tokens;
 
-	commands_as_str = ft_split(line, '|');
-	number_of_commands = count_number_of_commands(commands_as_str);
-	execution_plan = init_execution_plan(number_of_commands);
-	i = 0;
-	while (i < number_of_commands)
+	if (check_quote_closed(line) == false)
 	{
-		execution_plan->commands[i] = parse_command(commands_as_str[i]);
-		i++;
+		unexpected_token(NULL);
+		free(line);
+		return (NULL);
 	}
-	free(commands_as_str);
+	set_exactly_one_space_padding(&line);
+	tokens = tokenize_line(line);
+	free(line);
+	parse_env_variables(env, tokens);
+	execution_plan = parse_all_tokens(tokens->next);
+	destroy_token((void *)tokens);
+	if (execution_plan != NULL && !check_if_need_to_fork(execution_plan))
+		execution_plan->need_to_fork = false;
 	return (execution_plan);
 }
