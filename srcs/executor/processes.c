@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:55:46 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 18:41:43 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 02:23:24 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 /**
  * Utility to get the total number of process from the number of child process.
@@ -27,6 +28,24 @@
 int	count_total_process(int number_of_child_processes)
 {
 	return (number_of_child_processes + 1);
+}
+
+int	heredocs_stage(t_execution_plan *plan)
+{
+	int	i;
+
+	i = 0;
+	while (i < plan->number_of_commands)
+	{
+		if (plan->commands[i]->heredoc)
+		{
+			g_env_exit = execute_heredocs(*plan->env, plan->commands[i]);
+			if (g_env_exit)
+				return (1);
+		}
+		++i;
+	}
+	return (0);
 }
 
 /**
@@ -70,18 +89,17 @@ int	create_processes(t_execution_plan *execution_plan, int **pipes)
 
 	number_of_child_processes = execution_plan->number_of_commands;
 	i = 0;
+	if (heredocs_stage(execution_plan))
+		return (-1);
 	while (i < number_of_child_processes)
 	{
-		if (execution_plan->commands[i]->heredoc != NULL)
-		{
-			g_env_exit = execute_heredocs(*execution_plan->env,
-					execution_plan->commands[i]);
-			if (g_env_exit)
-				return (-1);
-		}
 		last_pid = fork();
 		if (last_pid == -1)
+		{
+			print_custom_error("create_processes", "fork", strerror(errno));
+			g_env_exit = 1;
 			break ;
+		}
 		if (last_pid == 0)
 			handle_child_process_execution(execution_plan, pipes, i);
 		i++;
