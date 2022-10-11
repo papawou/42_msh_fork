@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:20:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 09:38:29 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 15:48:32 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	skip_n_elements(
  */
 void	set_next_argv_str(t_command *command, char **str, int *i)
 {
-	if (*(str)[0] != '\0')
+	if (*str != NULL)
 	{
 		command->argv[(*i)++] = *str;
-		*str = create_empty_str();
+		*str = NULL;
 	}
 }
 
@@ -67,6 +67,8 @@ void	join_token_value(char **str, t_token *token)
 {
 	char	*tmp;
 
+	if (*str == NULL)
+		*str = create_empty_str();
 	tmp = ft_strjoin(*str, token->value);
 	free(*str);
 	*str = tmp;
@@ -98,7 +100,7 @@ void	set_argv_from_tokens(t_command *command, char **str)
 			set_next_argv_str(command, str, &i);
 		skip_n_elements(&current_el, 1, true);
 	}
-	if ((*str)[0] != '\0')
+	if (*str != NULL)
 		command->argv[i++] = *str;
 	command->argv[i] = NULL;
 }

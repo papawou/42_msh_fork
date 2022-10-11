@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 12:02:02 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 15:18:39 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_command	*parse_command_tokens(
 	set_io_from_tokens(command);
 	command->argv = malloc(sizeof(char *)
 			* (count_argv(command) + 1));
-	str = create_empty_str();
+	str = NULL;
 	set_argv_from_tokens(command, &str);
 	if (command->argv[0])
 		command->bin
