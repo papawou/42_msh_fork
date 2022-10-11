@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 14:22:01 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 14:28:37 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void				destroy_environ_el(void *el);
 t_list_el			*parse_environ(void);
 
 char				**environ_el_to_char_2d(t_list_el *lst);
+char				**environ_el_to_char_2d_export(t_list_el *lst);
 void				free_environ_char_2d(char **src);
 void				print_environ_char_2d(char **char_2d);
 
