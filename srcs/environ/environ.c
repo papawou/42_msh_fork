@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 14:16:13 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 14:19:03 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 15:20:44 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	add_environ_el(t_list_el **entry, char *key_value)
 	tmp = get_environ_el(*entry, parsed_el.key);
 	if (tmp)
 	{
+		free(parsed_el.key);
 		free(tmp->value);
 		tmp->value = parsed_el.value;
 		return (0);
