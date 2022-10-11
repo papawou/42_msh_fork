@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:12:57 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/01 17:19:08 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 13:37:52 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ unsigned int	execute_unset(t_list_el **env, t_command *command)
 	i = 1;
 	while (command->argv[i])
 	{
-		if (!is_valid_key_value_env(command->argv[i]))
+		if (!is_valid_key_value_env(command->argv[i], true))
 		{
 			has_an_error = true;
 			print_custom_error("unset",

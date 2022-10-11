@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 17:21:28 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/08 17:13:35 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 14:28:45 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ unsigned int	execute_env(t_list_el **env)
 	if (environ_char_2d == NULL)
 		return (1);
 	print_environ_char_2d(environ_char_2d);
-	free(environ_char_2d);
+	free_environ_char_2d(environ_char_2d);
 	return (0);
 }
