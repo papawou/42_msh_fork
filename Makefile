@@ -6,7 +6,7 @@
 #    By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 10:27:38 by fvarrin           #+#    #+#              #
-#    Updated: 2022/10/11 11:08:32 by fvarrin          ###   ########.fr        #
+#    Updated: 2022/10/11 13:44:21 by kmendes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
 				executor/builtins/unset.c executor/builtins/env.c executor/builtins/exit.c \
 				executor/execve-errors.c \
 				prompter/prompt.c prompter/signal-handlers.c \
-				environ/environ.c environ/environ-2d.c environ/environ-getters.c environ/environ-utils.c \
+				environ/new_environ.c environ/environ-2d.c \
 				common/utils.c common/current-dir.c common/error.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell

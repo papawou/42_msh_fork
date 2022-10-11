@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 12:55:18 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 01:06:01 by kmendes          ###   ########.fr       */
+/*   Updated: 2022/10/11 13:48:44 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,22 +116,21 @@ void				set_child_signals(void);
 void				unset_parent_signals(void);
 
 /** Environ **/
-void				destroy_environ_el(void *el);
-void				add_environ_el(t_list_el **entry, char *key_value);
-void				remove_environ_el(t_list_el **entry, char *key);
-t_environ_el		*init_environ_el(char *key_value);
-t_list_el			*parse_environ(void);
+_Bool	is_valid_key_value_env(char *key_value, _Bool is_key_only);
+char	*get_env_value(t_list_el *env, char *key);
+int	parse_key_value_environ_el(char *key_value, t_environ_el *el);
+int	add_environ_el(t_list_el **entry, char *key_value);
+t_environ_el	*create_environ_el(char *key, char *value);
+t_environ_el	*get_environ_el(t_list_el *entry, char *key);
+void	remove_environ_el(t_list_el **entry, char *key);
+void	destroy_environ_el(void *el);
+t_list_el	*parse_environ(void);
+//environ_2d.c
+char	**environ_el_to_char_2d(t_list_el *lst);
+void	free_environ_char_2d(char **src);
+void	print_environ_char_2d(char **char_2d);
 
-char				**environ_el_to_char_2d(t_list_el *entry);
-void				free_environ_char_2d(char **src);
-void				print_environ_char_2d(char **char_2d);
 
-_Bool				is_valid_key_value_env(char *key_value);
-_Bool				extract_key_value(char *key_value,
-						char **key, char **value);
-
-t_environ_el		*get_environ_el(t_list_el *entry, char *key);
-char				*get_env_value(t_list_el *env, char *key);
 
 /** Parser **/
 t_execution_plan	*parse_line(t_list_el *env, char *line);
