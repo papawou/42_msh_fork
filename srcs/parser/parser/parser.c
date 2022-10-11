@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
+/*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:28:52 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 18:12:55 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/10 23:17:57 by kmendes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,17 @@ int	count_argv(t_command *command)
 	return (++i);
 }
 
-t_command	*parse_command_tokens(t_command *command, t_list_el **tokens)
+t_command	*parse_command_tokens(
+	t_command *command,
+	t_list_el **tokens,
+	int idx)
 {
 	char		*str;
 
 	if (!verify_first_is_not_pipe(*tokens))
 		return (NULL);
 	command = set_tokens_for_command(tokens);
+	command->idx = idx;
 	if (!verify_tokens(command->tokens))
 		return (NULL);
 	set_io_from_tokens(command);
@@ -136,7 +140,7 @@ t_execution_plan	*parse_all_tokens(t_list_el *tokens)
 	while (i < number_of_commands)
 	{
 		execution_plan->commands[i]
-			= parse_command_tokens(execution_plan->commands[i], &tokens);
+			= parse_command_tokens(execution_plan->commands[i], &tokens, i);
 		if (execution_plan->commands[i] == NULL)
 		{
 			ft_lstclear(&tokens, destroy_token);
