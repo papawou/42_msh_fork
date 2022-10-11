@@ -6,7 +6,7 @@
 #    By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/01 10:27:38 by fvarrin           #+#    #+#              #
-#    Updated: 2022/10/08 01:43:32 by kmendes          ###   ########.fr        #
+#    Updated: 2022/10/11 11:08:32 by fvarrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,9 @@ NORM_BIN	= norminette
 NORM_FLAGS	= -RCheckForbiddenSourceHeader -RCheckDefine
 RM			= rm -f
 MACROFLAGS	= -D BIN_NAME=\"${NAME}\"
-CFLAGS		= -Wall -Wextra -Werror -I${HEADER_DIR} -I${LIBFT_DIR}includes -I$(HOME)/.brew/Cellar/readline/8.1.2/include ${MACROFLAGS} -g -O0
+CFLAGS		= -Wall -Wextra -Werror -I${HEADER_DIR} -I${LIBFT_DIR}includes -I$(HOME)/.brew/opt/readline/include ${MACROFLAGS} -g -O0
 LIBFT_FLAGS	= -L${LIBFT_DIR} -lft
-LIB_FLAGS	= -L$(HOME)/.brew/Cellar/readline/8.1.2/lib -lreadline ${LIBFT_FLAGS}
+LIB_FLAGS	= -L$(HOME)/.brew/opt/readline/lib -lreadline ${LIBFT_FLAGS}
 BUFFER_SIZE	= 1024
 CC			= gcc
 
