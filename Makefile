@@ -31,7 +31,7 @@ SRC			:= $(addprefix ${SRC_DIR}, main.c \
 				executor/builtins/unset.c executor/builtins/env.c executor/builtins/exit.c \
 				executor/execve-errors.c \
 				prompter/prompt.c prompter/signal-handlers.c \
-				environ/new_environ.c environ/environ-2d.c \
+				environ/environ.c environ/environ-2d.c environ/environ-utils.c \
 				common/utils.c common/current-dir.c common/error.c)
 OBJ			= $(SRC:.c=.o)
 NAME 		= minishell
