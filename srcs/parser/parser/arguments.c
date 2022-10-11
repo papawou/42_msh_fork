@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:20:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/11 08:55:41 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 09:38:29 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	skip_n_elements(
 	i = 0;
 	while (i < n)
 	{
-		if (count_spaces || ((t_token *)current_el->content)->type != SPACE_DELIMITER)
+		if (count_spaces
+			|| ((t_token *)current_el->content)->type != SPACE_DELIMITER)
 			i++;
 		current_el = current_el->next;
 	}

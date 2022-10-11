@@ -29,12 +29,6 @@
  */
 static	void	heredoc_sigint_handler(int status __attribute__((unused)))
 {
-	/*
-	int	tmp_file_fd;
-
-	if (open_tmp_file(&tmp_file_fd, -1))
-		close(tmp_file_fd);
-	*/
 	write(1, "\n", 1);
 	exit(130);
 }
