@@ -6,7 +6,7 @@
 /*   By: fvarrin <florian.varrin@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:20:48 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/02 12:16:23 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 08:55:41 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,43 +28,22 @@
  */
 void	skip_n_elements(
 		t_list_el **current_el_ptr,
-		t_list_el **last_el_ptr,
-		int n
+		int n,
+		_Bool count_spaces
 		)
 {
 	int			i;
 	t_list_el	*current_el;
-	t_list_el	*last_el;
 
-	last_el = *last_el_ptr;
 	current_el = *current_el_ptr;
 	i = 0;
 	while (i < n)
 	{
-		last_el = current_el;
+		if (count_spaces || ((t_token *)current_el->content)->type != SPACE_DELIMITER)
+			i++;
 		current_el = current_el->next;
-		i++;
 	}
 	*current_el_ptr = current_el;
-	*last_el_ptr = last_el;
-}
-
-/**
- *
- * Skip 1 or 2 elements depending on the input syntax
- *
- * @param {t_list_el **} current_el
- * @param {t_list_el **} last_el
- */
-void	skip_io_token_for_argv(
-		t_list_el **current_el,
-		t_list_el **last_el
-		)
-{
-	if (*last_el == NULL)
-		skip_n_elements(current_el, last_el, 2);
-	else
-		skip_n_elements(current_el, last_el, 1);
 }
 
 /**
@@ -103,22 +82,20 @@ void	set_argv_from_tokens(t_command *command, char **str)
 {
 	int			i;
 	t_list_el	*current_el;
-	t_list_el	*last_el;
 	t_token		*token;
 
 	i = 0;
 	current_el = command->tokens;
-	last_el = NULL;
 	while (current_el)
 	{
 		token = (t_token *)current_el->content;
 		if (is_io_token(token))
-			skip_io_token_for_argv(&current_el, &last_el);
+			skip_n_elements(&current_el, 2, false);
 		if (token->type == WORD_W_ENV_EXP || token->type == WORD_WO_ENV_EXP)
 			join_token_value(str, token);
 		else if (token->type == SPACE_DELIMITER)
 			set_next_argv_str(command, str, &i);
-		skip_n_elements(&current_el, &last_el, 1);
+		skip_n_elements(&current_el, 1, true);
 	}
 	if ((*str)[0] != '\0')
 		command->argv[i++] = *str;
