@@ -6,7 +6,7 @@
 /*   By: kmendes <kmendes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 13:06:01 by fvarrin           #+#    #+#             */
-/*   Updated: 2022/10/10 18:40:56 by fvarrin          ###   ########.fr       */
+/*   Updated: 2022/10/11 08:28:04 by fvarrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ _Bool	unexpected_token(char *value)
 	if (value == NULL)
 		value = "End of line";
 	printf(
-		"%s: syntax error near unexpected token  `%s`\n",
+		"%s: syntax error near unexpected token `%s`\n",
 		SHELL_NAME, value);
 	g_env_exit = 2;
 	return (false);

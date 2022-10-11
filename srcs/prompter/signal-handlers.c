@@ -39,7 +39,7 @@ void	configure_termios(void)
 static void	sigint_handler(int status __attribute__((unused)))
 {
 	g_env_exit = 1;
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

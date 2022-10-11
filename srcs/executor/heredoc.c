@@ -29,7 +29,7 @@
  */
 static	void	heredoc_sigint_handler(int status __attribute__((unused)))
 {
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	exit(130);
 }
 

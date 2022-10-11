@@ -50,7 +50,7 @@ void	destroy_command(t_command *command)
 	i = 0;
 	if (command == NULL)
 		return ;
-	while (command->argv[i])
+	while (command->argv && command->argv[i])
 		free(command->argv[i++]);
 	if (command->tokens)
 		ft_lstclear(&(command->tokens), destroy_token);
