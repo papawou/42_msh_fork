@@ -48,6 +48,8 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 		return (print_cd_error("too many arguments", 1));
 	if (command->argv[1])
 	{
+		if (command->argv[1][0] == '\0')
+			return (0);
 		status = chdir(command->argv[1]);
 		if (status == -1)
 			return (print_cd_error(strerror(errno), 1));
@@ -56,6 +58,8 @@ unsigned int	execute_cd(t_list_el *env, t_command *command)
 	path = get_env_value(env, "HOME");
 	if (path == NULL)
 		return (print_cd_error("HOME not set", 1));
+	if (path[0] == '\0')
+		return (0);
 	status = chdir(path);
 	if (status == -1)
 		return (print_cd_error(strerror(errno), 1));
